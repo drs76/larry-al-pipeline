@@ -1,0 +1,342 @@
+Project: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+
+--- Cleanup ---
+DELETE: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.build-receipt.json
+DELETE: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/TSG_TSGDocumentLink2AZStorage_1.0.0.0.app
+Deleted 2 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:57:04.782'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '21:57:11.165'.
+  error score: 46
+  ★ new best (error score: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 19s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:57:30.698'.
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  Compilation ended at '21:57:36.848'.
+  error score: 1  (best so far: 46)
+  ★ new best (error score: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 20s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:57:57.232'.
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,39): error AL0133: Argument 1: cannot convert from 'Integer' to 'Text'
+  Compilation ended at '21:58:04.728'.
+  error score: 1  (best so far: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 42s (exit 0)
+  snippet-fix: 2 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:58:47.659'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(59,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,39): error AL0133: Argument 1: cannot convert from 'Integer' to 'Text'
+  Compilation ended at '21:58:54.102'.
+  error score: 3  (best so far: 1)
+  Unmask: all 1 previous error(s) cleared; 2 newly surfaced — fixing forward, not reverting.
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 33s (exit 0)
+  snippet-fix: 3 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:59:27.842'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(59,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  Compilation ended at '21:59:34.117'.
+  error score: 3  (best so far: 3)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 124s (exit 0)
+  snippet-fix: 2 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:01:38.885'.
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(59,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '22:01:45.543'.
+  error score: 3  (best so far: 3)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 6) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 42s (exit 0)
+  snippet-fix: 3 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al: '[EventSubscriber(ObjectType::Table, Database::"Document Atta'
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 6) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:02:28.287'.
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(98,34): error AL0133: Argument 1: cannot convert from 'InStream' to 'var OutStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(99,20): error AL0133: Argument 1: cannot convert from 'InStream' to 'OutStream'
+  Compilation ended at '22:02:35.923'.
+  error score: 3  (best so far: 3)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 7) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 18s (exit 0)
+  snippet-fix: 3 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 7) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:02:54.940'.
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,39): error AL0133: Argument 1: cannot convert from 'Integer' to 'Text'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(60,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(95,34): error AL0118: The name 'WriteStream' does not exist in the current context.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0118: The name 'WriteStream' does not exist in the current context.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(102,32): error AL0118: The name 'WriteStream' does not exist in the current context.
+  Compilation ended at '22:03:01.338'.
+  error score: 5  (best so far: 3)
+  Round regressed (5 > best 3) — reverting to best before fixing.
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 8) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 25s (exit 0)
+  snippet-fix: 3 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 8) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:03:28.084'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(59,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  Compilation ended at '22:03:35.027'.
+  error score: 3  (best so far: 3)
+
+  Max fix rounds (8) reached.
+
+============================================================
+FINAL REPORT (best round — error score 3)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:58:47.659'.
+
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(59,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(96,73): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,39): error AL0133: Argument 1: cannot convert from 'Integer' to 'Text'
+
+Compilation ended at '21:58:54.102'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 3 error score)

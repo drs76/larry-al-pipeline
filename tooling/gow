@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+# gow — Go Workflow bridge (Larry builds Go; the sibling of 'alw' for AL).
+#   gow route "<ask>"          classify+answer via pi /go-route (SIMPLE inline,
+#                              COMPLEX writes a handover + prints next steps)
+#   gow new <name>             scaffold a fresh Go prototype under the prototypes dir
+#   gow build <name|path> [N]  run run-build-go.py; N = ESCALATE_AFTER (omit = pi only)
+#   gow promote <name>         move a built prototype into ~/go/projects
+#   gow help
+set -euo pipefail
+
+# Portable base: prefer a local ~/larry-setup clone (roaming clients — e.g. the
+# ThinkPad, where /mnt/rojaws is an NFS mount that vanishes off-LAN), else the dev
+# box's /mnt source of truth. Override with SETUP_DIR to force either.
+SETUP_DIR="${SETUP_DIR:-$([ -d "$HOME/larry-setup" ] && echo "$HOME/larry-setup" || echo /mnt/rojaws/localDev/setup)}"
+
+PI_BIN="${PI_BIN:-$(command -v pi || echo "$HOME/.npm-global/bin/pi")}"
+PI_EXT="${PI_EXT:-$HOME/.pi/ollama-provider.ts}"
+PI_MODEL="${PI_CODER_MODEL:-ollama/qwen3-coder:30b}"   # ornith:35b is broken (ROCm cold-load hang)
+RUN_BUILD_GO="${RUN_BUILD_GO:-$SETUP_DIR/pipeline/run-build-go.py}"
+HANDOVER_LINT="${HANDOVER_LINT:-$SETUP_DIR/pipeline/handover_lint.py}"
+GO_PROJECTS="${GO_PROJECTS:-$HOME/go/projects}"
+GO_PROTOTYPES="${GO_PROTOTYPES:-$HOME/go/projects/prototypes}"
+
+# Kanban board wiring (best-effort): create/adopt a board on `new`, mirror on `promote`.
+# Never fails the build/promote; BOARD=0 disables. See setup/pipeline/board.py.
+BOARD_PY="${BOARD_PY:-$SETUP_DIR/pipeline/board.py}"
+board_wire() { [ "${BOARD:-1}" = 0 ] && return 0; python3 "$BOARD_PY" "$@" 2>&1 | sed 's/^/  /' || true; return 0; }
+# TEMPLATE_GO avoids the shared-$TEMPLATE collision with alw/csw; legacy $TEMPLATE still honored.
+TEMPLATE="${TEMPLATE_GO:-${TEMPLATE:-$SETUP_DIR/templates/go-handover.template.md}}"
+HANDOVER_DIR="${HANDOVER_DIR:-$HOME/go-handovers}"
+GO_VERSION="${GO_VERSION:-1.24}"
+export NODE_OPTIONS="${NODE_OPTIONS:---use-system-ca}"   # trust HomeLab CA for pi over HTTPS
+
+usage() { sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'; }
+
+# resolve a bare name to a project dir: cwd/path, prototypes, projects
+resolve_project() {
+  local p="$1"
+  if [ -d "$p" ]; then echo "$p"; return 0; fi
+  for base in "$GO_PROTOTYPES" "$GO_PROJECTS"; do
+    [ -d "$base/$p" ] && { echo "$base/$p"; return 0; }
+  done
+  return 1
+}
+
+cmd_route() {
+  local ask="$*"
+  [ -z "$ask" ] && { echo "usage: gow route \"<ask>\"" >&2; exit 1; }
+  [ -x "$PI_BIN" ] || { echo "ERROR: pi not found at $PI_BIN" >&2; exit 1; }
+  local out
+  out="$("$PI_BIN" -e "$PI_EXT" --model "$PI_MODEL" -p --no-session "/go-route $ask" 2>&1)"
+  printf '%s\n' "$out"
+  if grep -qiE 'VERDICT: *COMPLEX|go-handovers' <<<"$out"; then
+    local latest; latest="$(ls -t "$HANDOVER_DIR"/*.md 2>/dev/null | head -1 || true)"
+    echo
+    echo "──────────────────────────────────────────────────────────"
+    echo "COMPLEX — next steps (paid steps stay manual):"
+    [ -n "$latest" ] && echo "  handover: $latest"
+    echo "  1) scaffold:  gow new <name>      then fill its larry-handover.prompt.md"
+    echo "                (or run /spec in Claude to expand the handover above)"
+    echo "  2) build:     gow build <name> [N]"
+    echo "──────────────────────────────────────────────────────────"
+  fi
+}
+
+cmd_new() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: gow new <name>" >&2; exit 1; }
+  local dest="$GO_PROTOTYPES/$name"
+  [ -e "$dest" ] && { echo "ERROR: already exists: $dest" >&2; exit 1; }
+  [ -f "$TEMPLATE" ] || { echo "ERROR: handover template missing: $TEMPLATE" >&2; exit 1; }
+
+  mkdir -p "$dest/docs"
+
+  # go.mod — module name = project name (a self-contained module per prototype)
+  printf 'module %s\n\ngo %s\n' "$name" "$GO_VERSION" > "$dest/go.mod"
+
+  # main.go stub so 'go build' has something before Larry writes
+  cat > "$dest/main.go" <<'GOSTUB'
+package main
+
+func main() {
+}
+GOSTUB
+
+  sed "s/\[PROJECT NAME\]/$name/g" "$TEMPLATE" > "$dest/larry-handover.prompt.md"
+
+  for d in SPEC TASKS; do
+    printf '# %s — %s\n\n_Placeholder — expand via Claude /spec before building._\n' "$name" "$d" \
+      > "$dest/docs/$d.md"
+  done
+
+  echo "Scaffolded Go prototype: $dest"
+  echo "  next: fill $dest/larry-handover.prompt.md (or /spec in Claude), then: gow build $name [N]"
+}
+
+cmd_build() {
+  local proj="${1:-}"; shift || true
+  [ -z "$proj" ] && { echo "usage: gow build <name|path> [escalate_after] [--review]" >&2; exit 1; }
+  local root; root="$(resolve_project "$proj")" || { echo "ERROR: project not found: $proj" >&2; exit 1; }
+
+  local esc=""; local -a extra=()
+  for a in "$@"; do
+    if [[ "$a" =~ ^[0-9]+$ ]]; then esc="$a"
+    elif [ "$a" = "--review" ]; then extra+=(--review)
+    else echo "ERROR: unknown build arg '$a' (expected a number and/or --review)" >&2; exit 1; fi
+  done
+
+  # Manifest lint (generic mode): a malformed manifest block silently degrades the
+  # write gate. Full AL checks don't apply to Go. Bypass once with LINT=0.
+  if [ "${LINT:-1}" != "0" ] && [ -f "$HANDOVER_LINT" ]; then
+    if ! python3 "$HANDOVER_LINT" --generic "$root"; then
+      echo "ERROR: handover lint failed — fix the errors above (or bypass once with LINT=0)." >&2
+      exit 1
+    fi
+  fi
+
+  local -a env_pfx=(CODER_BACKEND=pi "PI_CODER_MODEL=$PI_MODEL")
+  if [ -n "$esc" ]; then
+    env_pfx+=("ESCALATE_AFTER=$esc")
+    echo "Build: $root  (escalation ARMED after $esc pi rounds → Claude closes)"
+  else
+    echo "Build: $root  (pi only — no Claude spend)"
+  fi
+  [ ${#extra[@]} -gt 0 ] && echo "  validator-peer review: ON (coms)"
+  exec env "${env_pfx[@]}" python3 "$RUN_BUILD_GO" --project "$root" ${extra[@]+"${extra[@]}"}
+}
+
+cmd_promote() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: gow promote <name>" >&2; exit 1; }
+  local src="$GO_PROTOTYPES/$name"
+  [ -d "$src" ] || { echo "ERROR: prototype not found: $src" >&2; exit 1; }
+  local dest="$GO_PROJECTS/$name"
+  [ -e "$dest" ] && { echo "ERROR: target already exists: $dest" >&2; exit 1; }
+  # Refuse to promote a tree with no proof it passed the referee. Before this,
+  # promote checked only that the source existed and the destination did not, so a
+  # never-built, analyzer-less, or since-edited tree promoted exactly like a good one.
+  # Fail closed: no receipt / stale hash / bare-compile-only all block.
+  if ! SETUP_DIR="$SETUP_DIR" python3 - "$src" <<'PYGATE'
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath("tooling/gow")), "..", "pipeline"))
+sys.path.insert(0, os.path.join(os.environ["SETUP_DIR"], "pipeline"))
+import build_receipt
+ok, why, _ = build_receipt.verify(sys.argv[1], require_review=os.environ.get("REVIEW_REQUIRED") == "1")
+if not ok:
+    print(f"ERROR: refusing to promote — {why}", file=sys.stderr)
+    raise SystemExit(1)
+print("  receipt OK — tree matches a verified build")
+PYGATE
+  then
+    echo "       (override with PROMOTE_FORCE=1 if you accept the risk)" >&2
+    [ "${PROMOTE_FORCE:-0}" = "1" ] || exit 1
+  fi
+  mv "$src" "$dest"
+  echo "Promoted: $src → $dest"
+}
+
+case "${1:-help}" in
+  route|flow|ask) shift; cmd_route "$@" ;;
+  new)            shift; cmd_new "$@"; board_wire project "$GO_PROTOTYPES/${1:-}"; board_wire install-hook "$GO_PROTOTYPES/${1:-}" ;;
+  build)          shift; cmd_build "$@" ;;
+  promote)        shift; cmd_promote "$@"; board_wire promote "$GO_PROJECTS/${1:-}" ;;
+  help|-h|--help) usage ;;
+  *)              echo "unknown command: $1" >&2; usage; exit 1 ;;
+esac

@@ -1,0 +1,26 @@
+[Unit]
+Description=Ternary-Bonsai-27B llama-server (OpenAI-compat, pi chat) — Mode B time-share
+After=network-online.target ollama.service
+Wants=network-online.target
+# Not WantedBy any target: on-demand only, so it never grabs VRAM the coder needs at boot.
+
+[Service]
+Type=simple
+User=dav
+Group=dav
+EnvironmentFile=/mnt/models/bonsai/bonsai-env.sh
+WorkingDirectory=/mnt/models/bonsai/Bonsai-demo
+# Free the GPU first: unload whatever ollama is holding (coder keep_alive is 2h).
+ExecStartPre=/usr/local/bin/bonsai-freevram
+ExecStart=/mnt/models/bonsai/Bonsai-demo/scripts/start_llama_server.sh
+# Log to a file so the idle watchdog can read last-activity via mtime.
+StandardOutput=append:/mnt/models/bonsai/server.log
+StandardError=append:/mnt/models/bonsai/server.log
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=300
+# Yield to ollama under memory pressure.
+OOMScoreAdjust=200
+
+[Install]
+WantedBy=multi-user.target

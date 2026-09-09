@@ -1,0 +1,18 @@
+{
+  "id": "b1e7c4a2-9d3f-4c88-8a11-2f6e5d0c7a90",
+  "name": "AL Syntax Examples",
+  "publisher": "SinclairSoftScotland",
+  "version": "1.0.0.0",
+  "brief": "Compiler-verified canonical AL syntax patterns (BC27 / runtime 16.0)",
+  "description": "The gold reference behind AL-SYNTAX.md. Every object here compiles clean with the code cops on BC27; do not add anything that does not.",
+  "platform": "1.0.0.0",
+  "application": "27.0.0.0",
+  "runtime": "16.0",
+  "idRanges": [
+    {
+      "from": 57900,
+      "to": 57999
+    }
+  ],
+  "dependencies": []
+}

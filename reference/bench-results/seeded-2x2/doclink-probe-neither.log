@@ -1,0 +1,712 @@
+Project: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:03:52.436'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:03:58.162'.
+  error score: 46
+  ★ new best (error score: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 74s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:05:13.381'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:05:19.304'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 3s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:05:22.454'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:05:28.200'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 42s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:06:10.915'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:06:16.206'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 42s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:06:59.208'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:07:05.355'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 41s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:07:47.235'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:07:52.781'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 6) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 22s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 6) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:08:15.832'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:08:21.518'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 7) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 22s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 7) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:08:43.830'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:08:49.633'.
+  error score: 46  (best so far: 46)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 8) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 20s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 8) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:09:10.298'.
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '22:09:15.865'.
+  error score: 46  (best so far: 46)
+
+  Max fix rounds (8) reached.
+
+============================================================
+FINAL REPORT (best round — error score 46)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '22:03:52.436'.
+
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+
+Compilation ended at '22:03:58.162'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 46 error score)

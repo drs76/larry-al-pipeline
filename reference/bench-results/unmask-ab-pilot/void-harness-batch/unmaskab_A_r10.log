@@ -1,0 +1,13 @@
+  ⛔ manifest: 9 path(s) outside the project root — IGNORED:
+       /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/app.json
+       /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/table/TSGDocumentLinkAZSetup.Table.al
+       /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/tableextension/TSGDocumentLink.TableExt.al
+       /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al
+       /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r10
+  Expected files from manifest: 0
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  WARNING: no manifest paths parsed from handover.
+  Egress policy: local-only
+ERROR: could not read expected files from handover manifest. Aborting.

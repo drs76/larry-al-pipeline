@@ -1,0 +1,278 @@
+{
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/appsourcecop": {
+    "ms_date": "2026-03-11T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AppSourceCop analyzer rules",
+    "updated_at": "2026-06-02T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/codecop": {
+    "ms_date": "2026-03-11T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "CodeCop analyzer rules",
+    "updated_at": "2026-04-01T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/pertenantextensioncop": {
+    "ms_date": "2025-09-02T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "PerTenantExtensionCop analyzer rules",
+    "updated_at": "2025-10-01T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/uicop": {
+    "ms_date": "2025-08-08T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "UICop analyzer rules",
+    "updated_at": "2025-10-01T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-arithmetic-operators": {
+    "ms_date": "2024-07-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Arithmetic operators",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-boolean-operators": {
+    "ms_date": "2024-07-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Boolean operators",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-complextypes": {
+    "ms_date": "2024-03-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL complex types",
+    "updated_at": "2025-06-04T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-control-statements": {
+    "ms_date": "2025-03-26T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL control statements",
+    "updated_at": "2026-06-02T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-error-handling": {
+    "ms_date": "2024-03-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL error handling",
+    "updated_at": "2026-05-21T13:06:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-methods": {
+    "ms_date": "2024-04-17T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL methods",
+    "updated_at": "2026-05-21T13:06:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-operators": {
+    "ms_date": "2024-09-18T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL operators",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-relational-operators": {
+    "ms_date": "2024-04-26T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Relational operators",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-simple-statements": {
+    "ms_date": "2025-01-24T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL simple statements",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-type-conversion-expressions": {
+    "ms_date": "2025-02-07T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL type conversion in expressions",
+    "updated_at": "2025-08-21T13:01:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-al-variables": {
+    "ms_date": "2024-04-26T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL variables",
+    "updated_at": "2025-08-21T13:01:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-codeunit-object": {
+    "ms_date": "2025-05-19T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Codeunit object",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-control-addin-object": {
+    "ms_date": "2025-03-20T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Control add-in object",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-dev-faq": {
+    "ms_date": "2025-06-16T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "FAQ for developing in AL",
+    "updated_at": "2026-02-26T19:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-entitlement-object": {
+    "ms_date": "2025-03-19T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Entitlement object",
+    "updated_at": "2026-08-04T19:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-extensible-enums": {
+    "ms_date": "2025-05-21T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Enums",
+    "updated_at": "2026-06-02T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-json-files": {
+    "ms_date": "2025-10-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "JSON files - Business Central | Microsoft Learn",
+    "updated_at": "2026-04-01T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-customization-object": {
+    "ms_date": "2025-08-19T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Page customization object",
+    "updated_at": "2025-10-01T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-ext-object": {
+    "ms_date": "2024-11-13T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Page extension object",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-page-object": {
+    "ms_date": "2024-04-26T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Page object",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-permissionset-ext-object": {
+    "ms_date": "2025-06-02T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Permissionset extension object",
+    "updated_at": "2025-06-04T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-permissionset-object": {
+    "ms_date": "2025-06-02T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Permissionset object",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-profile-object": {
+    "ms_date": "2024-09-30T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Profile object",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-programming-in-al": {
+    "ms_date": "2025-01-16T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Programming in AL",
+    "updated_at": "2026-07-08T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-protected-variables": {
+    "ms_date": "2024-05-24T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Protected variables",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-query-object": {
+    "ms_date": "2024-11-22T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Query object",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-reference-overview": {
+    "ms_date": "2025-05-14T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Overview",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-report-object": {
+    "ms_date": "2024-09-16T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Report object",
+    "updated_at": "2026-08-07T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-rule-set-syntax-for-code-analysis-tools": {
+    "ms_date": "2022-06-24T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Ruleset for the code analysis tool",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-system-defined-variables": {
+    "ms_date": "2024-04-26T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "System-defined variables",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-table-ext-object": {
+    "ms_date": "2024-04-17T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Table extension object",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-table-keys": {
+    "ms_date": "2026-03-24T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Table keys",
+    "updated_at": "2026-03-24T13:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-table-object": {
+    "ms_date": "2024-10-01T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Table object",
+    "updated_at": "2025-07-17T01:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-access-modifiers": {
+    "ms_date": "2022-09-27T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Using access modifiers in AL",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool": {
+    "ms_date": "2024-11-13T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Using the code analysis tool",
+    "updated_at": "2026-02-26T19:03:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-code-analysis-tool-with-rule-set": {
+    "ms_date": "2023-03-07T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Using the code analysis tools with the ruleset",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-using-labels": {
+    "ms_date": "2026-08-24T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Working with labels",
+    "updated_at": "2026-09-02T13:04:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xml-comments": {
+    "ms_date": "2024-12-09T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "AL code comments",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-xmlport-object": {
+    "ms_date": "2024-11-13T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "XMLPort object",
+    "updated_at": "2025-05-07T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/directives/devenv-directive-pragma": {
+    "ms_date": "2025-06-02T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Pragma directive",
+    "updated_at": "2025-06-04T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/directives/devenv-directive-region": {
+    "ms_date": "2025-06-02T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Region directive",
+    "updated_at": "2025-06-04T13:00:00Z"
+  },
+  "https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/directives/devenv-directives-in-al": {
+    "ms_date": "2025-11-17T00:00:00Z",
+    "recorded": "2026-09-07",
+    "title": "Preprocessor directives",
+    "updated_at": "2025-11-18T13:00:00Z"
+  }
+}

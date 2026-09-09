@@ -1,0 +1,241 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 110s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  normalized string-property quoting in 2 file(s)
+    AL0282 guard: TSGDocumentLinkAZMgt.Codeunit.al OnAfterInsertEvent — DocumentAttachment→Rec
+  normalized table-event subscriber params in 1 file(s)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 2 missing using-directive(s) across 2 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:26:07.688'.
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(25,25): error AL0104: Syntax error, ',' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(34,26): error AL0104: Syntax error, ',' expected
+  Compilation ended at '15:26:13.363'.
+  error score: 7
+  ★ new best (error score: 7)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZSetup.Table.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 4s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:26:17.745'.
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(25,25): error AL0104: Syntax error, ',' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(34,26): error AL0104: Syntax error, ',' expected
+  Compilation ended at '15:26:22.906'.
+  error score: 7  (best so far: 7)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZSetup.Table.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 2s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:26:25.355'.
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(25,25): error AL0104: Syntax error, ',' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(34,26): error AL0104: Syntax error, ',' expected
+  Compilation ended at '15:26:29.930'.
+  error score: 7  (best so far: 7)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZSetup.Table.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 22s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:26:52.752'.
+  runs/unmaskab_B_r4/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(31,13): error AL0118: The name 'TenantMedia' does not exist in the current context.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,13): error AL0118: The name 'TenantMedia' does not exist in the current context.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(64,116): error AL0118: The name 'ABSOptionalParams' does not exist in the current context.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(82,90): error AL0118: The name 'ABSOptionalParams' does not exist in the current context.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(71,120): error AL0118: The name 'ABSOptionalParams' does not exist in the current context.
+  runs/unmaskab_B_r4/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(95,112): error AL0118: The name 'ABSOptionalParams' does not exist in the current context.
+  runs/unmaskab_B_r4/src/page/TSGDocumentLinkAZSetupCard.Page.al(57,24): error AL0175: Operator '<>' cannot be applied to operands of type 'SecretText' and 'Text'
+  runs/unmaskab_B_r4/src/page/TSGDocumentLinkAZSetupCard.Page.al(58,48): error AL0133: Argument 1: cannot convert from 'SecretText' to 'Text'
+  Compilation ended at '15:26:58.400'.
+  error score: 8  (best so far: 7)
+  Unmask: all 5 previous error(s) cleared; 5 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 10s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:27:09.841'.
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+  Compilation ended at '15:27:14.833'.
+  error score: 5  (best so far: 7)
+  ★ new best (error score: 5)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZSetup.Table.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 45s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r4/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:28:00.562'.
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+  Compilation ended at '15:28:06.252'.
+  error score: 5  (best so far: 5)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 5)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:27:09.841'.
+
+runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0219: Syntax error, string literal expected. Enclose the text in single quotes (e.g., 'text').
+runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,30): error AL0104: Syntax error, ';' expected
+runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ':' expected
+runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+runs/unmaskab_B_r4/src/table/TSGDocumentLinkAZSetup.Table.al(19,60): error AL0104: Syntax error, ';' expected
+
+Compilation ended at '15:27:14.833'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 5 error score)

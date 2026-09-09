@@ -1,0 +1,5 @@
+  Larry-write done in 46s (exit 0)
+  Wrote 6/6 expected files.
+  error score: 0
+  ★ new best (error score: 0)
+RESULT: PASS

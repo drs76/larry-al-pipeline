@@ -1,0 +1,38 @@
+suite doclinkclean3  control=ollama/qwen3-coder:30b  challenger=ollama/qwen3-coder:30b
+--- arm isolation preflight ---
+sanitized: 55 vars cleared per run (contract: /mnt/rojaws/localDev/setup/pipeline/runs/doclinkclean3-env-contract.json)
+ambient (inherited, CLEARED before each run): COMS_RELAY_MODEL=ollama/qwen3-coder:30b COMS_VALIDATOR_MODEL=ollama/qwen3-coder:30b ESCALATE_AFTER=4 ESCALATE_MID_AFTER=2 MID_MODEL=openrouter/moonshotai/kimi-k2 PI_CODER_MODEL=ollama/qwen3-coder:30b
+control: declares='none'
+   mid rung:    absent — no ESCALATE_MID_AFTER declared, and none inheritable
+   claude rung: absent — no ESCALATE_AFTER declared, and none inheritable
+challenger: declares='none'
+   mid rung:    absent — no ESCALATE_MID_AFTER declared, and none inheritable
+   claude rung: absent — no ESCALATE_AFTER declared, and none inheritable
+each run's banner is asserted against these declarations; a mismatch VOIDs the suite
+-------------------------------
+
+qwen3-coder_30b__doclink__doclinkclean3_control__r1: FAIL(1) in 401s
+qwen3-coder_30b__doclink__doclinkclean3_control__r2: FAIL(1) in 356s
+qwen3-coder_30b__doclink__doclinkclean3_control__r3: FAIL(1) in 265s
+qwen3-coder_30b__doclink__doclinkclean3_control__r4: FAIL(1) in 394s
+qwen3-coder_30b__doclink__doclinkclean3_control__r5: FAIL(1) in 532s
+qwen3-coder_30b__doclink__doclinkclean3_challenger__r1: FAIL(1) in 328s
+qwen3-coder_30b__doclink__doclinkclean3_challenger__r2: FAIL(1) in 242s
+qwen3-coder_30b__doclink__doclinkclean3_challenger__r3: FAIL(1) in 353s
+qwen3-coder_30b__doclink__doclinkclean3_challenger__r4: FAIL(1) in 388s
+qwen3-coder_30b__doclink__doclinkclean3_challenger__r5: FAIL(1) in 251s
+
+=== DOCLINKCLEAN3 SUMMARY ===
+  control: 0/5 pass
+    qwen3-coder_30b__doclink__doclinkclean3_control__r1 FAIL(1)   in   401s 
+    qwen3-coder_30b__doclink__doclinkclean3_control__r2 FAIL(1)   in   356s 
+    qwen3-coder_30b__doclink__doclinkclean3_control__r3 FAIL(1)   in   265s 
+    qwen3-coder_30b__doclink__doclinkclean3_control__r4 FAIL(1)   in   394s 
+    qwen3-coder_30b__doclink__doclinkclean3_control__r5 FAIL(1)   in   532s 
+  challenger: 0/5 pass
+    qwen3-coder_30b__doclink__doclinkclean3_challenger__r1 FAIL(1)   in   328s 
+    qwen3-coder_30b__doclink__doclinkclean3_challenger__r2 FAIL(1)   in   242s 
+    qwen3-coder_30b__doclink__doclinkclean3_challenger__r3 FAIL(1)   in   353s 
+    qwen3-coder_30b__doclink__doclinkclean3_challenger__r4 FAIL(1)   in   388s 
+    qwen3-coder_30b__doclink__doclinkclean3_challenger__r5 FAIL(1)   in   251s 
+  total 58 min

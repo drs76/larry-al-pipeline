@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# kb — local hybrid (BM25 + vector) search over the markdown knowledge bases.
+#   kb index [--corpus NAME] [--rebuild]   build/refresh the index (idempotent; embeds via Larry)
+#   kb search "query" [--corpus NAME] [-n N] [--json]
+#   kb stats                               chunk/file counts per corpus
+#   kb corpora                             list configured corpora
+#   kb serve [--host H] [--port P]         HTTP query endpoint for thin clients (run on Larry)
+# Thin clients: set KB_REMOTE=http://larry.home.arpa:8848 to query a remote `kb serve` (no local db).
+# No egress: embeddings from Larry (mxbai-embed-large @ larry.home.arpa:11443), vectors in a
+# local sqlite store (setup/tooling/.kb-index/kb.db). Corpora config: kb-corpora.yaml.
+set -euo pipefail
+# Resolve symlinks first: this script is commonly linked into ~/.local/bin, and a
+# bare dirname "$0" would then look for kb_core.py next to the LINK rather than
+# next to the real script ("can't open file .../.local/bin/kb_core.py").
+SELF="$(readlink -f "$0" 2>/dev/null || echo "$0")"
+HERE="$(cd "$(dirname "$SELF")" && pwd)"
+exec python3 "$HERE/kb_core.py" "$@"

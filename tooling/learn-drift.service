@@ -1,0 +1,11 @@
+[Unit]
+Description=Check ingested MS Learn pages for content revisions (learn_drift.py)
+# Runs on deb (always-on, holds the setup repo). Exit 1 = drift found, which
+# leaves the unit in a failed state — deliberately visible in `systemctl
+# --user --failed` rather than buried in a log nobody reads.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /mnt/rojaws/localDev/setup/pipeline/learn_drift.py check --plan
+StandardOutput=append:%h/.local/state/kb/learn-drift.log
+StandardError=append:%h/.local/state/kb/learn-drift.log

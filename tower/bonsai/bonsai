@@ -1,0 +1,32 @@
+#!/bin/sh
+# bonsai — control the Ternary-Bonsai-27B time-share server on Larry.
+# on  = start server (evicts the ollama coder from VRAM)
+# off = stop server (frees VRAM so the coder / build pipeline can load)
+PORT=8091
+case "$1" in
+  on)
+    doas systemctl start bonsai-llama
+    printf "starting Bonsai-27B on :%s (coder evicted)...\n" "$PORT"
+    # /health goes green before weights finish loading to VRAM; probe a real
+    # 1-token completion so "ready" means genuinely ready to infer.
+    for i in $(seq 1 60); do
+      OUT=$(curl -s --max-time 3 "http://127.0.0.1:$PORT/v1/chat/completions" \
+        -H "Content-Type: application/json" \
+        -d "{\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}],\"max_tokens\":1}" 2>/dev/null)
+      case "$OUT" in *\"choices\"*) echo "ready: http://larry:$PORT/v1"; exit 0 ;; esac
+      sleep 1
+    done
+    echo "timed out waiting for model load; check: bonsai log"; exit 1 ;;
+  off)
+    doas systemctl stop bonsai-llama
+    echo "stopped; VRAM freed for coder" ;;
+  status)
+    systemctl is-active --quiet bonsai-llama && echo "bonsai-llama: ACTIVE" || echo "bonsai-llama: inactive"
+    curl -s --max-time 3 "http://127.0.0.1:$PORT/health" 2>/dev/null && echo
+    echo "--- ollama loaded ---"; ollama ps 2>/dev/null
+    echo "--- VRAM ---"; rocm-smi --showmeminfo vram 2>/dev/null | grep -i "Used Memory" ;;
+  log)
+    tail -n 40 -f /mnt/models/bonsai/server.log ;;
+  *)
+    echo "usage: bonsai {on|off|status|log}" ;;
+esac

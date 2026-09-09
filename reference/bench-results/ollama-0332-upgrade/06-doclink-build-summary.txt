@@ -1,0 +1,21 @@
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~10.8k tokens)
+  Larry-write done in 85s (exit 0)
+--- Larry (Pi): fixing issues (round 1) ---
+  Larry (Pi)-snippet-fix done in 9s (exit 0)
+--- Larry (Pi): fixing issues (round 2) ---
+  Larry (Pi)-snippet-fix done in 30s (exit 0)
+  Larry (Pi)-fix done in 35s (exit 0)
+--- Larry (Pi): fixing issues (round 3) ---
+  Larry (Pi)-snippet-fix done in 24s (exit 0)
+--- Larry (Pi): fixing issues (round 4) ---
+  Larry (Pi)-snippet-fix done in 29s (exit 0)
+--- Larry (Pi): fixing issues (round 5) ---
+  Larry (Pi)-snippet-fix done in 131s (exit 0)
+--- Larry (Pi): fixing issues (round 6) ---
+  Larry (Pi)-snippet-fix done in 10s (exit 0)
+--- Larry (Pi): fixing issues (round 7) ---
+  Larry (Pi)-snippet-fix done in 7s (exit 0)
+--- Larry (Pi): fixing issues (round 8) ---
+  Larry (Pi)-snippet-fix done in 22s (exit 0)
+RESULT: FAIL (best achieved: 1 error score)

@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# deploy-dash — push the dashboard to Larry and restart the service.
+# The running copy is /opt/larry-dashboard/app.py on Larry (NOT the repo file);
+# this is the one deploy ritual so repo changes can't silently not reach Larry.
+#   deploy-dash            deploy app.py + restart + verify
+#   deploy-dash --check    diff repo vs deployed, no changes
+set -euo pipefail
+
+HOST="${DASH_HOST:-larry}"
+APP_DIR="${DASH_APP_DIR:-/opt/larry-dashboard}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+if [ "${1:-}" = "--check" ]; then
+  if ssh "$HOST" "cat $APP_DIR/app.py" | diff -q - "$HERE/app.py" >/dev/null 2>&1; then
+    echo "in sync: $HOST:$APP_DIR/app.py == repo"
+  else
+    echo "DRIFT: deployed app.py differs from repo (run deploy-dash to update):"
+    ssh "$HOST" "cat $APP_DIR/app.py" | diff - "$HERE/app.py" | head -20 || true
+  fi
+  exit 0
+fi
+
+echo "deploying app.py -> $HOST:$APP_DIR/"
+scp -q "$HERE/app.py" "$HOST:$APP_DIR/app.py"
+
+# vendored assets (mermaid.min.js) — served by the Docs tab for diagram rendering
+if [ -f "$HERE/vendor/mermaid.min.js" ]; then
+  ssh "$HOST" "mkdir -p $APP_DIR/vendor"
+  scp -q "$HERE/vendor/mermaid.min.js" "$HOST:$APP_DIR/vendor/mermaid.min.js"
+fi
+
+# service unit: warn on drift (needs doas + daemon-reload, so left manual)
+if ! ssh "$HOST" "cat /etc/systemd/system/larry-dashboard.service 2>/dev/null" \
+     | diff -q - "$HERE/larry-dashboard.service" >/dev/null 2>&1; then
+  echo "NOTE: larry-dashboard.service differs from repo — update manually if intended:"
+  echo "  scp $HERE/larry-dashboard.service $HOST:~/ && ssh $HOST 'doas mv ~/larry-dashboard.service /etc/systemd/system/ && doas systemctl daemon-reload'"
+fi
+
+echo "restarting larry-dashboard…"
+ssh "$HOST" "doas systemctl restart larry-dashboard"
+sleep 1
+state="$(ssh "$HOST" "systemctl is-active larry-dashboard" || true)"
+if [ "$state" = "active" ] && ssh "$HOST" "curl -sf http://127.0.0.1:8090/api/docs >/dev/null"; then
+  echo "OK — service active, API answering"
+else
+  echo "FAILED — service state: $state. Logs:"
+  ssh "$HOST" "doas journalctl -u larry-dashboard -n 20 --no-pager" || true
+  exit 1
+fi

@@ -1,0 +1,53 @@
+=== Tier B preflight ===
+EGRESS_POLICY env          enterprise-anon
+  <root>/.anon/config.yml  none   (repo config OUTRANKS the env var)
+  effective                enterprise-anon
+
+anthropic allowed right now  False   policy 'enterprise-anon': Anthropic egress only via the anon hook — use `anon ru
+  ok — denied outside the anon hook, which is the correct resting state; claude_egress arms it per call via anon_scrub_active()
+  openrouter  denied
+  github      denied
+
+CODER_BACKEND              claude
+CLAUDE_BIN                 /home/dav/.local/bin/claude  exists=True
+ANTHROPIC_MODEL            claude-opus-5
+
+mirror viability for /mnt/rojaws/localDev/setup/pipeline/runs/qwen3-coder_30b__p1__routecon5_armC__r1
+  inside a git work tree   true   toplevel=/mnt/rojaws/localDev/setup/pipeline/runs/qwen3-coder_30b__p1__routecon5_armC__r1
+  tracked files here       7
+
+real scrubbed mirror (no Anthropic call — the coder writes nothing)
+  mirror tracked files     7
+  mirror top-level         ['.gitignore', 'app.json', 'cleanup.sh', 'docs', 'larry-handover.prompt.md']
+  handover bytes in mirror 7605
+  docs/ entries in mirror  3
+  round-2 mirror sees src/ True
+
+=== PREFLIGHT PASS ===
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/qwen3-coder_30b__p1__routecon5_armC__r1
+  Expected files from manifest: 6
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 27 | runtime 16.0 | target Cloud | profile internal
+  Egress policy: enterprise-anon
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 23s
+  BCQuality: appended authoring rules to handover (22 rules)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 07-events-errors  (~13.4k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write TIMEOUT after 1200s
+  Wrote 0/6 expected files.
+  Too few files written. Retrying...
+
+--- Clear project (attempt 2) ---
+  Cleared 0 files.
+
+--- Larry: writing files (attempt 2) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...

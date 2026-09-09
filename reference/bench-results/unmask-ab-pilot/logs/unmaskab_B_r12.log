@@ -1,0 +1,264 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 81s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 2 missing using-directive(s) across 2 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:04:59.772'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(44,25): error AL0118: The name 'Pos' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(44,76): error AL0118: The name 'Pos' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(45,76): error AL0118: The name 'Pos' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(58,12): error AL0173: Operator 'not' cannot be applied to an operand of type 'Codeunit System.Azure.Storage."ABS Operation Response"'
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(34,78): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(57,34): error AL0118: The name 'AttachmentOutStream' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(58,78): error AL0118: The name 'AttachmentOutStream' does not exist in the current context.
+  Compilation ended at '16:05:05.474'.
+  error score: 7
+  ★ new best (error score: 7)
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 18s (exit 0)
+  snippet-fix: 4 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:05:23.971'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(34,78): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(57,34): error AL0118: The name 'AttachmentOutStream' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(58,78): error AL0118: The name 'AttachmentOutStream' does not exist in the current context.
+  Compilation ended at '16:05:29.052'.
+  error score: 3  (best so far: 7)
+  ★ new best (error score: 3)
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 3s (exit 0)
+  snippet-fix: 0 edit(s) applied, 2 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al: 'TempBlob.CreateOutStream(AttachmentOutStream);'
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al: 'TempBlob.CreateInStream(AttachmentInStream);'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 60s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  event check: 1 finding(s), 1 error(s) — reported before compiling
+    [error] codeunit/TSGDocumentLinkAZMgt.Codeunit.al:17 — OnBeforeExportToStreamSubscriber: event subscribers bind by NAME — "TempBlob" must be "AttachmentOutStream"  (published: OnBeforeExportToStream(DocumentAttachment, AttachmentOutStream, IsHandled))
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:06:32.251'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(18,108): error AL0282: The member referenced by event subscriber 'OnBeforeExportToStreamSubscriber' parameter 'TempBlob' is not found.
+  Compilation ended at '16:06:37.801'.
+  error score: 1  (best so far: 3)
+  ★ new best (error score: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 4s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al: '[EventSubscriber(ObjectType::Codeunit, Codeunit::"Document A'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 16s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  event check: 1 finding(s), 1 error(s) — reported before compiling
+    [error] codeunit/TSGDocumentLinkAZMgt.Codeunit.al:41 — OnBeforeGetAsTempBlobSubscriber: event subscribers bind by NAME — "AttachmentOutStream" must be "TempBlob"  (published: OnBeforeGetAsTempBlob(DocumentAttachment, TempBlob, IsHandled))
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:06:58.424'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(42,107): error AL0282: The member referenced by event subscriber 'OnBeforeGetAsTempBlobSubscriber' parameter 'AttachmentOutStream' is not found.
+  Compilation ended at '16:07:03.032'.
+  error score: 1  (best so far: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 3s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al: '[EventSubscriber(ObjectType::Codeunit, Codeunit::"Attachment'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 72s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:08:18.655'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(34,9): error AL0118: The name 'TempBlob' does not exist in the current context.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(35,78): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(61,78): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '16:08:23.674'.
+  error score: 3  (best so far: 1)
+  Unmask: all 1 previous error(s) cleared; 2 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 15s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r12/.alpackages
+  event check: 1 finding(s), 1 error(s) — reported before compiling
+    [error] codeunit/TSGDocumentLinkAZMgt.Codeunit.al:41 — OnBeforeGetAsTempBlobSubscriber: event subscribers bind by NAME — "AttachmentOutStream" must be "TempBlob"  (published: OnBeforeGetAsTempBlob(DocumentAttachment, TempBlob, IsHandled))
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:08:39.859'.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(42,107): error AL0282: The member referenced by event subscriber 'OnBeforeGetAsTempBlobSubscriber' parameter 'AttachmentOutStream' is not found.
+  Compilation ended at '16:08:44.633'.
+  error score: 1  (best so far: 1)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 1)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+EVENT VERIFICATION (checked against the downloaded symbols, before compiling):
+  [ERROR] codeunit/TSGDocumentLinkAZMgt.Codeunit.al:17 — OnBeforeExportToStreamSubscriber: event subscribers bind by NAME — "TempBlob" must be "AttachmentOutStream"  (published: OnBeforeExportToStream(DocumentAttachment, AttachmentOutStream, IsHandled))
+      symbol source: Microsoft_Base Application_28.2.50931.51727.app v28.2.50931.51727
+
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:06:32.251'.
+
+runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetUserPermissions is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r12/src/page/TSGDocumentLinkAZSetupCard.Page.al(67,25): warning AL0482: The image RunBatchJob is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r12/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(18,108): error AL0282: The member referenced by event subscriber 'OnBeforeExportToStreamSubscriber' parameter 'TempBlob' is not found.
+
+Compilation ended at '16:06:37.801'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 1 error score)

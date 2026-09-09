@@ -1,0 +1,13 @@
+  run 1 arm A  rc=1  447s  triggers=0  RESULT: FAIL (best achieved: 2 error score)
+  run 2 arm B  rc=1  259s  triggers=4  RESULT: FAIL (best achieved: 2 error score)
+  run 3 arm B  rc=1  234s  triggers=2  RESULT: FAIL (best achieved: 1 error score)
+  run 4 arm B  rc=1  253s  triggers=1  RESULT: FAIL (best achieved: 5 error score)
+  run 5 arm B  rc=1  341s  triggers=0  RESULT: FAIL (best achieved: 1 error score)
+  run 6 arm A  rc=1  289s  triggers=0  RESULT: FAIL (best achieved: 1 error score)
+  run 7 arm A  rc=1  311s  triggers=0  RESULT: FAIL (best achieved: 1 error score)
+  run 8 arm A  rc=1  268s  triggers=0  RESULT: FAIL (best achieved: 2 error score)
+  run 9 arm B  rc=1  292s  triggers=1  RESULT: FAIL (best achieved: 5 error score)
+  run 10 arm A  rc=1  290s  triggers=1  RESULT: FAIL (best achieved: 4 error score)
+  run 11 arm A  rc=1  305s  triggers=1  RESULT: FAIL (best achieved: 2 error score)
+  run 12 arm B  rc=1  325s  triggers=1  RESULT: FAIL (best achieved: 1 error score)
+batch complete — 12 runs

@@ -1,0 +1,15 @@
+[Unit]
+Description=Larry Maintenance Dashboard
+After=network-online.target
+
+[Service]
+User=dav
+WorkingDirectory=/opt/larry-dashboard
+ExecStart=/opt/larry-dashboard/.venv/bin/python /opt/larry-dashboard/app.py
+Environment=DASH_PORT=8090
+Environment=LARRY_REPO=/mnt/rojaws/localDev/setup
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

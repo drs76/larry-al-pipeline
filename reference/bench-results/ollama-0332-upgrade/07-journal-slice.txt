@@ -1,0 +1,40 @@
+Aug 31 22:49:48 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:49:48 larry ollama[856682]: [GIN] 2026/08/31 - 22:49:48 | 200 |  2.685959702s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:49:49 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:49:49 larry ollama[856682]: [GIN] 2026/08/31 - 22:49:49 | 200 |  948.631017ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:24 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:24 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:24 | 200 | 35.158299609s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:34 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:34 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:34 | 200 |  2.349139103s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:35 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:35 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:35 | 200 |  597.353513ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:35 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:35 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:35 | 200 |  341.078493ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:36 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:36 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:36 | 200 |  543.032104ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:36 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:36 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:36 | 200 |  729.428625ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:41 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:41 | 200 |    4.5563292s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:41 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:50 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:50 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:50 | 200 |  1.180263921s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:50 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:50 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:50 | 200 |  716.018919ms |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:50:55 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:50:55 larry ollama[856682]: [GIN] 2026/08/31 - 22:50:55 | 200 |   4.22831585s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:03 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:03 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:03 | 200 |  1.122594802s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:05 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:05 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:05 | 200 |  1.970658171s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:07 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:07 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:07 | 200 |  1.860652299s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:10 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:10 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:10 | 200 |  2.819610139s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:13 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:13 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:13 | 200 |  2.928600029s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:17 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:17 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:17 | 200 |  3.844683034s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:19 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:19 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:19 | 200 |  1.992514308s |   192.168.0.143 | POST     "/v1/chat/completions"
+Aug 31 22:51:23 larry ollama[856682]: srv  update_slots: all slots are idle
+Aug 31 22:51:23 larry ollama[856682]: [GIN] 2026/08/31 - 22:51:23 | 200 |  4.037253161s |   192.168.0.143 | POST     "/v1/chat/completions"

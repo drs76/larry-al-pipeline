@@ -1,0 +1,14 @@
+# Per-machine overrides. Copy to  ~/.config/sway/config.d/<name>.conf  (drop .example)
+# and keep ONE per machine. Find names with:  swaymsg -t get_outputs
+
+## --- Desktop example (single monitor, no scaling) ---
+# output "DP-1" resolution 2560x1440@144Hz position 0 0
+
+## --- ThinkPad example (HiDPI internal + optional dock) ---
+# output "eDP-1" scale 1.25 position 0 0
+# output "HDMI-A-1" resolution 1920x1080 position 2048 0
+# Fractional scale needs:  set $mod ... (nothing) — just this line above.
+
+## Lid switch (laptop only): turn off internal screen when docked+closed
+# bindswitch --reload --locked lid:on  output eDP-1 disable
+# bindswitch --reload --locked lid:off output eDP-1 enable

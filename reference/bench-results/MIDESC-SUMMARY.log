@@ -1,0 +1,6 @@
+midesc r1: FAIL(1) in 1289s
+midesc r2: FAIL(1) in 2350s
+midesc r3: TIMEOUT in 2400s
+=== MIDESC DONE ===
+midesc r3: TIMEOUT in 2400s
+=== MIDESC DONE ===

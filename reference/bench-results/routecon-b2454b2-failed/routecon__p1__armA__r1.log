@@ -1,0 +1,8 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/routecon__p1__armA__r1
+  Expected files from manifest: 6
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 27 | runtime 16.0 | target Cloud | profile internal
+  Egress policy: enterprise-anon
+
+ERROR: model/run-dir mismatch — directory claims 'routecon', coder model is 'qwen3-coder_30b' (PI_CODER_MODEL=ollama/qwen3-coder:30b).
+       Launch with PI_CODER_MODEL=ollama/routecon (note: check the ':' placement), rename the run directory, or set ALLOW_MODEL_MISMATCH=1 to accept mislabelled metrics.

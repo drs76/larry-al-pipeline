@@ -1,0 +1,242 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 78s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 2 missing using-directive(s) across 2 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:59:47.616'.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupList.Page.al(49,25): warning AL0482: The image Move is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(68,25): warning AL0482: The image Move is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(44,44): error AL0132: 'Record "TSG Doc Link AZ Setup"' does not contain a definition for 'SharedAccessKeyDisplay'
+  Compilation ended at '15:59:52.346'.
+  error score: 1
+  ★ new best (error score: 1)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 16s (exit 0)
+  snippet-fix: 3 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:00:20.527'.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(68,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupList.Page.al(49,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(44,44): error AL0132: 'Record "TSG Doc Link AZ Setup"' does not contain a definition for 'SharedAccessKey'
+  Compilation ended at '16:00:25.627'.
+  error score: 1  (best so far: 1)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 7s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      REJECTED (escapes root): /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al — absolute path rejected: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 68s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:01:51.509'.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(58,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupList.Page.al(49,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(62,43): error AL0132: 'Codeunit' does not contain a definition for 'TSG Doc Link Migration'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,71): error AL0118: The name 'ClearField' does not exist in the current context.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,82): error AL0118: The name '"Document Reference ID"' does not exist in the current context.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(53,62): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(98,62): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(69,69): error AL0132: 'Media' does not contain a definition for 'Name'
+  Compilation ended at '16:01:56.715'.
+  error score: 6  (best so far: 1)
+  Unmask: all 1 previous error(s) cleared; 5 newly surfaced — fixing forward, not reverting.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: corrected 1 invented member(s)
+  RAG: corrected 1 invented built-in member(s)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 15s (exit 0)
+  snippet-fix: 5 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:02:22.723'.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupList.Page.al(49,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(58,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(69,69): error AL0132: 'Media' does not contain a definition for 'FileName'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(53,62): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(98,62): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(62,43): error AL0132: 'Codeunit' does not contain a definition for 'TSG Doc Link Migration'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,68): error AL0132: 'Media' does not contain a definition for 'Clear'
+  Compilation ended at '16:02:28.510'.
+  error score: 5  (best so far: 6)
+  ★ new best (error score: 5)
+  RAG: corrected 2 invented member(s)
+  RAG: corrected 2 invented built-in member(s)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 8s (exit 0)
+  snippet-fix: 4 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:02:48.026'.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,78): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,79): error AL0108: Indexers must have at least one value. Provide an index value inside the brackets (e.g., [1] or [i]).
+  Compilation ended at '16:02:53.462'.
+  error score: 2  (best so far: 5)
+  ★ new best (error score: 2)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 17s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r11/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:03:11.421'.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupList.Page.al(49,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/page/TSGDocumentLinkAZSetupCard.Page.al(58,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(69,69): error AL0132: 'Media' does not contain a definition for 'File Name'
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(54,22): error AL0122: Cannot implicitly convert type 'Codeunit System.Azure.Storage."ABS Operation Response"' to 'Boolean'. Use an explicit conversion or change the type.
+  runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(99,62): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '16:03:17.020'.
+  error score: 3  (best so far: 2)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 2)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '16:02:48.026'.
+
+runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,78): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+runs/unmaskab_A_r11/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(43,79): error AL0108: Indexers must have at least one value. Provide an index value inside the brackets (e.g., [1] or [i]).
+
+Compilation ended at '16:02:53.462'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 2 error score)

@@ -1,0 +1,63 @@
+# RAG retrieval eval set — grounded, not guessed.
+# Every `expect` string was verified to exist in the indexed corpus (grep over
+# /mnt/rojaws/refs/bc-symbols/BC27.5 on 2026-08-06). A query "hits" when ANY expect
+# substring appears in a retrieved chunk's heading+snippet within top-k.
+# Purpose: measure whether the KB surfaces the RIGHT object/event for an intent —
+# the API-hallucination class bc-symbols was added to fix. Run: pipeline/rag_eval.py
+#
+# Honours no_partial_generalising: this is the yardstick that proves a retrieval
+# change helped, instead of asserting it.
+
+k: 10           # top-k retrieved per query. 10 = consumer-realistic: al-rag injects top-10, so
+                # "in top-10" == "in the coder's context". Events cluster into near-duplicates, so
+                # the exact one often sits at rank 7-9 among valid siblings; hit@5 is reported too.
+threshold: 0.80 # aggregate hit@k must clear this or the run fails
+
+queries:
+  # ---- bc-symbols: version-exact API discovery (the new capability) ----
+  - q: "base64 encode a string"
+    corpus: bc-symbols
+    expect: ["Base64 Convert", "ToBase64"]
+  - q: "send an email from AL code"
+    corpus: bc-symbols
+    expect: ['Codeunit "Email"', "Send Email"]
+  - q: "get the next number from a number series"
+    corpus: bc-symbols
+    expect: ['"No. Series"', "GetNextNo"]
+  - q: "integration event raised after posting a sales document"
+    corpus: bc-symbols
+    expect: ["OnAfterPostSalesDoc"]
+  - q: "event before a sales document is posted"
+    corpus: bc-symbols
+    expect: ["OnBeforePostSalesDoc"]
+  - q: "the codeunit that posts a sales order"
+    corpus: bc-symbols
+    expect: ['"Sales-Post"']
+  - q: "event after a sales document is released"
+    corpus: bc-symbols
+    expect: ["OnAfterReleaseSalesDoc"]
+  - q: "fields on the posted sales invoice header"
+    corpus: bc-symbols
+    expect: ['"Sales Invoice Header"']
+  - q: "customer credit limit field"
+    corpus: bc-symbols
+    expect: ["Credit Limit"]
+  - q: "the item master table"
+    corpus: bc-symbols
+    expect: ['Table "Item"']
+  - q: "send an HTTP GET request"
+    corpus: bc-symbols
+    expect: ['"Http Client Handler"', '"Http Web Request Mgt."']
+  - q: "read and parse a JSON object"
+    corpus: bc-symbols
+    expect: ['"JSON Management"']
+  - q: "compute a SHA256 hash"
+    corpus: bc-symbols
+    expect: ['"Hash Algorithm"', "Cryptography Management"]
+  - q: "store a value in isolated storage"
+    corpus: bc-symbols
+    expect: ["Isolated Storage"]
+
+# TODO(grounding): add breadth queries over the curated/source corpora
+# (al-reference, al-knowledge, bcapps-system, bctech-samples) with expects
+# verified against those files, to measure the whole KB, not just bc-symbols.

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# bcw — BC Extension Analysis workflow (collector → analyst → completeness report).
+#   bcw analyse <folder> [N] [--backend pi|claude]
+#                              analyse a customer AL extension; writes WIKI.md +
+#                              PERFORMANCE_IMPROVEMENTS.md into <folder>.
+#                              N = arm ONE Claude completion pass for gaps (egress-gated).
+#   bcw collect <folder>       print the deterministic facts pack only (no model)
+#   bcw help
+# Egress: a customer folder defaults to local-only (see .anon/config.yml / EGRESS_POLICY) —
+# source stays on Larry, never Anthropic, unless policy allows. Backend default: pi (Larry).
+set -euo pipefail
+
+# Same portable base as alw/gow/csw: a local ~/larry-setup clone wins, else the
+# dev box NFS path. Override with SETUP_DIR (or PIPELINE) to force either.
+SETUP_DIR="${SETUP_DIR:-$([ -d "$HOME/larry-setup" ] && echo "$HOME/larry-setup" || echo /mnt/rojaws/localDev/setup)}"
+PIPELINE="${PIPELINE:-$SETUP_DIR/pipeline}"
+RUN_ANALYSE="${RUN_ANALYSE:-$PIPELINE/run-analyse.py}"
+COLLECT="${COLLECT:-$PIPELINE/bc_collect.py}"
+export NODE_OPTIONS="${NODE_OPTIONS:---use-system-ca}"   # trust HomeLab CA for pi over HTTPS
+
+usage() { sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; }
+
+cmd_analyse() {
+  local folder="${1:-}"; shift || true
+  [ -z "$folder" ] && { echo "usage: bcw analyse <folder> [N] [--backend pi|claude]" >&2; exit 1; }
+  [ -d "$folder" ] || { echo "ERROR: folder not found: $folder" >&2; exit 1; }
+
+  local esc="" backend=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --backend) backend="${2:-}"; shift 2 ;;
+      [0-9]*)    esc="$1"; shift ;;
+      *) echo "ERROR: unknown arg '$1' (expected N and/or --backend pi|claude)" >&2; exit 1 ;;
+    esac
+  done
+
+  local -a env_pfx=()
+  [ -n "$backend" ] && env_pfx+=("ANALYST_BACKEND=$backend")
+  [ -n "$esc" ] && env_pfx+=("ESCALATE_AFTER=$esc")
+  exec env "${env_pfx[@]}" python3 "$RUN_ANALYSE" --source "$folder"
+}
+
+cmd_collect() {
+  local folder="${1:-}"
+  [ -z "$folder" ] && { echo "usage: bcw collect <folder>" >&2; exit 1; }
+  [ -d "$folder" ] || { echo "ERROR: folder not found: $folder" >&2; exit 1; }
+  exec python3 "$COLLECT" "$folder"
+}
+
+case "${1:-help}" in
+  analyse|analyze) shift; cmd_analyse "$@" ;;
+  collect)         shift; cmd_collect "$@" ;;
+  help|-h|--help)  usage ;;
+  *)               echo "unknown command: $1" >&2; usage; exit 1 ;;
+esac

@@ -1,0 +1,14 @@
+[Unit]
+Description=KB hybrid-search remote-query endpoint (thin clients)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.config/kb/serve.env
+ExecStart=/mnt/rojaws/localDev/setup/tooling/kb serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

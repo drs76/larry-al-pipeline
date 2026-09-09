@@ -1,0 +1,497 @@
+#!/usr/bin/env python3
+"""md2pdf INPUT.md [OUT.pdf] ["footer text"]
+
+Markdown -> styled A4 PDF in house style (purple #611A67, gold accents,
+banded tables, page numbers). Footer defaults to the document's first H1, then
+the filename.
+
+```mermaid fences are pre-rendered into real diagrams via mermaid-cli (`mmdc`)
+in the house palette. Without mmdc on PATH they degrade to printed source, with
+a warning -- never a hard failure.
+
+Two PDF engines, picked automatically:
+
+  weasyprint  preferred. Diagrams are rasterised to PNG because WeasyPrint
+              does not support the <foreignObject> mermaid-cli emits for
+              flowchart labels.
+  edge        headless Microsoft Edge --print-to-pdf. Used where WeasyPrint is
+              unavailable (the Windows workstation has no GTK3 runtime).
+              Diagrams stay vector SVG.
+
+Both honour the @page margin boxes, so the footer and "Page N of M" render
+either way (verified on Edge 2026-08-27 -- older Chromium ignored them).
+
+Override with MD2PDF_ENGINE=weasyprint|edge and MD2PDF_MERMAID=png|svg.
+
+Local only, no network. Requires python 'markdown'; then either 'weasyprint' or
+an Edge install. Diagrams additionally need `npm i -g @mermaid-js/mermaid-cli`.
+"""
+
+import base64
+import json
+import os
+import re
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+
+import markdown
+
+# ── House style ───────────────────────────────────────────────────────────────
+
+PURPLE = "#611A67"
+PURPLE_LIGHT = "#7d3182"
+GOLD = "#d9a441"
+RUST = "#b5361f"
+BAND = "#f4ecf6"
+BORDER = "#e0cfe2"
+
+CSS_TEMPLATE = """
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm 18mm;
+  @bottom-center { content: "%(footer)s"; font-size: 8pt; color: #888; }
+  @bottom-right { content: "Page " counter(page) " of " counter(pages);
+                  font-size: 8pt; color: #888; }
+}
+body {
+  font-family: "Segoe UI", "DejaVu Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.5pt; line-height: 1.5; color: #1a1a1a; max-width: 100%%;
+}
+h1 { font-size: 20pt; color: %(purple)s; border-bottom: 3px solid %(purple)s;
+     padding-bottom: 6px; margin-top: 0; }
+h2 { font-size: 15pt; color: %(purple)s; margin-top: 22px;
+     border-bottom: 1px solid %(border)s; padding-bottom: 3px;
+     break-after: avoid; page-break-after: avoid; }
+h3 { font-size: 12pt; color: %(purple_light)s; margin-top: 16px;
+     break-after: avoid; page-break-after: avoid; }
+h4 { font-size: 11pt; color: %(purple_light)s; margin-top: 14px;
+     break-after: avoid; page-break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+a { color: %(purple)s; text-decoration: none; }
+code {
+  font-family: "Cascadia Code", "Consolas", "DejaVu Sans Mono", "Liberation Mono", monospace;
+  font-size: 9pt; background: #f0f3f7; padding: 1px 4px; border-radius: 3px;
+  color: %(rust)s;
+  /* Without clone, a code span that wraps gets ONE background box spanning the
+     whole line run -- it paints far past the right margin in some viewers. */
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  overflow-wrap: anywhere;
+}
+pre {
+  background: #f6f8fa; border: 1px solid #d0d7de; border-left: 4px solid %(purple)s;
+  border-radius: 4px; padding: 10px 12px; page-break-inside: avoid;
+  /* Print has no scrollbar: wrap long lines instead of overflowing the page. */
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+pre code { background: none; padding: 0; color: #1a1a1a; font-size: 8.7pt;
+           line-height: 1.4; }
+img {
+  max-width: 100%%; max-height: 240mm; height: auto; display: block;
+  margin: 12px auto; page-break-inside: avoid;
+}
+/* A pre-rendered mermaid diagram. Keep it whole on one page and centred. */
+p.mermaid-figure { text-align: center; margin: 16px 0; page-break-inside: avoid; }
+p.mermaid-figure img { margin: 0 auto; max-height: 200mm; }
+blockquote {
+  border-left: 4px solid %(gold)s; background: #fdf6e3; margin: 12px 0;
+  padding: 8px 14px; color: #5c4a1a; font-size: 9.8pt;
+}
+table { border-collapse: collapse; width: 100%%; max-width: 100%%; margin: 12px 0;
+        font-size: 9.2pt; page-break-inside: avoid; table-layout: fixed; }
+th { background: %(purple)s; color: #fff; text-align: left; padding: 6px 8px;
+     font-weight: 600; }
+td { border: 1px solid %(border)s; padding: 5px 8px; vertical-align: top; }
+/* A long URL or code token must wrap inside its cell, never widen the table. */
+th, td { overflow-wrap: anywhere; word-break: break-word; }
+tr:nth-child(even) td { background: %(band)s; }
+hr { border: none; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+"""
+
+# Same palette, expressed as mermaid theme variables, so a diagram matches the
+# prose around it instead of arriving in mermaid's default blue.
+MERMAID_CFG = {
+    "theme": "base",
+    "themeVariables": {
+        "primaryColor": BAND,
+        "primaryTextColor": "#1a1a1a",
+        "primaryBorderColor": PURPLE,
+        "secondaryColor": "#fdf6e3",
+        "secondaryBorderColor": GOLD,
+        "tertiaryColor": "#ffffff",
+        "tertiaryBorderColor": BORDER,
+        "lineColor": PURPLE_LIGHT,
+        "textColor": "#1a1a1a",
+        "fontFamily": "Segoe UI, DejaVu Sans, Helvetica Neue, Arial, sans-serif",
+        "fontSize": "14px",
+        "cScale0": PURPLE, "cScaleLabel0": "#ffffff",
+        "cScale1": PURPLE_LIGHT, "cScaleLabel1": "#ffffff",
+        "cScale2": GOLD, "cScaleLabel2": "#1a1a1a",
+        "cScale3": RUST, "cScaleLabel3": "#ffffff",
+    },
+}
+
+EDGE_CANDIDATES = [
+    r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+]
+
+PNG_SCALE = 3  # mmdc -s; raster diagrams need the extra pixels to print sharp
+
+# The figure height cap, matched to `p.mermaid-figure img { max-height }` below.
+# It is applied here in the inline width as well, because a CSS max-height alone
+# clamps the height while leaving an explicit inline width untouched -- which
+# stretches a tall diagram sideways. Observed on the WORKFLOWS-OVERVIEW sequence
+# diagram: a 0.716 aspect source placed at 169.8x200mm (0.849).
+MAX_FIGURE_H_MM = 200
+PX_PER_MM = 96 / 25.4
+
+
+def _figure_style(px_w, px_h, scale=1):
+    """Inline style for a diagram, pre-clamped to the height cap in ratio."""
+    w, h = px_w / scale, px_h / scale
+    cap = MAX_FIGURE_H_MM * PX_PER_MM
+    if h > cap:
+        w *= cap / h
+    return f"width:{w:.0f}px;max-width:100%;height:auto;"
+
+
+# ── Engine selection ──────────────────────────────────────────────────────────
+
+def find_edge():
+    for p in EDGE_CANDIDATES:
+        if os.path.exists(p):
+            return p
+    return shutil.which("msedge") or shutil.which("microsoft-edge")
+
+
+def have_weasyprint():
+    """Probe quietly.
+
+    A WeasyPrint install missing its GTK3 native libraries prints a multi-line
+    troubleshooting banner of its own during the failed import. That is useful
+    when the user asked for WeasyPrint and noise when we are merely checking,
+    so swallow the streams for the duration of the probe.
+    """
+    import contextlib
+    import io
+    try:
+        with contextlib.redirect_stderr(io.StringIO()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            import weasyprint  # noqa: F401
+    except Exception:
+        return False
+    return True
+
+
+def pick_engine():
+    """Resolve the PDF engine. WeasyPrint wins when both are available."""
+    want = os.environ.get("MD2PDF_ENGINE", "auto").strip().lower()
+    if want == "weasyprint":
+        if not have_weasyprint():
+            raise SystemExit("md2pdf: MD2PDF_ENGINE=weasyprint but weasyprint will not import")
+        return "weasyprint"
+    if want == "edge":
+        if not find_edge():
+            raise SystemExit("md2pdf: MD2PDF_ENGINE=edge but no msedge could be found")
+        return "edge"
+    if want != "auto":
+        raise SystemExit(f"md2pdf: MD2PDF_ENGINE must be auto|weasyprint|edge, got {want!r}")
+    if have_weasyprint():
+        return "weasyprint"
+    if find_edge():
+        return "edge"
+    raise SystemExit(
+        "md2pdf: no PDF engine. Install weasyprint (pip install weasyprint) or Edge."
+    )
+
+
+def pick_mermaid_format(engine):
+    """PNG under WeasyPrint, SVG under Edge -- see the <foreignObject> note."""
+    want = os.environ.get("MD2PDF_MERMAID", "").strip().lower()
+    if want in ("png", "svg"):
+        return want
+    if want:
+        raise SystemExit(f"md2pdf: MD2PDF_MERMAID must be png|svg, got {want!r}")
+    return "png" if engine == "weasyprint" else "svg"
+
+
+# ── Mermaid pre-render ────────────────────────────────────────────────────────
+
+MERMAID_FENCE = re.compile(
+    r"^[ \t]*```[ \t]*mermaid[ \t]*\r?\n(.*?)^[ \t]*```[ \t]*$",
+    re.DOTALL | re.MULTILINE,
+)
+
+
+def _svg_img_tag(path):
+    """Inline one mermaid SVG as a data-URI <img>.
+
+    A data URI, not a file reference, for two reasons: no temp file has to
+    survive until the engine reads the HTML, and every diagram keeps its own
+    style scope. mermaid-cli stamps a fixed id="my-svg" on every SVG it writes,
+    so inlining two of them into one document collides their <style> rules.
+    """
+    svg = Path(path).read_text(encoding="utf-8")
+    # mermaid-cli emits width="100%", which leaves an <img> with no intrinsic
+    # width. Take the real size off the viewBox so the image lays out properly.
+    m = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', svg)
+    if m:
+        w, h = float(m.group(1)), float(m.group(2))
+        svg = svg.replace('width="100%"', f'width="{w:g}" height="{h:g}"', 1)
+        style = _figure_style(w, h)
+    else:
+        style = "max-width:100%;height:auto;"
+    b64 = base64.b64encode(svg.encode("utf-8")).decode("ascii")
+    return (
+        f'<p class="mermaid-figure"><img alt="diagram" style="{style}" '
+        f'src="data:image/svg+xml;base64,{b64}"></p>'
+    )
+
+
+def _png_img_tag(path):
+    """Inline one mermaid PNG as a data-URI <img>, sized back down from -s."""
+    raw = Path(path).read_bytes()
+    style = "max-width:100%;height:auto;"
+    # IHDR is always the first chunk: 8-byte signature, 4 length, 4 "IHDR",
+    # then width and height as big-endian uint32.
+    if raw[:8] == b"\x89PNG\r\n\x1a\n" and raw[12:16] == b"IHDR":
+        px_w, px_h = struct.unpack(">II", raw[16:24])
+        style = _figure_style(px_w, px_h, PNG_SCALE)
+    b64 = base64.b64encode(raw).decode("ascii")
+    return (
+        f'<p class="mermaid-figure"><img alt="diagram" style="{style}" '
+        f'src="data:image/png;base64,{b64}"></p>'
+    )
+
+
+def render_mermaid(text, workdir, fmt):
+    """Replace every ```mermaid fence with a rendered image.
+
+    Leaves a fence untouched if mmdc is missing or that diagram fails, so a bad
+    diagram degrades to printed source instead of killing the whole document.
+    """
+    if not MERMAID_FENCE.search(text):
+        return text
+    mmdc = shutil.which("mmdc") or shutil.which("mmdc.cmd")
+    if not mmdc:
+        print(
+            "md2pdf: warning -- mermaid diagrams found but mmdc is not on PATH; "
+            "printing them as source. Install with: npm i -g @mermaid-js/mermaid-cli",
+            file=sys.stderr,
+        )
+        return text
+
+    cfg_path = os.path.join(workdir, "mermaid-config.json")
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(MERMAID_CFG, f)
+
+    rendered = [0]
+    # Two counters, deliberately. `seen` numbers the scratch files and only ever
+    # goes up; `rendered` counts successes and is what we report.
+    #
+    # Sharing one counter reuses a filename after a failure -- diagram 2 failing
+    # makes diagram 3 write diagram-2.mmd. That is harmless for a
+    # CalledProcessError, but a TimeoutExpired leaves mmdc STILL RUNNING, free to
+    # write that exact path late and hand a stale image to the wrong fence. Same
+    # late-writer race write_pdf_edge() defends against below.
+    seen = [0]
+
+    def one(match):
+        seen[0] += 1
+        n = seen[0]
+        mmd = os.path.join(workdir, f"diagram-{n}.mmd")
+        img = os.path.join(workdir, f"diagram-{n}.{fmt}")
+        Path(mmd).write_text(match.group(1), encoding="utf-8")
+        cmd = [mmdc, "-i", mmd, "-o", img, "-c", cfg_path, "-b", "transparent", "-q"]
+        if fmt == "png":
+            cmd += ["-s", str(PNG_SCALE)]
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, timeout=180)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as e:
+            detail = getattr(e, "stderr", b"") or b""
+            print(
+                f"md2pdf: warning -- mermaid diagram {n} failed to render, "
+                f"printing as source. {detail[-300:].decode('utf-8', 'replace')}",
+                file=sys.stderr,
+            )
+            return match.group(0)
+        if not os.path.exists(img):
+            print(
+                f"md2pdf: warning -- mmdc reported success but wrote no {fmt} for "
+                f"diagram {n}; printing as source.",
+                file=sys.stderr,
+            )
+            return match.group(0)
+        rendered[0] += 1
+        tag = _png_img_tag(img) if fmt == "png" else _svg_img_tag(img)
+        return "\n\n" + tag + "\n\n"
+
+    out = MERMAID_FENCE.sub(one, text)
+    print(f"md2pdf: rendered {rendered[0]} mermaid diagram(s) as {fmt}")
+    return out
+
+
+# ── PDF writers ───────────────────────────────────────────────────────────────
+
+def write_pdf_weasyprint(html, css, out, base_dir):
+    from weasyprint import CSS, HTML
+    HTML(string=html, base_url=str(base_dir)).write_pdf(
+        str(out), stylesheets=[CSS(string=css)]
+    )
+
+
+def _is_good_pdf(path):
+    """Reject Edge's own error page and other junk, not just 'a file exists'."""
+    if not os.path.exists(path) or os.path.getsize(path) < 500:
+        return False
+    try:
+        # `import pymupdf` first: the bare `fitz` spelling is deprecated upstream and
+        # warns. Order matters beyond tidiness -- when fitz is finally removed, the
+        # ImportError below silently downgrades this to the size-only check, quietly
+        # weakening the Edge late-writer guard on the one platform that needs it.
+        try:
+            import pymupdf as fitz
+        except ImportError:
+            import fitz  # pymupdf < 1.24 -- optional either way
+        with fitz.open(path) as d:
+            if d.page_count < 1:
+                return False
+            first = d[0].get_text()
+            if "ERR_FILE_NOT_FOUND" in first or "File not found" in first:
+                return False
+    except ImportError:
+        pass  # no pymupdf -- fall back to the size check above
+    return True
+
+
+def write_pdf_edge(html, out, base_dir):
+    """Print via headless Edge, defending against its late-writer race.
+
+    Edge's print-to-pdf launcher can return (exit 0, no stderr) before the
+    render finishes -- the real work sometimes lands in a detached process
+    moments later, especially with another Edge window already open. A stale
+    attempt can therefore finish late and silently overwrite a file already
+    verified as good. So never target `out` directly: render into a private,
+    randomly-named temp PDF, confirm twice with a pause, then move it into
+    place. A late zombie write lands on the abandoned temp name, not on `out`.
+
+    That abandoned name must not sit in the source directory. The zombie can
+    recreate the file *after* the cleanup below has run, so an in-place temp
+    leaves a `tmpXXXXXXXX.pdf` behind in the user's repo on every render --
+    seven of them accumulated in larry-setup before this was caught. Only the
+    HTML has to live beside the source (for relative image paths); the PDF
+    target does not, so it goes in a scratch dir of its own.
+    """
+    edge = find_edge()
+    # Write the intermediate HTML next to the source, not in the system temp
+    # dir -- relative image paths resolve against the HTML file's own location.
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".html", delete=False, encoding="utf-8", dir=base_dir
+    ) as tf:
+        tf.write(html)
+        html_path = tf.name
+    # file:// URI, not a raw path -- more reliable as the print-to-pdf target.
+    html_uri = "file:///" + html_path.replace("\\", "/")
+
+    profile_dir = tempfile.mkdtemp(prefix="md2pdf-edge-")
+    out_dir = tempfile.mkdtemp(prefix="md2pdf-out-")
+    tmp_out = os.path.join(out_dir, "render.pdf")  # must not pre-exist: Edge creates it
+    try:
+        for attempt in range(8):
+            subprocess.run(
+                [
+                    edge, "--headless=new", "--disable-gpu", "--no-sandbox",
+                    f"--user-data-dir={profile_dir}",
+                    "--no-pdf-header-footer",
+                    f"--print-to-pdf={tmp_out}",
+                    html_uri,
+                ],
+                check=True, capture_output=True, timeout=60,
+            )
+            if _is_good_pdf(tmp_out):
+                size_first = os.path.getsize(tmp_out)
+                time.sleep(1.5)  # let a zombie writer clobber it HERE, not after the move
+                if _is_good_pdf(tmp_out) and os.path.getsize(tmp_out) == size_first:
+                    break
+            time.sleep(0.5)
+        else:
+            raise SystemExit(
+                f"md2pdf: Edge print-to-pdf did not produce a usable PDF "
+                f"after {attempt + 1} attempts"
+            )
+        shutil.move(tmp_out, str(out))
+    finally:
+        os.unlink(html_path)
+        shutil.rmtree(profile_dir, ignore_errors=True)
+        # rmtree, not unlink: a zombie can recreate render.pdf here. Worst case
+        # that leaves a stray dir under the system temp, never in the repo.
+        shutil.rmtree(out_dir, ignore_errors=True)
+
+
+# ── Entrypoint ────────────────────────────────────────────────────────────────
+
+def first_h1(text):
+    m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+    return m.group(1).strip() if m else ""
+
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        print(__doc__)
+        return 0 if len(sys.argv) >= 2 else 2
+
+    src = Path(sys.argv[1])
+    if not src.is_file():
+        print(f"md2pdf: no such file: {src}", file=sys.stderr)
+        return 1
+
+    out = Path(sys.argv[2]) if len(sys.argv) > 2 else src.with_suffix(".pdf")
+    out = out.resolve()
+    text = src.read_text(encoding="utf-8")
+
+    footer = sys.argv[3] if len(sys.argv) > 3 else (first_h1(text) or src.name)
+    footer = footer.replace('"', "'")
+
+    engine = pick_engine()
+    fmt = pick_mermaid_format(engine)
+
+    # Pre-render mermaid before markdown runs, so the fences never reach the
+    # fenced_code extension. Data URIs mean the scratch dir can go immediately.
+    workdir = tempfile.mkdtemp(prefix="md2pdf-mermaid-")
+    try:
+        text = render_mermaid(text, workdir, fmt)
+    finally:
+        shutil.rmtree(workdir, ignore_errors=True)
+
+    html_body = markdown.markdown(
+        text, extensions=["extra", "sane_lists", "smarty", "toc"]
+    )
+    css = CSS_TEMPLATE % {
+        "footer": footer, "purple": PURPLE, "purple_light": PURPLE_LIGHT,
+        "gold": GOLD, "rust": RUST, "band": BAND, "border": BORDER,
+    }
+    base_dir = str(src.resolve().parent)
+
+    if engine == "weasyprint":
+        html = (
+            f'<html><head><meta charset="utf-8"></head><body>{html_body}</body></html>'
+        )
+        write_pdf_weasyprint(html, css, out, base_dir)
+    else:
+        html = (
+            f'<html><head><meta charset="utf-8"><style>{css}</style></head>'
+            f"<body>{html_body}</body></html>"
+        )
+        write_pdf_edge(html, out, base_dir)
+
+    print(f"wrote {out} [{engine}]")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

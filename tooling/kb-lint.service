@@ -1,0 +1,13 @@
+[Unit]
+Description=Nightly memory-wiki hygiene lint (kb-nightly.sh, client mode)
+# deb holds the Claude memory-wiki, so the lint belongs here. Larry's
+# kb-refresh.service runs `kb index` directly and never this script, so
+# without this unit the lint step ran on no box at all.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=KB_NIGHTLY_MODE=lint
+TimeoutStartSec=900
+ExecStart=/mnt/rojaws/localDev/setup/tooling/kb-nightly.sh

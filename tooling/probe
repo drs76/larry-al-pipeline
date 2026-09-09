@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# probe — local, read-only investigation with pi + Larry (no code changes, no Claude, no egress).
+#   probe <dir> [--model M]        interactive investigation session in <dir> (you drive)
+#   probe <dir> -q "<question>"    one-shot: ask a bounded question, print the answer
+#   probe help
+# Read-only by design (pi write/edit tools disabled). NOTE: the bash tool stays enabled (needed
+# for ls/grep), so "read-only" is a convention the model follows, not a hard sandbox — a model
+# could still write via shell redirection. Fine for investigation; don't point it at anything
+# where accidental writes would hurt without a backup/git. Default model is qwen3-coder:30b —
+# a tool-capable model that actually DRIVES the tools. (A pure reasoner like deepseek-r1 tends to *describe* how to
+# investigate instead of doing it — use --model ollama/deepseek-r1:14b only for interactive work
+# where YOU feed it content to reason over.) Everything stays on Larry — for a Claude
+# investigation, run `claude` in the dir instead (subject to its own egress rules).
+set -euo pipefail
+
+PI_BIN="${PI_BIN:-$(command -v pi || echo "$HOME/.npm-global/bin/pi")}"
+PI_EXT="${PI_EXT:-$HOME/.pi/ollama-provider.ts}"
+PROBE_MODEL="${PROBE_MODEL:-ollama/qwen3-coder:30b}"
+export NODE_OPTIONS="${NODE_OPTIONS:---use-system-ca}"   # trust HomeLab CA for pi over HTTPS
+
+usage() { sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; }
+
+cmd_probe() {
+  local dir="${1:-}"; shift || true
+  [ -z "$dir" ] && { echo "usage: probe <dir> [--model M] [-q \"question\"]" >&2; exit 1; }
+  [ -d "$dir" ] || { echo "ERROR: dir not found: $dir" >&2; exit 1; }
+  [ -x "$PI_BIN" ] || { echo "ERROR: pi not found at $PI_BIN" >&2; exit 1; }
+
+  local model="$PROBE_MODEL" question=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --model) model="${2:-}"; shift 2 ;;
+      -q|--question) question="${2:-}"; shift 2 ;;
+      *) echo "ERROR: unknown arg '$1'" >&2; exit 1 ;;
+    esac
+  done
+
+  # -xt write,edit → read-only: pi can read/grep/bash but not mutate the tree.
+  local -a base=("$PI_BIN" -e "$PI_EXT" --model "$model" -xt write,edit)
+
+  if [ -n "$question" ]; then
+    echo "probe (one-shot, read-only, $model) in $dir" >&2
+    ( cd "$dir" && exec "${base[@]}" -p --no-session \
+        "Investigate this codebase to answer the question. READ-ONLY — do not change any files. \
+Explore with your read/grep/bash tools as needed, then give a concise, concrete answer citing \
+file:line. QUESTION: $question" )
+  else
+    echo "probe (interactive, read-only, $model) in $dir — Ctrl-D to exit" >&2
+    ( cd "$dir" && exec "${base[@]}" )
+  fi
+}
+
+case "${1:-help}" in
+  help|-h|--help) usage ;;
+  *)              cmd_probe "$@" ;;
+esac

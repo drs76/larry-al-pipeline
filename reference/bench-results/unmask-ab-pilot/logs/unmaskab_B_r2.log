@@ -1,0 +1,274 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 83s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 3 missing using-directive(s) across 3 file(s)
+  event check: 2 finding(s), 2 error(s) — reported before compiling
+    [error] codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al:52 — OnAfterInsert does not exist on "Document Attachment" (nor anywhere else in the symbols)
+    [error] codeunit/TSGDocumentLinkBlobMigration.Codeunit.al:18 — OnAfterInsert does not exist on "Document Attachment" (nor anywhere else in the symbols)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:17:27.132'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(18,74): error AL0280: The event 'OnAfterInsert' is not found in the target 'Table Microsoft.Foundation.Attachment."Document Attachment"'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(52,74): error AL0280: The event 'OnAfterInsert' is not found in the target 'Table Microsoft.Foundation.Attachment."Document Attachment"'
+  Compilation ended at '15:17:32.619'.
+  error score: 2
+  ★ new best (error score: 2)
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 8s (exit 0)
+  snippet-fix: 0 edit(s) applied, 2 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al: 'local procedure InsertDocumentAttachment(DocumentAttachment:'
+      SEARCH not found in src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al: 'local procedure InsertDocumentAttachment(DocumentAttachment:'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 16s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:17:57.796'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,24): error AL0173: Operator 'not' cannot be applied to an operand of type 'Text'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(41,9): error AL0118: The name 'TSGDocumentLinkAZBlobMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(57,28): error AL0118: The name 'TSGDocumentLinkAZMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(26,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(47,75): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:18:03.282'.
+  error score: 6  (best so far: 2)
+  Unmask: all 2 previous error(s) cleared; 5 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 24s (exit 0)
+  snippet-fix: 3 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al: '// Upload to Azure'
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:18:28.393'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,24): error AL0173: Operator 'not' cannot be applied to an operand of type 'Text'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(41,9): error AL0118: The name '"TSG Doc Link AZ Mgt"' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(57,28): error AL0118: The name '"TSG Doc Link AZ Mgt"' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(26,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(47,75): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:18:36.336'.
+  error score: 6  (best so far: 2)
+  Unmask: all 2 previous error(s) cleared; 4 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 24s (exit 0)
+  snippet-fix: 6 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:19:02.111'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Execute is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Execute is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,24): error AL0173: Operator 'not' cannot be applied to an operand of type 'Text'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(41,9): error AL0118: The name 'TSGDocumentLinkAZBlobMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(57,28): error AL0118: The name 'TSGDocumentLinkAZMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(26,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:19:07.785'.
+  error score: 5  (best so far: 2)
+  Unmask: all 2 previous error(s) cleared; 5 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 13s (exit 0)
+  snippet-fix: 2 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:19:21.909'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,24): error AL0173: Operator 'not' cannot be applied to an operand of type 'Text'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(41,9): error AL0118: The name 'TSGDocumentLinkAZBlobMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(57,28): error AL0118: The name 'TSGDocumentLinkAZMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(26,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(47,75): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:19:28.234'.
+  error score: 6  (best so far: 2)
+  Unmask: all 2 previous error(s) cleared; 5 newly surfaced — ARM B: reverting, not fixing forward.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 19s (exit 0)
+  snippet-fix: 2 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r2/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:19:48.253'.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(26,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(47,75): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,71): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(41,9): error AL0118: The name 'TSGDocumentLinkAZBlobMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(57,28): error AL0118: The name 'TSGDocumentLinkAZMgt' does not exist in the current context.
+  runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,24): error AL0173: Operator 'not' cannot be applied to an operand of type 'Text'
+  Compilation ended at '15:19:55.230'.
+  error score: 6  (best so far: 2)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 2)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+EVENT VERIFICATION (checked against the downloaded symbols, before compiling):
+  [ERROR] codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al:52 — OnAfterInsert does not exist on "Document Attachment" (nor anywhere else in the symbols)
+      symbol source: Microsoft_Base Application_28.2.50931.51727.app v28.2.50931.51727
+  [ERROR] codeunit/TSGDocumentLinkBlobMigration.Codeunit.al:18 — OnAfterInsert does not exist on "Document Attachment" (nor anywhere else in the symbols)
+      symbol source: Microsoft_Base Application_28.2.50931.51727.app v28.2.50931.51727
+
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:17:27.132'.
+
+runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupList.Page.al(51,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image Update is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r2/src/page/TSGDocumentLinkAZSetupCard.Page.al(71,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(18,74): error AL0280: The event 'OnAfterInsert' is not found in the target 'Table Microsoft.Foundation.Attachment."Document Attachment"'
+runs/unmaskab_B_r2/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(52,74): error AL0280: The event 'OnAfterInsert' is not found in the target 'Table Microsoft.Foundation.Attachment."Document Attachment"'
+
+Compilation ended at '15:17:32.619'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 2 error score)

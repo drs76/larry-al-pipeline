@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# csw — C# Workflow bridge (Larry builds C#/.NET, tuned for Azure Functions isolated worker).
+#   csw route "<ask>"          classify+answer via pi /cs-route (SIMPLE inline,
+#                              COMPLEX writes a handover + prints next steps)
+#   csw new <name>             scaffold a fresh Azure Functions (isolated) prototype
+#   csw build <name|path> [N]  run run-build-cs.py; N = ESCALATE_AFTER (omit = pi only)
+#   csw promote <name>         move a built prototype into ~/cs/projects
+#   csw help
+set -euo pipefail
+
+# Portable base: prefer a local ~/larry-setup clone (roaming clients — e.g. the
+# ThinkPad, where /mnt/rojaws is an NFS mount that vanishes off-LAN), else the dev
+# box's /mnt source of truth. Override with SETUP_DIR to force either.
+SETUP_DIR="${SETUP_DIR:-$([ -d "$HOME/larry-setup" ] && echo "$HOME/larry-setup" || echo /mnt/rojaws/localDev/setup)}"
+
+PI_BIN="${PI_BIN:-$(command -v pi || echo "$HOME/.npm-global/bin/pi")}"
+PI_EXT="${PI_EXT:-$HOME/.pi/ollama-provider.ts}"
+PI_MODEL="${PI_CODER_MODEL:-ollama/qwen3-coder:30b}"   # ornith:35b is broken (ROCm cold-load hang)
+RUN_BUILD_CS="${RUN_BUILD_CS:-$SETUP_DIR/pipeline/run-build-cs.py}"
+HANDOVER_LINT="${HANDOVER_LINT:-$SETUP_DIR/pipeline/handover_lint.py}"
+CS_PROJECTS="${CS_PROJECTS:-$HOME/cs/projects}"
+CS_PROTOTYPES="${CS_PROTOTYPES:-$HOME/cs/projects/prototypes}"
+
+# Kanban board wiring (best-effort): create/adopt a board on `new`, mirror on `promote`.
+# Never fails the build/promote; BOARD=0 disables. See setup/pipeline/board.py.
+BOARD_PY="${BOARD_PY:-$SETUP_DIR/pipeline/board.py}"
+board_wire() { [ "${BOARD:-1}" = 0 ] && return 0; python3 "$BOARD_PY" "$@" 2>&1 | sed 's/^/  /' || true; return 0; }
+# TEMPLATE_CS avoids the shared-$TEMPLATE collision with alw/gow; legacy $TEMPLATE still honored.
+TEMPLATE="${TEMPLATE_CS:-${TEMPLATE:-$SETUP_DIR/templates/cs-handover.template.md}}"
+HANDOVER_DIR="${HANDOVER_DIR:-$HOME/cs-handovers}"
+TFM="${TFM:-net10.0}"
+# Validated Azure Functions isolated-worker package versions (build clean on net10.0).
+PKG_WORKER="${PKG_WORKER:-2.0.0}"
+PKG_WORKER_SDK="${PKG_WORKER_SDK:-2.0.5}"
+PKG_HTTP="${PKG_HTTP:-2.0.2}"
+export NODE_OPTIONS="${NODE_OPTIONS:---use-system-ca}"
+
+usage() { sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'; }
+
+resolve_project() {
+  local p="$1"
+  if [ -d "$p" ]; then echo "$p"; return 0; fi
+  for base in "$CS_PROTOTYPES" "$CS_PROJECTS"; do
+    [ -d "$base/$p" ] && { echo "$base/$p"; return 0; }
+  done
+  return 1
+}
+
+cmd_route() {
+  local ask="$*"
+  [ -z "$ask" ] && { echo "usage: csw route \"<ask>\"" >&2; exit 1; }
+  [ -x "$PI_BIN" ] || { echo "ERROR: pi not found at $PI_BIN" >&2; exit 1; }
+  local out
+  out="$("$PI_BIN" -e "$PI_EXT" --model "$PI_MODEL" -p --no-session "/cs-route $ask" 2>&1)"
+  printf '%s\n' "$out"
+  if grep -qiE 'VERDICT: *COMPLEX|cs-handovers' <<<"$out"; then
+    local latest; latest="$(ls -t "$HANDOVER_DIR"/*.md 2>/dev/null | head -1 || true)"
+    echo
+    echo "──────────────────────────────────────────────────────────"
+    echo "COMPLEX — next steps (paid steps stay manual):"
+    [ -n "$latest" ] && echo "  handover: $latest"
+    echo "  1) scaffold:  csw new <name>      then fill its larry-handover.prompt.md"
+    echo "                (or run /spec in Claude to expand the handover above)"
+    echo "  2) build:     csw build <name> [N]"
+    echo "──────────────────────────────────────────────────────────"
+  fi
+}
+
+cmd_new() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: csw new <name>" >&2; exit 1; }
+  local dest="$CS_PROTOTYPES/$name"
+  [ -e "$dest" ] && { echo "ERROR: already exists: $dest" >&2; exit 1; }
+  [ -f "$TEMPLATE" ] || { echo "ERROR: handover template missing: $TEMPLATE" >&2; exit 1; }
+
+  mkdir -p "$dest/docs"
+
+  # .csproj — Azure Functions isolated worker (ASP.NET Core integration), validated versions
+  cat > "$dest/$name.csproj" <<CSPROJ
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$TFM</TargetFramework>
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>${name//[^A-Za-z0-9_]/_}</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="$PKG_WORKER" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="$PKG_WORKER_SDK" />
+    <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="$PKG_HTTP" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></None>
+    <None Update="local.settings.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>Never</CopyToPublishDirectory></None>
+  </ItemGroup>
+</Project>
+CSPROJ
+
+  cat > "$dest/Program.cs" <<'CS'
+using Microsoft.Extensions.Hosting;
+
+var host = new HostBuilder()
+    .ConfigureFunctionsWebApplication()
+    .Build();
+
+host.Run();
+CS
+
+  printf '{\n  "version": "2.0",\n  "logging": {\n    "applicationInsights": {\n      "samplingSettings": { "isEnabled": true, "excludedTypes": "Request" }\n    }\n  }\n}\n' > "$dest/host.json"
+  printf '{\n  "IsEncrypted": false,\n  "Values": {\n    "AzureWebJobsStorage": "UseDevelopmentStorage=true",\n    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"\n  }\n}\n' > "$dest/local.settings.json"
+  printf 'bin/\nobj/\nlocal.settings.json\n' > "$dest/.gitignore"
+
+  sed "s/\[PROJECT NAME\]/$name/g" "$TEMPLATE" > "$dest/larry-handover.prompt.md"
+
+  for d in SPEC TASKS; do
+    printf '# %s — %s\n\n_Placeholder — expand via Claude /spec before building._\n' "$name" "$d" \
+      > "$dest/docs/$d.md"
+  done
+
+  echo "Scaffolded C# Azure Functions (isolated) prototype: $dest"
+  echo "  next: fill $dest/larry-handover.prompt.md (or /spec in Claude), then: csw build $name [N]"
+}
+
+cmd_build() {
+  local proj="${1:-}"; shift || true
+  [ -z "$proj" ] && { echo "usage: csw build <name|path> [escalate_after] [--review]" >&2; exit 1; }
+  local root; root="$(resolve_project "$proj")" || { echo "ERROR: project not found: $proj" >&2; exit 1; }
+
+  local esc=""; local -a extra=()
+  for a in "$@"; do
+    if [[ "$a" =~ ^[0-9]+$ ]]; then esc="$a"
+    elif [ "$a" = "--review" ]; then extra+=(--review)
+    else echo "ERROR: unknown build arg '$a' (expected a number and/or --review)" >&2; exit 1; fi
+  done
+
+  # Manifest lint (generic mode): a malformed manifest block silently degrades the
+  # write gate. Full AL checks don't apply to C#. Bypass once with LINT=0.
+  if [ "${LINT:-1}" != "0" ] && [ -f "$HANDOVER_LINT" ]; then
+    if ! python3 "$HANDOVER_LINT" --generic "$root"; then
+      echo "ERROR: handover lint failed — fix the errors above (or bypass once with LINT=0)." >&2
+      exit 1
+    fi
+  fi
+
+  local -a env_pfx=(CODER_BACKEND=pi "PI_CODER_MODEL=$PI_MODEL")
+  if [ -n "$esc" ]; then
+    env_pfx+=("ESCALATE_AFTER=$esc")
+    echo "Build: $root  (escalation ARMED after $esc pi rounds → Claude closes)"
+  else
+    echo "Build: $root  (pi only — no Claude spend)"
+  fi
+  [ ${#extra[@]} -gt 0 ] && echo "  validator-peer review: ON (coms)"
+  exec env "${env_pfx[@]}" python3 "$RUN_BUILD_CS" --project "$root" ${extra[@]+"${extra[@]}"}
+}
+
+cmd_promote() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: csw promote <name>" >&2; exit 1; }
+  local src="$CS_PROTOTYPES/$name"
+  [ -d "$src" ] || { echo "ERROR: prototype not found: $src" >&2; exit 1; }
+  local dest="$CS_PROJECTS/$name"
+  [ -e "$dest" ] && { echo "ERROR: target already exists: $dest" >&2; exit 1; }
+  # Refuse to promote a tree with no proof it passed the referee. Before this,
+  # promote checked only that the source existed and the destination did not, so a
+  # never-built, analyzer-less, or since-edited tree promoted exactly like a good one.
+  # Fail closed: no receipt / stale hash / bare-compile-only all block.
+  if ! SETUP_DIR="$SETUP_DIR" python3 - "$src" <<'PYGATE'
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath("tooling/csw")), "..", "pipeline"))
+sys.path.insert(0, os.path.join(os.environ["SETUP_DIR"], "pipeline"))
+import build_receipt
+ok, why, _ = build_receipt.verify(sys.argv[1], require_review=os.environ.get("REVIEW_REQUIRED") == "1")
+if not ok:
+    print(f"ERROR: refusing to promote — {why}", file=sys.stderr)
+    raise SystemExit(1)
+print("  receipt OK — tree matches a verified build")
+PYGATE
+  then
+    echo "       (override with PROMOTE_FORCE=1 if you accept the risk)" >&2
+    [ "${PROMOTE_FORCE:-0}" = "1" ] || exit 1
+  fi
+  mv "$src" "$dest"
+  echo "Promoted: $src → $dest"
+}
+
+case "${1:-help}" in
+  route|flow|ask) shift; cmd_route "$@" ;;
+  new)            shift; cmd_new "$@"; board_wire project "$CS_PROTOTYPES/${1:-}"; board_wire install-hook "$CS_PROTOTYPES/${1:-}" ;;
+  build)          shift; cmd_build "$@" ;;
+  promote)        shift; cmd_promote "$@"; board_wire promote "$CS_PROJECTS/${1:-}" ;;
+  help|-h|--help) usage ;;
+  *)              echo "unknown command: $1" >&2; usage; exit 1 ;;
+esac

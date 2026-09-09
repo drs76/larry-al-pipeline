@@ -1,0 +1,66 @@
+{
+  "backend": "claude",
+  "tag": "apis_r2",
+  "al_apis": true,
+  "grounded_chars": 8894,
+  "ledger": [
+    {
+      "file": "TSGDocumentLinkAZBlobMgt.Codeunit.al",
+      "first_pass": "GREEN",
+      "first_errors": 0,
+      "first_classes": {},
+      "repair_rounds": 0,
+      "final": "GREEN",
+      "final_errors": 0,
+      "calls": 1,
+      "abs_objects": [
+        "ABS Blob Client",
+        "ABS Operation Response",
+        "ABS Optional Parameters"
+      ],
+      "seconds": 52
+    },
+    {
+      "file": "TSGDocumentLinkAZMgt.Codeunit.al",
+      "first_pass": "GREEN",
+      "first_errors": 0,
+      "first_classes": {},
+      "repair_rounds": 0,
+      "final": "GREEN",
+      "final_errors": 0,
+      "calls": 1,
+      "abs_objects": [
+        "ABS Blob Client",
+        "ABS Operation Response",
+        "ABS Optional Parameters"
+      ],
+      "seconds": 73
+    },
+    {
+      "file": "TSGDocumentLinkBlobMigration.Codeunit.al",
+      "first_pass": "RED",
+      "first_errors": 1,
+      "first_classes": {
+        "AL0440": 1
+      },
+      "repair_rounds": 1,
+      "final": "GREEN",
+      "final_errors": 0,
+      "calls": 2,
+      "abs_objects": [
+        "ABS Blob Client",
+        "ABS Operation Response",
+        "ABS Optional Parameters"
+      ],
+      "seconds": 98
+    }
+  ],
+  "combined": {
+    "restored": 3,
+    "verdict": "GREEN",
+    "errors": 0,
+    "classes": {
+      "PTE0004": 1
+    }
+  }
+}

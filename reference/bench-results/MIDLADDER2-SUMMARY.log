@@ -1,0 +1,58 @@
+suite midladder2  control=ollama/qwen3-coder:30b  challenger=ollama/qwen3-coder:30b
+--- arm isolation preflight ---
+sanitized: 55 vars cleared per run (contract: /mnt/rojaws/localDev/setup/pipeline/runs/midladder2-env-contract.json)
+ambient (inherited, CLEARED before each run): COMS_RELAY_MODEL=ollama/qwen3-coder:30b COMS_VALIDATOR_MODEL=ollama/qwen3-coder:30b ESCALATE_AFTER=4 ESCALATE_MID_AFTER=2 MID_MODEL=openrouter/moonshotai/kimi-k2 PI_CODER_MODEL=ollama/qwen3-coder:30b
+control: declares='EGRESS_POLICY=cloud-mid'
+   mid rung:    absent — no ESCALATE_MID_AFTER declared, and none inheritable
+   claude rung: absent — no ESCALATE_AFTER declared, and none inheritable
+challenger: declares='EGRESS_POLICY=cloud-mid ESCALATE_MID_AFTER=2 MID_MODEL=openrouter/moonshotai/kimi-k2'
+   mid rung:    ARMED at round 2 via openrouter/moonshotai/kimi-k2
+   claude rung: absent — no ESCALATE_AFTER declared, and none inheritable
+each run's banner is asserted against these declarations; a mismatch VOIDs the suite
+-------------------------------
+
+qwen3-coder_30b__doclink__midladder2_control__r1: FAIL(1) in 345s
+qwen3-coder_30b__doclink__midladder2_control__r2: FAIL(1) in 227s
+qwen3-coder_30b__doclink__midladder2_control__r3: FAIL(1) in 214s
+qwen3-coder_30b__doclink__midladder2_control__r4: FAIL(1) in 286s
+qwen3-coder_30b__doclink__midladder2_control__r5: FAIL(1) in 275s
+qwen3-coder_30b__doclink__midladder2_control__r6: FAIL(1) in 327s
+qwen3-coder_30b__doclink__midladder2_control__r7: FAIL(1) in 606s
+qwen3-coder_30b__doclink__midladder2_control__r8: FAIL(1) in 288s
+qwen3-coder_30b__doclink__midladder2_control__r9: FAIL(1) in 229s
+qwen3-coder_30b__doclink__midladder2_control__r10: FAIL(1) in 242s
+qwen3-coder_30b__doclink__midladder2_challenger__r1: FAIL(1) in 234s
+qwen3-coder_30b__doclink__midladder2_challenger__r2: FAIL(1) in 232s
+qwen3-coder_30b__doclink__midladder2_challenger__r3: FAIL(1) in 196s
+qwen3-coder_30b__doclink__midladder2_challenger__r4: FAIL(1) in 266s
+qwen3-coder_30b__doclink__midladder2_challenger__r5: FAIL(1) in 230s
+qwen3-coder_30b__doclink__midladder2_challenger__r6: FAIL(1) in 215s
+qwen3-coder_30b__doclink__midladder2_challenger__r7: FAIL(1) in 274s
+qwen3-coder_30b__doclink__midladder2_challenger__r8: FAIL(1) in 214s
+qwen3-coder_30b__doclink__midladder2_challenger__r9: FAIL(1) in 203s
+qwen3-coder_30b__doclink__midladder2_challenger__r10: FAIL(1) in 193s
+
+=== MIDLADDER2 SUMMARY ===
+  control: 0/10 pass
+    qwen3-coder_30b__doclink__midladder2_control__r1 FAIL(1)   in   345s 
+    qwen3-coder_30b__doclink__midladder2_control__r2 FAIL(1)   in   227s 
+    qwen3-coder_30b__doclink__midladder2_control__r3 FAIL(1)   in   214s 
+    qwen3-coder_30b__doclink__midladder2_control__r4 FAIL(1)   in   286s 
+    qwen3-coder_30b__doclink__midladder2_control__r5 FAIL(1)   in   275s 
+    qwen3-coder_30b__doclink__midladder2_control__r6 FAIL(1)   in   327s 
+    qwen3-coder_30b__doclink__midladder2_control__r7 FAIL(1)   in   606s 
+    qwen3-coder_30b__doclink__midladder2_control__r8 FAIL(1)   in   288s 
+    qwen3-coder_30b__doclink__midladder2_control__r9 FAIL(1)   in   229s 
+    qwen3-coder_30b__doclink__midladder2_control__r10 FAIL(1)   in   242s 
+  challenger: 0/10 pass
+    qwen3-coder_30b__doclink__midladder2_challenger__r1 FAIL(1)   in   234s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r2 FAIL(1)   in   232s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r3 FAIL(1)   in   196s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r4 FAIL(1)   in   266s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r5 FAIL(1)   in   230s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r6 FAIL(1)   in   215s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r7 FAIL(1)   in   274s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r8 FAIL(1)   in   214s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r9 FAIL(1)   in   203s 
+    qwen3-coder_30b__doclink__midladder2_challenger__r10 FAIL(1)   in   193s 
+  total 88 min

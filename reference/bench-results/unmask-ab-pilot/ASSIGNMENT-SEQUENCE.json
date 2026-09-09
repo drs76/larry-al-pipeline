@@ -1,0 +1,25 @@
+{
+  "experiment": "unmask retain-vs-revert",
+  "preregistration": "reference/exp-unmask-revert-preregistration.md @ 9ba5b96",
+  "N_per_arm": 6,
+  "seed": 20260905,
+  "fixture": "tsg-document-link-2-az-storage",
+  "model": "ollama/qwen3-coder:30b",
+  "escalation": "off",
+  "A": "unmask enabled (main tree, 9ba5b96)",
+  "B": "always-revert (armB worktree, reviewed diff)",
+  "sequence": [
+    "A",
+    "B",
+    "B",
+    "B",
+    "B",
+    "A",
+    "A",
+    "A",
+    "B",
+    "A",
+    "A",
+    "B"
+  ]
+}

@@ -1,0 +1,230 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 1s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 89s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 2 missing using-directive(s) across 2 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:09:59.919'.
+  runs/unmaskab_A_r1/src/page/TSGDocumentLinkAZSetupCard.Page.al(51,25): warning AL0482: The image SetEntry is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r1/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r1/src/page/TSGDocumentLinkAZSetupCard.Page.al(58,29): error AL0132: 'Page' does not contain a definition for 'GetSecret'
+  runs/unmaskab_A_r1/src/page/TSGDocumentLinkAZSetupCard.Page.al(59,38): error AL0122: Cannot implicitly convert type 'SecretText' to 'Text'. Use an explicit conversion or change the type.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(52,38): error AL0118: The name 'nil' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(93,41): error AL0132: 'Record "Tenant Media"' does not contain a definition for 'FileName'
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(95,42): error AL0118: The name 'ExtractFileName' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(96,28): error AL0118: The name 'ExtractFileExtension' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(47,34): error AL0133: Argument 1: cannot convert from 'InStream' to 'var OutStream'
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(86,34): error AL0133: Argument 1: cannot convert from 'InStream' to 'var OutStream'
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(125,25): error AL0118: The name 'nil' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(153,41): error AL0132: 'Record "Tenant Media"' does not contain a definition for 'FileName'
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(155,42): error AL0118: The name 'ExtractFileName' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(156,28): error AL0118: The name 'ExtractFileExtension' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(45,25): error AL0118: The name 'nil' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(73,41): error AL0132: 'Record "Tenant Media"' does not contain a definition for 'FileName'
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(75,42): error AL0118: The name 'ExtractFileName' does not exist in the current context.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(76,28): error AL0118: The name 'ExtractFileExtension' does not exist in the current context.
+  Compilation ended at '15:10:05.988'.
+  error score: 16
+  ★ new best (error score: 16)
+  RAG: grounded 0, flagged 3 non-existent (of 3)
+  RAG: corrected 1 invented member(s)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 40s (exit 0)
+  snippet-fix: 7 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:10:58.949'.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(52,40): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(52,43): error AL0104: Syntax error, ')' expected
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,30): error AL0104: Syntax error, ')' expected
+  Compilation ended at '15:11:04.444'.
+  error score: 4  (best so far: 16)
+  ★ new best (error score: 4)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: file-rewrite (TSGDocumentLinkBlobMigration.Codeunit.al, TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 17s (exit 0)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 56s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:12:17.825'.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,30): error AL0104: Syntax error, ')' expected
+  Compilation ended at '15:12:22.505'.
+  error score: 2  (best so far: 4)
+  ★ new best (error score: 2)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 4s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:12:26.764'.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,30): error AL0104: Syntax error, ')' expected
+  Compilation ended at '15:12:32.082'.
+  error score: 2  (best so far: 2)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 2s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:12:34.844'.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,30): error AL0104: Syntax error, ')' expected
+  Compilation ended at '15:12:39.413'.
+  error score: 2  (best so far: 2)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 168s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r1/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:15:28.402'.
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(128,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+  runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(128,30): error AL0104: Syntax error, ')' expected
+  Compilation ended at '15:15:34.131'.
+  error score: 2  (best so far: 2)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 2)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:12:17.825'.
+
+runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,27): error AL0224: Expression expected. Provide a valid expression (variable, constant, calculation, or method call).
+runs/unmaskab_A_r1/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(127,30): error AL0104: Syntax error, ')' expected
+
+Compilation ended at '15:12:22.505'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 2 error score)

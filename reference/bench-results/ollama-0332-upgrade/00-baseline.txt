@@ -1,0 +1,12 @@
+=== VERSION ===
+ollama version is 0.31.1
+=== BINARY ===
+/usr/local/bin/ollama
+2026-06-30 38270704 bytes
+=== SERVICE ===
+active
+{ path=/usr/local/bin/ollama ; argv[]=/usr/local/bin/ollama serve ; ignore_errors=no ; start_time=[Sat 2026-08-01 00:46:30 BST] ; stop_time=[n/a] ; pid=623069 ; code=(null) ; status=0/0 }
+=== LOADED ===
+mxbai-embed-large:latest 618387209
+=== JOURNAL BASELINE ===
+2026-08-31 22:40:31

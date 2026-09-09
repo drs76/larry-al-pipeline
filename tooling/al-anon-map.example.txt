@@ -1,0 +1,30 @@
+# al-anon-map.example.txt — name→placeholder map for anonymise.py
+#
+# Copy this to your LOCAL, un-committed map (default:
+# /mnt/rojaws/localDev/al_merge/al-anon-map.txt, or set $AL_ANON_MAP) and fill in
+# your REAL names. This example ships NO real names.
+#
+# Format: one rule per line,  regex<TAB>replacement   (a literal TAB between them).
+# Blank lines and #-comments are ignored. Rules apply IN ORDER, case-insensitive,
+# global. Put longer / more specific patterns first. Use \b for short ambiguous
+# tokens (e.g. \bABC\b so it doesn't match inside another word).
+#
+# GUIDs, /mnt/c/users/<name> paths, and the host are redacted automatically by
+# anonymise.py — you do NOT need rules for those here.
+
+# --- company / employer ---
+My Company Ltd	PerTenantExtension
+My Company	PerTenantExtension
+MYCO	PTE
+
+# --- people ---
+Firstname[._ ]?Lastname	<user>
+\bFirstname\b	<user>
+
+# --- customers (generic placeholders) ---
+Big Customer Name	ClientA
+\bBCN\b	ClientA
+
+# --- vendors / ISVs ---
+Some Vendor Ltd	VendorX
+Some ISV	ISV1

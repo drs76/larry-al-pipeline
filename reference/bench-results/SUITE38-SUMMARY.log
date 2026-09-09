@@ -1,0 +1,44 @@
+suite suite38  control=ollama/qwen3-coder:30b  challenger=ollama/qwen3.8:27b
+projects: p1 p4 map  repeats: 3  max_fix: 3
+
+qwen3-coder_30b__p1__suite38_control__r1: PASS in 83s
+qwen3-coder_30b__p1__suite38_control__r2: PASS in 61s
+qwen3-coder_30b__p1__suite38_control__r3: FAIL(1) in 237s
+qwen3-coder_30b__p4__suite38_control__r1: PASS in 131s
+qwen3-coder_30b__p4__suite38_control__r2: FAIL(1) in 119s
+qwen3-coder_30b__p4__suite38_control__r3: FAIL(1) in 340s
+qwen3-coder_30b__map__suite38_control__r1: PASS in 88s
+qwen3-coder_30b__map__suite38_control__r2: FAIL(1) in 153s
+qwen3-coder_30b__map__suite38_control__r3: PASS in 90s
+qwen3.8_27b__p1__suite38_challenger__r1: PASS in 810s
+qwen3.8_27b__p1__suite38_challenger__r2: PASS in 2285s
+qwen3.8_27b__p1__suite38_challenger__r3: PASS in 525s
+qwen3.8_27b__p4__suite38_challenger__r1: FAIL(1) in 1326s
+qwen3.8_27b__p4__suite38_challenger__r2: FAIL(1) in 1179s
+qwen3.8_27b__p4__suite38_challenger__r3: FAIL(1) in 1256s
+qwen3.8_27b__map__suite38_challenger__r1: FAIL(1) in 1629s
+qwen3.8_27b__map__suite38_challenger__r2: FAIL(1) in 2183s
+qwen3.8_27b__map__suite38_challenger__r3: FAIL(1) in 1482s
+
+=== SUITE38 SUMMARY ===
+  control: 5/9 pass
+    qwen3-coder_30b__p1__suite38_control__r1 PASS      in   83s 
+    qwen3-coder_30b__p1__suite38_control__r2 PASS      in   61s 
+    qwen3-coder_30b__p1__suite38_control__r3 FAIL(1)   in   237s 
+    qwen3-coder_30b__p4__suite38_control__r1 PASS      in   131s 
+    qwen3-coder_30b__p4__suite38_control__r2 FAIL(1)   in   119s 
+    qwen3-coder_30b__p4__suite38_control__r3 FAIL(1)   in   340s 
+    qwen3-coder_30b__map__suite38_control__r1 PASS      in   88s 
+    qwen3-coder_30b__map__suite38_control__r2 FAIL(1)   in   153s 
+    qwen3-coder_30b__map__suite38_control__r3 PASS      in   90s 
+  challenger: 3/9 pass
+    qwen3.8_27b__p1__suite38_challenger__r1 PASS      in   810s 
+    qwen3.8_27b__p1__suite38_challenger__r2 PASS      in   2285s 
+    qwen3.8_27b__p1__suite38_challenger__r3 PASS      in   525s 
+    qwen3.8_27b__p4__suite38_challenger__r1 FAIL(1)   in   1326s 
+    qwen3.8_27b__p4__suite38_challenger__r2 FAIL(1)   in   1179s 
+    qwen3.8_27b__p4__suite38_challenger__r3 FAIL(1)   in   1256s 
+    qwen3.8_27b__map__suite38_challenger__r1 FAIL(1)   in   1629s 
+    qwen3.8_27b__map__suite38_challenger__r2 FAIL(1)   in   2183s 
+    qwen3.8_27b__map__suite38_challenger__r3 FAIL(1)   in   1482s 
+  total 233 min

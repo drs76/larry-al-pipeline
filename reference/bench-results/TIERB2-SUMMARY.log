@@ -1,0 +1,43 @@
+Tier B Part 2 — Claude takeover of stalled Qwen states
+registration: reference/exp-tierb-claude-preregistration.md
+frozen corpus manifest: tierb-part2-corpus-manifest.md  sha256=c85ebfe368194755d821c3146255e028cea3e872b995f52a70d421b8ee456527
+candidates: 8 (fixed; no reserves, no early stop, no redraw)
+path: --skip-larry (repair only — Claude takes over, it does not write from scratch)
+egress: enterprise-anon (Anthropic only). Scrub covers mirrored FILES, not the prompt.
+
+claude-takeover__doclinkclean2_challenger__r3: tree hash OK (ab9a86b5d580790acaa20001e44f2c010fdaf69c4ed4fabb6a296a24713d2fb1)
+claude-takeover__doclinkclean2_challenger__r3: preflight PASS
+claude-takeover__doclinkclean2_challenger__r3: CLOSED in 41s
+claude-takeover__doclinkclean3_challenger__r5: tree hash OK (9b6f811b480bb4533c9477556f311c5f1a9d8832ac7446c2673a5d1b07867525)
+claude-takeover__doclinkclean3_challenger__r5: preflight PASS
+claude-takeover__doclinkclean3_challenger__r5: CLOSED in 57s
+claude-takeover__doclinkclean3_challenger__r1: tree hash OK (342891fb4545c34287288794171786322cd653912ad7ce7cf524b97b080883d2)
+claude-takeover__doclinkclean3_challenger__r1: preflight PASS
+claude-takeover__doclinkclean3_challenger__r1: CLOSED in 54s
+claude-takeover__doclinkclean3_control__r2: tree hash OK (87c8d7338c514d467fbd03d1fbc043914f7412eadf333f13ac8fbfaafb7d4fd5)
+claude-takeover__doclinkclean3_control__r2: preflight PASS
+claude-takeover__doclinkclean3_control__r2: CLOSED in 54s
+claude-takeover__doclinkclean3_control__r4: tree hash OK (01afa6f1f14a758cb75c544ef7f811f7b2f67c47fe0146f605e49195f07a3b36)
+claude-takeover__doclinkclean3_control__r4: preflight PASS
+claude-takeover__doclinkclean3_control__r4: CLOSED in 281s
+claude-takeover__doclinkclean3_challenger__r4: tree hash OK (dc26e54790ee5377a65cc00ddf67a7fa45c6554e68857bb699de3ae6a1a0c2ca)
+claude-takeover__doclinkclean3_challenger__r4: preflight PASS
+claude-takeover__doclinkclean3_challenger__r4: CLOSED in 87s
+claude-takeover__doclinkclean2_control__r4: tree hash OK (3f8f40b33738c1f074722fd675c369b27719b4a403cd813fdcc0c01e3595f643)
+claude-takeover__doclinkclean2_control__r4: preflight PASS
+claude-takeover__doclinkclean2_control__r4: CLOSED in 113s
+claude-takeover__doclinkclean2_control__r2: tree hash OK (151490174e7fa4f55109ae4afef493072eab8cb3bafaa51cf655ad6c80265b11)
+claude-takeover__doclinkclean2_control__r2: preflight PASS
+claude-takeover__doclinkclean2_control__r2: CLOSED in 157s
+
+=== TIERB2 SUMMARY ===
+  terminal closure: 8/8
+    claude-takeover__doclinkclean2_challenger__r3: CLOSED in 41s
+    claude-takeover__doclinkclean3_challenger__r5: CLOSED in 57s
+    claude-takeover__doclinkclean3_challenger__r1: CLOSED in 54s
+    claude-takeover__doclinkclean3_control__r2: CLOSED in 54s
+    claude-takeover__doclinkclean3_control__r4: CLOSED in 281s
+    claude-takeover__doclinkclean3_challenger__r4: CLOSED in 87s
+    claude-takeover__doclinkclean2_control__r4: CLOSED in 113s
+    claude-takeover__doclinkclean2_control__r2: CLOSED in 157s
+  total 16 min

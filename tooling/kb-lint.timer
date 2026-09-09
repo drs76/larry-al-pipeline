@@ -1,0 +1,11 @@
+[Unit]
+Description=Nightly memory-wiki lint timer
+
+[Timer]
+# After Larry's 03:30 index run, so a report reflects the freshly indexed state.
+OnCalendar=*-*-* 04:15:00
+RandomizedDelaySec=600
+Persistent=true
+
+[Install]
+WantedBy=timers.target

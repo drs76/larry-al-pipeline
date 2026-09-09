@@ -1,0 +1,12 @@
+[Unit]
+Description=Weekly MS Learn drift check
+
+[Timer]
+# Weekly: Learn pages revise on release cadences, not daily. Persistent=true
+# catches up after the box was off on the scheduled morning.
+OnCalendar=Mon 07:30
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+ROUTING ECONOMICS — routecon
+registration: reference/exp-routing-economics-preregistration.md
+allocation: 4 fixtures x 3 arms x 10 = 120 runs
+fixtures: p1 p4 map doclink   arms: A B C   model: ollama/qwen3-coder:30b (fixed across arms)
+arm A: escalation OFF   arm B: ESCALATE_AFTER=4   arm C: ESCALATE_ON_RULE=1 v1:553cfa8b91e6a4e8
+sanitized 59 env vars per run; every arm sets its policy EXPLICITLY
+CLAUDE_USAGE_STRICT=1; no spend cap — the 120-run allocation is the only exposure bound
+per-fixture analysis only; no pooled workload metric (weighting deferred)
+
+VOID: routecon__p1__armA__r1 integrity failure - produced NO new metrics row - a run with no measurement is not a zero result
+suite stopped — a measurement-integrity guard fired, not a budget one

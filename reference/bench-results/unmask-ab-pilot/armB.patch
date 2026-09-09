@@ -1,0 +1,19 @@
+diff --git a/pipeline/run-build.py b/pipeline/run-build.py
+index f310c6c..c82fe4b 100755
+--- a/pipeline/run-build.py
++++ b/pipeline/run-build.py
+@@ -3449,11 +3449,9 @@ def main():
+             if (best_keys and cur_keys and not (best_keys & cur_keys)
+                     and manifest_fail == best["manifest_fail"]):
+                 print(f"  Unmask: all {len(best_keys)} previous error(s) cleared; "
+-                      f"{len(cur_keys)} newly surfaced — fixing forward, not reverting.")
+-                best = {"errs": errs, "snap": snapshot_src(), "report": report,
+-                        "findings": all_findings, "manifest_fail": manifest_fail,
+-                        "build_ok": build_ok, "diags": list(_last_diags)}
+-                fix_findings = all_findings
++                      f"{len(cur_keys)} newly surfaced — ARM B: reverting, not fixing forward.")
++                restore_src(best["snap"])
++                fix_findings = best["findings"]
+             else:
+                 print(f"  Round regressed ({errs} > best {best['errs']}) — reverting to best before fixing.")
+                 restore_src(best["snap"])

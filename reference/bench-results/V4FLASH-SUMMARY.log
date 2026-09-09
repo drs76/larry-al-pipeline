@@ -1,0 +1,4 @@
+v4flash r1: FAIL(1) in 1239s
+v4flash r2: PASS in 1102s
+v4flash r3: FAIL(1) in 728s
+=== V4FLASH DONE ===

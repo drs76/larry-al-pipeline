@@ -1,0 +1,7 @@
+# Tier B Part 1 — immutable run record, frozen 2026-08-23T20:04Z
+# commit e015f41; fixture 422c749; handover e82168cb3857
+claude-code__doclink__tierb1__r1  src_tree_sha256=b409cc5c74194b9a2c1f89562d6eb7d18e0c8eabf2573c0e901e495080d0d5c0  files=8
+claude-code__doclink__tierb1__r2  src_tree_sha256=33e6d5fe2ddbc8f2abf2eabf19f9f0e045de7f5488d30fa3fe8b617dd2496fb6  files=8
+claude-code__doclink__tierb1__r3  src_tree_sha256=52751814573ca35962bbfe177ff4f9ee989162708c7f505b38c480419d47e833  files=8
+claude-code__doclink__tierb1__r4  src_tree_sha256=93f198acde1ec06cf3c4a4450b1f086d884f97ae1dc6baea6f901f11310d2f4a  files=8
+claude-code__doclink__tierb1__r5  src_tree_sha256=5f49f27e31fbcbef331d515b41cafed45f91131fc3e75b18d3161de7bb9c6e3e  files=8

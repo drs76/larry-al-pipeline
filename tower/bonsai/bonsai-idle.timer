@@ -1,0 +1,10 @@
+[Unit]
+Description=Poll Bonsai idle state every 5 min
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+Unit=bonsai-idle.service
+
+[Install]
+WantedBy=timers.target

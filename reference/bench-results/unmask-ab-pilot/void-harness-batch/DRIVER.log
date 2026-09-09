@@ -1,0 +1,13 @@
+  run 1 arm A  rc=1  3s  triggers=0  RESULT: (none)
+  run 2 arm B  rc=1  2s  triggers=0  RESULT: (none)
+  run 3 arm B  rc=1  2s  triggers=0  RESULT: (none)
+  run 4 arm B  rc=1  3s  triggers=0  RESULT: (none)
+  run 5 arm B  rc=1  3s  triggers=0  RESULT: (none)
+  run 6 arm A  rc=1  2s  triggers=0  RESULT: (none)
+  run 7 arm A  rc=1  2s  triggers=0  RESULT: (none)
+  run 8 arm A  rc=1  2s  triggers=0  RESULT: (none)
+  run 9 arm B  rc=1  2s  triggers=0  RESULT: (none)
+  run 10 arm A  rc=1  3s  triggers=0  RESULT: (none)
+  run 11 arm A  rc=1  2s  triggers=0  RESULT: (none)
+  run 12 arm B  rc=1  2s  triggers=0  RESULT: (none)
+batch complete — 12 runs

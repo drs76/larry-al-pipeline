@@ -1,0 +1,219 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 74s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 2 missing using-directive(s) across 2 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:40:18.778'.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+  Compilation ended at '15:40:23.623'.
+  error score: 1
+  ★ new best (error score: 1)
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 7s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al: 'local procedure MigrateDocLinks()'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 31s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:41:02.358'.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+  Compilation ended at '15:41:07.042'.
+  error score: 1  (best so far: 1)
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 7s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:41:14.565'.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+  Compilation ended at '15:41:21.111'.
+  error score: 1  (best so far: 1)
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 3s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al: 'if ("Document Type" = DocumentType::"Purchase Order") then'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 66s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:42:30.203'.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+  Compilation ended at '15:42:36.144'.
+  error score: 1  (best so far: 1)
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 3s (exit 0)
+  snippet-fix: 0 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al: 'local procedure SetStorageAccountName()'
+  snippet-fix produced nothing — falling back to full fix message
+  Running Pi (Larry (Pi)-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-fix done in 32s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:43:12.755'.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+  Compilation ended at '15:43:18.077'.
+  error score: 1  (best so far: 1)
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 28s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_A_r7/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:43:46.756'.
+  runs/unmaskab_A_r7/src/page/TSGDocumentLinkAZSetupCard.Page.al(68,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_A_r7/src/page/TSGDocumentLinkAZSetupCard.Page.al(53,48): error AL0118: The name 'Prompt' does not exist in the current context.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(54,53): error AL0132: 'Record "Document Attachment"' does not contain a definition for 'File Name No Extension'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(59,52): error AL0118: The name 'ReadStream' does not exist in the current context.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(60,71): error AL0118: The name 'ReadStream' does not exist in the current context.
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(43,34): error AL0133: Argument 1: cannot convert from 'InStream' to 'var OutStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(44,20): error AL0133: Argument 1: cannot convert from 'InStream' to 'OutStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(44,32): error AL0133: Argument 2: cannot convert from 'OutStream' to 'InStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(73,34): error AL0133: Argument 1: cannot convert from 'InStream' to 'var OutStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(74,20): error AL0133: Argument 1: cannot convert from 'InStream' to 'OutStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(74,32): error AL0133: Argument 2: cannot convert from 'Codeunit System.Utilities."Temp Blob"' to 'InStream'
+  runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(39,37): error AL0132: 'Record "Document Attachment"' does not contain a definition for 'File Name No Extension'
+  Compilation ended at '15:43:53.022'.
+  error score: 11  (best so far: 1)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 1)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:40:18.778'.
+
+runs/unmaskab_A_r7/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(62,17): error AL0110: Orphaned ELSE statement. This is most likely because of an unnecessary semicolon placed just before the ELSE keyword
+
+Compilation ended at '15:40:23.623'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 1 error score)

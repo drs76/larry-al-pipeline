@@ -1,0 +1,20 @@
+{
+  "id": "3f2a8c14-9d6b-4e77-a1c0-5b8e2d4f6a91",
+  "name": "AL Runtime Probes",
+  "publisher": "SinclairSoftScotland",
+  "version": "1.0.0.0",
+  "brief": "Runtime assertions for AL-REFERENCE claims the compiler cannot check",
+  "description": "Test codeunits that assert documented AL runtime behaviour on a live BC instance.",
+  "platform": "27.0.0.0",
+  "application": "27.0.0.0",
+  "runtime": "16.0",
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50149
+    }
+  ],
+  "resourceFolders": [
+    "res"
+  ]
+}

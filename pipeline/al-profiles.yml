@@ -1,0 +1,90 @@
+# AL deployment profiles — what "good enough to ship" means for a given destination.
+#
+# The same source is held to different standards depending on where it is going. A
+# throwaway internal prototype and an AppSource submission are not the same bar, and
+# encoding that difference in pipeline code means changing Python to change policy.
+# These are data: a profile tightens checks without touching the pipeline.
+#
+# `internal` is the DEFAULT and reproduces the pipeline's historical behaviour exactly.
+# A test asserts that, because a profile system that silently changes every existing
+# build is a regression wearing a feature's clothes.
+#
+# Enforcement is honest. Keys under `declared:` are policy this pipeline records but
+# cannot yet check (they need AL-7's breaking-change analyser); al_profiles reports them
+# as unenforced rather than letting a profile imply a guarantee it does not deliver.
+
+defaults:
+  analyzers: [CodeCop, UICop, PerTenantExtensionCop]
+  allow_bare_compile: false
+  required_app_json: [id, name, publisher, version, runtime, application]
+  # off | optional | required — `required` also means the receipt must prove they ran
+  tests: "off"          # quoted: YAML 1.1 reads bare off/no as boolean False
+  # none | advisory | required — `required` additionally demands an independent reviewer
+  review: advisory
+  fail_on_warning: false
+  # diagnostic codes promoted from warning to build-failing for this destination
+  escalate: []
+  # app.json `target` this profile demands; null = don't care
+  require_target: null
+  # null = not checked | warn = report only | none = BREAKING fails | strict = WARNING fails
+  # Anything but null/warn REQUIRES a baseline .app (AL_UPGRADE_BASELINE) — a policy that
+  # cannot be checked must not read as satisfied.
+  breaking_changes: null
+  knowledge:
+    max_rules: 12
+    domains: null            # null = all
+
+profiles:
+
+  internal:
+    description: >-
+      Prototypes and experiments. The historical default: compiler plus cops, review
+      advisory, no tests demanded.
+
+  customer:
+    description: >-
+      Work delivered to a named customer. Tests expected where they exist and the review
+      must be independent, because nobody else is going to read it before it lands.
+    tests: optional
+    review: required
+    escalate: [AA0218, AA0194]      # missing tooltip / action without OnAction reach users
+
+  pte:
+    description: >-
+      Per-Tenant Extension. PerTenantExtensionCop is the point of this profile, and a PTE
+      is installed into a live tenant, so metadata and permissions must be complete.
+    required_app_json: [id, name, publisher, version, runtime, application, idRanges]
+    tests: optional
+    review: required
+    escalate: [AA0218, PTE0004]     # PTE0004 = missing permission set
+
+  appsource:
+    description: >-
+      AppSource submission. The strictest profile: Microsoft's validation will reject on
+      things this pipeline can check first, and a rejected submission costs days.
+      target=Cloud matters twice over — it is required for AppSource AND it makes the
+      compiler itself refuse OnPrem-scoped APIs, so allowed-API policy is enforced by
+      the toolchain rather than guessed at here.
+    analyzers: [CodeCop, UICop, PerTenantExtensionCop, AppSourceCop]
+    required_app_json:
+      [id, name, publisher, version, runtime, application, brief, description,
+       privacyStatement, EULA, help, url, logo, idRanges]
+    require_target: Cloud
+    tests: required
+    review: required
+    fail_on_warning: true
+    # AppSource will not accept a breaking change to an already-published surface.
+    breaking_changes: none
+
+  upgrade:
+    description: >-
+      Re-releasing over an installed version. The risk is not "does it compile" but
+      "does it break what is already deployed". al_upgrade answers that by comparing this
+      build against the baseline .app named in AL_UPGRADE_BASELINE; without one, the
+      profile refuses rather than passing something it never checked.
+    tests: required
+    review: required
+    escalate: [AL0432, AL0433]      # obsoleted member referenced
+    breaking_changes: strict
+    declared:
+      upgrade_codeunits: required   # still unenforced: nothing inspects upgrade codeunits

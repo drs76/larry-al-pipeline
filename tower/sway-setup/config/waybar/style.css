@@ -1,0 +1,74 @@
+* {
+    font-family: "JetBrains Mono", "Symbols Nerd Font", "Font Awesome 6 Free", monospace;
+    font-size: 16px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-bottom: 2px solid #313244;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 4px 2px;
+    color: #a6adc8;
+    background: #313244;
+    border-radius: 6px;
+    border-bottom: 2px solid #585b70;
+}
+#workspaces button:hover {
+    background: #45475a;
+    border-bottom: 2px solid #89b4fa;
+}
+#workspaces button.focused {
+    color: #1e1e2e;
+    background: #a6e3a1;
+    border-bottom: 2px solid #a6e3a1;
+}
+#workspaces button.urgent {
+    color: #1e1e2e;
+    background: #f38ba8;
+    border-bottom: 2px solid #f38ba8;
+}
+
+#mode {
+    color: #1e1e2e;
+    background: #f9e2af;
+    padding: 0 10px;
+    margin: 4px 2px;
+    border-radius: 6px;
+}
+
+#clock,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#battery,
+#network,
+#pulseaudio,
+#tray {
+    padding: 0 12px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    color: #1e1e2e;
+}
+
+#pulseaudio  { background: #f5c2e7; }
+#backlight   { background: #f9e2af; }
+#network     { background: #89b4fa; }
+#cpu         { background: #a6e3a1; }
+#memory      { background: #cba6f7; }
+#temperature { background: #fab387; }
+#battery     { background: #94e2d5; }
+#clock       { background: #89dceb; }
+#tray        { background: #313244; }
+/* Glyph ink is ~0.9x font-size, so 26px tracks the tray icon-size of 24. */
+#custom-power { background: #f38ba8; padding: 0 14px; font-size: 26px; }
+
+#battery.warning  { background: #f9e2af; }
+#battery.critical { background: #f38ba8; color: #1e1e2e; }
+#temperature.critical { background: #f38ba8; }
+#network.disconnected { background: #6c7086; color: #cdd6f4; }

@@ -1,0 +1,27 @@
+Tier B Part 1 — full-run Claude capability, doclink, n=5
+registration: reference/exp-tierb-claude-preregistration.md
+egress: enterprise-anon (Anthropic only; openrouter and github denied)
+scrub boundary: tracked FILES are mirrored; the PROMPT is not scrubbed and inlines
+  the whole handover. In scope for this synthetic fixture; NOT a guarantee for
+  customer material.
+sanitized 56 env vars per run; no escalation rung — Claude is the CODER
+
+--- claude-code__doclink__tierb1__r1 : preflight
+claude-code__doclink__tierb1__r1: preflight PASS
+claude-code__doclink__tierb1__r1: PASS in 251s
+--- claude-code__doclink__tierb1__r2 : preflight
+claude-code__doclink__tierb1__r2: preflight PASS
+claude-code__doclink__tierb1__r2: PASS in 269s
+--- claude-code__doclink__tierb1__r3 : preflight
+claude-code__doclink__tierb1__r3: preflight PASS
+claude-code__doclink__tierb1__r3: PASS in 334s
+--- claude-code__doclink__tierb1__r4 : preflight
+claude-code__doclink__tierb1__r4: preflight PASS
+claude-code__doclink__tierb1__r4: PASS in 347s
+--- claude-code__doclink__tierb1__r5 : preflight
+claude-code__doclink__tierb1__r5: preflight PASS
+claude-code__doclink__tierb1__r5: PASS in 308s
+
+=== TIERB1 SUMMARY ===
+  terminal pass: 5/5
+  total 25 min

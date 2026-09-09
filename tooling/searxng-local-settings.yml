@@ -1,0 +1,57 @@
+# Config for the OFF-LAN SearXNG fallback container (searxng-local, 127.0.0.1:8888).
+# The LAN instance is LXC 111 on nemesis; its config is projects/searxng/searxng/settings.yml.
+# Install with `searxng-local install` -- do not symlink this file into
+# ~/.config/searxng-local, the container bind-mounts that directory and a symlink
+# pointing outside it does not resolve inside the container.
+#
+# secret_key is filled in by the install script from ~/.config/searxng-local/.secret,
+# which is generated per machine and never committed.
+
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "Local SearXNG (off-LAN fallback)"
+
+server:
+  secret_key: "__SECRET_KEY__"
+  limiter: false
+  image_proxy: true
+  port: 8080
+  bind_address: "0.0.0.0"
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "en"
+  formats:
+    - html
+    - json
+
+ui:
+  static_use_hash: true
+
+outgoing:
+  request_timeout: 10.0
+
+enabled_plugins:
+  - Basic Calculator
+  - Hash plugin
+  - Tracker URL remover
+
+# 2026-08-29: on LXC 111 every default general engine was blocked at once --
+# duckduckgo and startpage served CAPTCHAs, brave 429'd, google returned empty
+# with no error -- so searches came back with zero results. bing and yandex were
+# disabled by default and both still worked, so they are enabled here as well.
+# A roaming client is less likely to be blocked than a fixed datacenter-ish IP,
+# so treat these two as extra coverage rather than as the primary engines.
+#
+# bing is weighted down because it broad-matches: on a multi-term query it drops
+# the qualifying terms and ranks the generic landing page first.
+engines:
+  - name: bing
+    disabled: false
+    weight: 0.3
+  - name: yandex
+    disabled: false
+    weight: 1.2

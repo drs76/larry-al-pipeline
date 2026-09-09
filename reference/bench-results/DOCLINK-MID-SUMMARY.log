@@ -1,0 +1,4 @@
+doclink+kimi r1: PASS in 445s
+doclink+kimi r2: FAIL(1) in 448s
+doclink+kimi r3: FAIL(1) in 527s
+=== DOCLINK-MID DONE ===

@@ -1,0 +1,9 @@
+arm             inv  hint  AL0104  rewrites  hint fired  trajectory                        result
+neither         0    0     310     8         0           46 -> 46 -> 46 -> 46 -> 46 -> 46 ...FAIL
+hint-only       0    1     31      1         1           46 -> 1 -> 1 -> 1 -> 1 -> 1 ...   PASS
+invariant-only  1    0     31      1         0           46 -> 1 -> 1 -> 3 -> 3 -> 3 ...   FAIL
+both            1    1     62      2         1           46 -> 46 -> 1 -> 3 -> 3 -> 2 ...  FAIL
+
+n=1 per cell. Descriptive separation only — no effect estimate.
+'hint fired' = hints appended at the seeded round. Only AL0104/AL0107 are present
+there, so a non-zero count can only be the inline-var hint.

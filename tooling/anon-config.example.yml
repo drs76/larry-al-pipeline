@@ -1,0 +1,16 @@
+# .anon/config.yml — per-repo egress policy (anon hook §0).
+#
+# Copy to <your-repo>/.anon/config.yml and GITIGNORE the .anon/ dir.
+# Only `policy:` is read in phase 1. Resolution order:
+#   this file's policy:  >  env EGRESS_POLICY  >  local-only (deny-by-default)
+#
+# Profiles:
+#   local-only       no Anthropic egress; Claude calls hard-blocked (default, safe)
+#   enterprise-anon  Anthropic only via the anon hook (CLAUDE_ANON=1); refuses until built
+#   personal         raw Claude allowed (own box, non-work code)
+
+policy: local-only
+
+# Later phases (map/secret-gate) will also read from here, e.g.:
+# secrets: block          # fail-closed on high-confidence secrets
+# names: .anon/map.tsv     # reversible token map (gitignored)

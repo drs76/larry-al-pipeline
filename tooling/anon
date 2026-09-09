@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+"""anon — egress-policy gate for the work→Claude path (anon hook, phase 1).
+
+Phase 1 = the deny-by-default gate only; token scrubbing (map/reverse/secret gate)
+is later phases. This wraps the standalone `claude` entry so a work repo cannot
+reach Anthropic unless policy allows it.
+
+  anon policy [--repo DIR]           show the resolved egress profile
+  anon claude [--repo DIR] <prompt>  run `claude -p <prompt>` iff policy allows
+  anon check                         self-test the gate for each profile
+  anon forward [--repo DIR] <in> <out>   scrub reals -> placeholders (extends .anon/map.tsv)
+  anon reverse [--repo DIR] <in> <out>   restore placeholders -> reals
+  anon secrets <in>                      scan for secrets (exit 2 if any high-confidence)
+  anon scrub [--repo DIR] <in> <out>     forward + redact secrets + no-leak gate (safe to send)
+                                         [--allow-secrets to override a high finding]
+  anon run [--repo DIR] <prompt>         Mode B: run Claude agentically on a scrubbed mirror,
+                                         reverse-map its diff, apply to the real repo
+                                         [--allow-secrets to override a high finding]
+
+Policy resolution (deny-by-default): repo .anon/config.yml `policy:` > env
+EGRESS_POLICY > local-only. Shares pipeline/egress_policy.py — single source of truth.
+See tooling/anon-claude-hook.spec.md §0.
+"""
+import os
+import sys
+import subprocess
+
+# Reuse the pipeline's policy module (sibling dir) — no duplicated logic.
+# realpath() follows a symlink (e.g. ~/.local/bin/anon) back to <repo>/tooling/anon
+# so the sibling pipeline/ dir resolves; LARRY_REPO overrides for a plain copy install.
+_REPO = os.environ.get("LARRY_REPO") or os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+sys.path.insert(0, os.path.join(_REPO, "pipeline"))
+import egress_policy   # noqa: E402
+import anon_map        # noqa: E402
+import secret_gate     # noqa: E402
+import anon_workspace  # noqa: E402
+import claude_egress   # noqa: E402
+
+CLAUDE_BIN = os.path.expanduser(os.environ.get("CLAUDE_BIN", "~/.local/bin/claude"))
+
+
+def _anon_paths(root):
+    a = os.path.join(root, ".anon")
+    return os.path.join(a, "map.tsv"), os.path.join(a, "names.tsv")
+
+
+def _repo_arg(argv):
+    """Pop `--repo DIR` from argv; default to cwd."""
+    root = os.getcwd()
+    if "--repo" in argv:
+        i = argv.index("--repo")
+        if i + 1 >= len(argv):
+            sys.exit("anon: --repo needs a directory")
+        root = argv[i + 1]
+        del argv[i:i + 2]
+    return os.path.abspath(root), argv
+
+
+def cmd_policy(argv):
+    root, _ = _repo_arg(argv)
+    print(egress_policy.set_policy_for(root))
+
+
+def cmd_claude(argv):
+    root, argv = _repo_arg(argv)
+    prompt = " ".join(argv).strip()
+    if not prompt:
+        sys.exit("anon claude: empty prompt")
+    egress_policy.set_policy_for(root)
+    ok, reason = egress_policy.allowed("anthropic")
+    if not ok:
+        print(f"⛔ blocked — {reason}", file=sys.stderr)
+        sys.exit(3)
+    if not os.path.exists(CLAUDE_BIN):
+        sys.exit(f"anon: claude not found at {CLAUDE_BIN}")
+    # Under enterprise-anon there is NO raw-prompt path. This used to os.execv claude
+    # with the ORIGINAL prompt once the gate said yes — and the gate said yes to anyone
+    # who exported CLAUDE_ANON=1. (The old comment here claimed the scrub was "a later
+    # phase"; it had in fact already landed in pipeline/claude_egress.py, which is what
+    # this now delegates to.) personal keeps raw execution; local-only already blocked
+    # above.
+    if egress_policy.policy() == "enterprise-anon":
+        print(f"✔ policy 'enterprise-anon' — routing through the scrubbed mirror")
+        out = claude_egress.run_claude(root, prompt, CLAUDE_BIN, label="anon claude")
+        if not out:
+            sys.exit(3)
+        print(out)
+        return
+    print(f"✔ policy '{egress_policy.policy()}' allows egress — running claude in {root}")
+    os.execv(CLAUDE_BIN, [CLAUDE_BIN, "-p", prompt])
+
+
+def cmd_forward(argv):
+    root, argv = _repo_arg(argv)
+    if len(argv) < 2:
+        sys.exit("usage: anon forward [--repo DIR] <in> <out>")
+    src, dst = argv[0], argv[1]
+    mp, names = _anon_paths(root)
+    amap = anon_map.AnonMap().load(mp)
+    lits = anon_map.load_names(names)
+    text = open(src, encoding="utf-8", errors="replace").read()
+    out = anon_map.forward(text, amap, lits)
+    leaked = anon_map.residual_reals(out, amap)
+    if leaked:
+        sys.exit(f"anon forward: ABORT — {len(leaked)} declared real(s) still present: {leaked[:3]}")
+    amap.save(mp)
+    open(dst, "w", encoding="utf-8").write(out)
+    print(f"forward {src} -> {dst}  (map: {len(amap.rev)} entries, {len(lits)} name rules)")
+
+
+def cmd_reverse(argv):
+    root, argv = _repo_arg(argv)
+    if len(argv) < 2:
+        sys.exit("usage: anon reverse [--repo DIR] <in> <out>")
+    src, dst = argv[0], argv[1]
+    mp, _ = _anon_paths(root)
+    amap = anon_map.AnonMap().load(mp)
+    text = open(src, encoding="utf-8", errors="replace").read()
+    open(dst, "w", encoding="utf-8").write(anon_map.reverse(text, amap))
+    print(f"reverse {src} -> {dst}  (map: {len(amap.rev)} entries)")
+
+
+def cmd_secrets(argv):
+    root, argv = _repo_arg(argv)
+    if not argv:
+        sys.exit("usage: anon secrets <in>")
+    text = open(argv[0], encoding="utf-8", errors="replace").read()
+    findings = secret_gate.scan(text)
+    if not findings:
+        print("no secrets found")
+        return
+    for f in findings:
+        print(f"  {f['confidence'].upper():4} {f['name']:20} {f['preview']}")
+    if any(f["confidence"] == "high" for f in findings):
+        sys.exit(2)
+
+
+def cmd_scrub(argv):
+    root, argv = _repo_arg(argv)
+    allow = "--allow-secrets" in argv
+    if allow:
+        argv.remove("--allow-secrets")
+    if len(argv) < 2:
+        sys.exit("usage: anon scrub [--repo DIR] <in> <out> [--allow-secrets]")
+    src, dst = argv[0], argv[1]
+    mp, names = _anon_paths(root)
+    amap = anon_map.AnonMap().load(mp)
+    lits = anon_map.load_names(names)
+    text = open(src, encoding="utf-8", errors="replace").read()
+
+    scrubbed = anon_map.forward(text, amap, lits)           # reversible tokens
+    ok, redacted, findings = secret_gate.gate(scrubbed, allow_high=allow)
+    high = [f for f in findings if f["confidence"] == "high"]
+    if not ok:
+        print("⛔ scrub ABORT — high-confidence secret(s); remove them (or --allow-secrets):",
+              file=sys.stderr)
+        for f in high:
+            print(f"    HIGH {f['name']} {f['preview']}", file=sys.stderr)
+        sys.exit(2)
+
+    # Pre-network no-leak assertion (§9): no declared real, no live secret survives.
+    leaked = anon_map.residual_reals(redacted, amap)
+    live = secret_gate.scan(redacted)
+    if leaked or live:
+        print(f"⛔ scrub ABORT — no-leak check failed (reals={leaked[:3]}, secrets={len(live)})",
+              file=sys.stderr)
+        sys.exit(2)
+
+    amap.save(mp)
+    open(dst, "w", encoding="utf-8").write(redacted)
+    print(f"scrub {src} -> {dst}  (map: {len(amap.rev)} tokens, "
+          f"secrets redacted: {len(findings)} [{len(high)} high])")
+
+
+def _claude_coder(mirror, prompt):
+    if not os.path.exists(CLAUDE_BIN):
+        sys.exit(f"anon: claude not found at {CLAUDE_BIN}")
+    print("  running claude in the scrubbed mirror…")
+    subprocess.run([CLAUDE_BIN, "-p", prompt, "--permission-mode", "bypassPermissions"],
+                   cwd=mirror)
+
+
+def cmd_run(argv):
+    root, argv = _repo_arg(argv)
+    allow = "--allow-secrets" in argv
+    if allow:
+        argv.remove("--allow-secrets")
+    prompt = " ".join(argv).strip()
+    if not prompt:
+        sys.exit("usage: anon run [--repo DIR] <prompt> [--allow-secrets]")
+    # This flow IS the anon hook — it provides the scrub, so it satisfies the
+    # enterprise-anon requirement. local-only still blocks (no egress, ever).
+    # Armed via the context manager, not an env var: the authority must not outlive
+    # this call or be settable by anything outside the process.
+    egress_policy.set_policy_for(root)
+    with egress_policy.anon_scrub_active():
+        ok, reason = egress_policy.allowed("anthropic")
+        if not ok:
+            print(f"⛔ blocked — {reason}", file=sys.stderr)
+            sys.exit(3)
+        return _run_scrubbed(root, prompt, allow)
+
+
+def _run_scrubbed(root, prompt, allow):
+    try:
+        res = anon_workspace.run_workspace(root, prompt, _claude_coder, allow)
+    except anon_workspace.SecretAbort as e:
+        print(f"⛔ run ABORT — {e}. Remove the secret (or --allow-secrets).", file=sys.stderr)
+        sys.exit(2)
+    if not res.get("changed"):
+        print(f"no changes (scrubbed {res['scrubbed']} files, skipped {len(res['skipped'])} binaries)")
+        return
+    if res["applied"]:
+        print(f"✔ applied to {root}  (scrubbed {res['scrubbed']} files; patch: {res['patch']})")
+    else:
+        print(f"⚠ patch did NOT apply cleanly — .rej written; review {res['patch']}\n"
+              f"  {res['apply_err']}", file=sys.stderr)
+        sys.exit(1)
+
+
+def cmd_check(argv):
+    """Prove the gate: force each profile via env and print the decision."""
+    saved = os.environ.get("EGRESS_POLICY")
+    try:
+        for prof in ("local-only", "enterprise-anon", "personal"):
+            os.environ["EGRESS_POLICY"] = prof
+            os.environ.pop("CLAUDE_ANON", None)
+            egress_policy.set_policy_for("/nonexistent")   # env-only resolution
+            ok, reason = egress_policy.allowed("anthropic")
+            print(f"  {prof:15} -> {'ALLOW' if ok else 'BLOCK'}  {reason}")
+        # A FORGED env flag must no longer buy egress — this is the regression the
+        # security review called out. Expect BLOCK.
+        os.environ["EGRESS_POLICY"] = "enterprise-anon"
+        os.environ["CLAUDE_ANON"] = "1"
+        egress_policy.set_policy_for("/nonexistent")
+        ok, _ = egress_policy.allowed("anthropic")
+        print(f"  {'enterprise-anon+forged env':27} -> {'ALLOW (BUG!)' if ok else 'BLOCK'}")
+        # Inside the mandatory scrub path — expect ALLOW.
+        os.environ.pop("CLAUDE_ANON", None)
+        with egress_policy.anon_scrub_active():
+            ok, _ = egress_policy.allowed("anthropic")
+        print(f"  {'enterprise-anon+scrub path':27} -> {'ALLOW' if ok else 'BLOCK (BUG!)'}")
+    finally:
+        if saved is None:
+            os.environ.pop("EGRESS_POLICY", None)
+        else:
+            os.environ["EGRESS_POLICY"] = saved
+
+
+def main():
+    argv = sys.argv[1:]
+    if not argv:
+        print(__doc__)
+        return
+    cmd, rest = argv[0], argv[1:]
+    {"policy": cmd_policy, "claude": cmd_claude, "check": cmd_check,
+     "forward": cmd_forward, "reverse": cmd_reverse,
+     "secrets": cmd_secrets, "scrub": cmd_scrub, "run": cmd_run}.get(
+        cmd, lambda _a: sys.exit(
+            f"anon: unknown command '{cmd}' "
+            "(policy|claude|check|forward|reverse|secrets|scrub|run)"))(rest)
+
+
+if __name__ == "__main__":
+    main()

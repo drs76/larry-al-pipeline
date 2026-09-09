@@ -1,0 +1,248 @@
+Project: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 2s
+  BCQuality: appended authoring rules to handover (21 rules)
+  inject: DROPPED 07-events-errors (4.22k), 09-api-web (5.13k) — over ctx headroom 11.7k (INJECT_BUDGET_K=14 unreachable)
+  inject: 00-gotchas, 01-syntax-style, 02-objects, 08-data-storage  (~11.3k tokens)
+
+--- Clear project (attempt 1) ---
+  Cleared 1 files.
+
+--- Larry: writing files (attempt 1) ---
+  Running Pi (Larry-write, ollama/qwen3-coder:30b)...
+  Larry-write done in 77s (exit 0)
+  Wrote 9/9 expected files.
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+    AL0282 guard: TSGDocumentLinkAZBlobMgt.Codeunit.al OnAfterInsertEvent — DocumentAttachment→Rec
+  normalized table-event subscriber params in 1 file(s)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  added 1 missing using-directive(s) across 1 file(s)
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:29:46.919'.
+  runs/unmaskab_B_r5/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(31,82): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(54,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(55,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(80,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(35,34): error AL0132: 'Record "Document Attachment"' does not contain a definition for 'Description'
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(37,55): error AL0132: 'Record "TSG Doc Link AZ Setup"' does not contain a definition for 'Code'
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(50,45): error AL0132: 'Record "TSG Doc Link AZ Setup"' does not contain a definition for 'Code'
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(67,84): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:29:52.859'.
+  error score: 8
+  ★ new best (error score: 8)
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: corrected 1 invented member(s)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 59s (exit 0)
+  snippet-fix: 5 edit(s) applied, 1 unmatched
+      SEARCH not found in src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al: '[EventSubscriber(ObjectType::Table, Database::"Document Atta'
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:31:05.528'.
+  runs/unmaskab_B_r5/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,13): error AL0118: The name 'TempBlob' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(33,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(56,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(57,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(82,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(69,84): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  Compilation ended at '15:31:11.214'.
+  error score: 7  (best so far: 8)
+  ★ new best (error score: 7)
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 53s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:32:05.009'.
+  runs/unmaskab_B_r5/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,13): error AL0118: The name 'TempBlob' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(33,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(56,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(57,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(82,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  Compilation ended at '15:32:11.299'.
+  error score: 6  (best so far: 7)
+  ★ new best (error score: 6)
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 45s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:32:57.399'.
+  runs/unmaskab_B_r5/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(31,82): error AL0133: Argument 2: cannot convert from 'OutStream' to 'var InStream'
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(54,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(55,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(80,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  Compilation ended at '15:33:02.606'.
+  error score: 4  (best so far: 6)
+  ★ new best (error score: 4)
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+  RAG: grounded 1 call signature(s) from the symbols
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 14s (exit 0)
+  snippet-fix: 2 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:33:17.111'.
+  runs/unmaskab_B_r5/src/page/TSGDocumentLinkAZSetupCard.Page.al(69,25): warning AL0482: The image Migrate is not valid in this context. Verify the image name is correct and supported for this control type.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(31,13): error AL0118: The name 'TempBlob' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(31,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(32,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(55,38): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(56,82): error AL0118: The name 'OutStream' does not exist in the current context.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(81,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  Compilation ended at '15:33:22.591'.
+  error score: 6  (best so far: 4)
+  Round regressed (6 > best 4) — reverting to best before fixing.
+  RAG: grounded 0, flagged 2 non-existent (of 2)
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 19s (exit 0)
+  snippet-fix: 3 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/setup/pipeline/runs/unmaskab_B_r5/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:33:42.812'.
+  runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(70,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+  Compilation ended at '15:33:49.334'.
+  error score: 1  (best so far: 4)
+  ★ new best (error score: 1)
+
+  Max fix rounds (5) reached.
+
+============================================================
+FINAL REPORT (best round — error score 1)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: FAILED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '15:33:42.812'.
+
+runs/unmaskab_B_r5/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(70,48): error AL0122: Cannot implicitly convert type 'Integer' to 'Media'. Use an explicit conversion or change the type.
+
+Compilation ended at '15:33:49.334'.
+============================================================
+
+  config: verified
+
+RESULT: FAIL (best achieved: 1 error score)

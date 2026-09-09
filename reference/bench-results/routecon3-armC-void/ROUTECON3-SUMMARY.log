@@ -1,0 +1,97 @@
+ROUTING ECONOMICS — routecon3
+registration: reference/exp-routing-economics-preregistration.md
+allocation: 4 fixtures x 1 arms x 10 = 40 runs
+fixtures: p1 p4 map doclink   arms: C   model: ollama/qwen3-coder:30b (fixed across arms)
+arm A: escalation OFF   arm B: ESCALATE_AFTER=4   arm C: ESCALATE_ON_RULE=1 v1:553cfa8b91e6a4e8
+sanitized 59 env vars per run; every arm sets its policy EXPLICITLY
+CLAUDE_USAGE_STRICT=1; no spend cap — the 120-run allocation is the only exposure bound
+per-fixture analysis only; no pooled workload metric (weighting deferred)
+
+qwen3-coder_30b__p1__routecon3_armC__r1: PASS calls=0 cost=$0 in 64s
+cumulative [routecon3]: 1 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r2: PASS calls=0 cost=$0 in 64s
+cumulative [routecon3]: 2 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r3: PASS calls=0 cost=$0 in 72s
+cumulative [routecon3]: 3 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r4: PASS calls=0 cost=$0 in 67s
+cumulative [routecon3]: 4 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r5: PASS calls=0 cost=$0 in 67s
+cumulative [routecon3]: 5 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r6: PASS calls=0 cost=$0 in 67s
+cumulative [routecon3]: 6 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r7: PASS calls=0 cost=$0 in 88s
+cumulative [routecon3]: 7 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r8: PASS calls=0 cost=$0 in 67s
+cumulative [routecon3]: 8 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r9: PASS calls=0 cost=$0 in 65s
+cumulative [routecon3]: 9 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon3_armC__r10: PASS calls=0 cost=$0 in 61s
+cumulative [routecon3]: 10 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r1: PASS calls=0 cost=$0 in 102s
+cumulative [routecon3]: 11 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r2: PASS calls=0 cost=$0 in 105s
+cumulative [routecon3]: 12 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r3: PASS calls=0 cost=$0 in 80s
+cumulative [routecon3]: 13 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r4: PASS calls=0 cost=$0 in 87s
+cumulative [routecon3]: 14 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r5: PASS calls=0 cost=$0 in 82s
+cumulative [routecon3]: 15 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r6: PASS calls=0 cost=$0 in 93s
+cumulative [routecon3]: 16 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r7: PASS calls=0 cost=$0 in 94s
+cumulative [routecon3]: 17 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r8: PASS calls=0 cost=$0 in 78s
+cumulative [routecon3]: 18 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r9: PASS calls=0 cost=$0 in 85s
+cumulative [routecon3]: 19 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon3_armC__r10: PASS calls=0 cost=$0 in 98s
+cumulative [routecon3]: 20 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r1: PASS calls=0 cost=$0 in 91s
+cumulative [routecon3]: 21 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r2: PASS calls=0 cost=$0 in 89s
+cumulative [routecon3]: 22 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r3: PASS calls=0 cost=$0 in 85s
+cumulative [routecon3]: 23 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r4: PASS calls=0 cost=$0 in 90s
+cumulative [routecon3]: 24 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r5: FAIL calls=0 cost=$0 in 260s
+cumulative [routecon3]: 25 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r6: PASS calls=0 cost=$0 in 92s
+cumulative [routecon3]: 26 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r7: PASS calls=0 cost=$0 in 87s
+cumulative [routecon3]: 27 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r8: PASS calls=0 cost=$0 in 94s
+cumulative [routecon3]: 28 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r9: PASS calls=0 cost=$0 in 88s
+cumulative [routecon3]: 29 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon3_armC__r10: PASS calls=0 cost=$0 in 92s
+cumulative [routecon3]: 30 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__doclink__routecon3_armC__r1: PASS calls=3 cost=$1.64823 in 489s
+cumulative [routecon3]: 31 run(s), 3 call(s), $1.6482, 53in/16924out
+qwen3-coder_30b__doclink__routecon3_armC__r2: PASS calls=2 cost=$2.247939 in 1332s
+cumulative [routecon3]: 33 run(s), 8 call(s), $4.8437, 154in/49419out
+qwen3-coder_30b__doclink__routecon3_armC__r3: FAIL calls=0 cost=$0 in 229s
+cumulative [routecon3]: 34 run(s), 8 call(s), $4.8437, 154in/49419out
+qwen3-coder_30b__doclink__routecon3_armC__r4: FAIL calls=0 cost=$0 in 258s
+cumulative [routecon3]: 35 run(s), 8 call(s), $4.8437, 154in/49419out
+qwen3-coder_30b__doclink__routecon3_armC__r5: PASS calls=3 cost=$0.964521 in 311s
+cumulative [routecon3]: 36 run(s), 11 call(s), $5.8083, 182in/57503out
+qwen3-coder_30b__doclink__routecon3_armC__r6: PASS calls=1 cost=$1.855392 in 526s
+cumulative [routecon3]: 37 run(s), 12 call(s), $7.6637, 258in/75150out
+qwen3-coder_30b__doclink__routecon3_armC__r7: FAIL calls=0 cost=$0 in 260s
+cumulative [routecon3]: 38 run(s), 12 call(s), $7.6637, 258in/75150out
+qwen3-coder_30b__doclink__routecon3_armC__r8: FAIL calls=4 cost=$1.144287 in 325s
+cumulative [routecon3]: 39 run(s), 16 call(s), $8.8079, 289in/84617out
+qwen3-coder_30b__doclink__routecon3_armC__r9: FAIL calls=0 cost=$0 in 271s
+cumulative [routecon3]: 40 run(s), 16 call(s), $8.8079, 289in/84617out
+qwen3-coder_30b__doclink__routecon3_armC__r10: PASS calls=1 cost=$0.448396 in 275s
+cumulative [routecon3]: 41 run(s), 17 call(s), $9.2563, 300in/89619out
+
+=== ROUTECON3 — per fixture x arm (no pooled metric: weighting deferred) ===
+  fixture  arm   n  pass  calls     cost$  mean s
+  doclink    C  10     5     14    8.3088     427
+  map        C  10     9      0    0.0000     106
+  p1         C  10    10      0    0.0000      68
+  p4         C  10    10      0    0.0000      90
+  total 122 min

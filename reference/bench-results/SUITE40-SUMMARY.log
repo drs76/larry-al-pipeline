@@ -1,0 +1,44 @@
+suite suite40  control=ollama/qwen3-coder:30b  challenger=ollama/qwen3.8:27b
+projects: p1 p4 map  repeats: 3  max_fix: 3
+
+qwen3-coder_30b__p1__suite40_control__r1: PASS in 65s
+qwen3-coder_30b__p1__suite40_control__r2: PASS in 64s
+qwen3-coder_30b__p1__suite40_control__r3: FAIL(1) in 182s
+qwen3-coder_30b__p4__suite40_control__r1: FAIL(1) in 127s
+qwen3-coder_30b__p4__suite40_control__r2: PASS in 96s
+qwen3-coder_30b__p4__suite40_control__r3: PASS in 83s
+qwen3-coder_30b__map__suite40_control__r1: PASS in 123s
+qwen3-coder_30b__map__suite40_control__r2: PASS in 86s
+qwen3-coder_30b__map__suite40_control__r3: PASS in 74s
+qwen3.8_27b__p1__suite40_challenger__r1: PASS in 373s
+qwen3.8_27b__p1__suite40_challenger__r2: PASS in 188s
+qwen3.8_27b__p1__suite40_challenger__r3: PASS in 245s
+qwen3.8_27b__p4__suite40_challenger__r1: PASS in 315s
+qwen3.8_27b__p4__suite40_challenger__r2: FAIL(1) in 1877s
+qwen3.8_27b__p4__suite40_challenger__r3: PASS in 919s
+qwen3.8_27b__map__suite40_challenger__r1: TIMEOUT in 2400s
+qwen3.8_27b__map__suite40_challenger__r2: FAIL(1) in 984s
+qwen3.8_27b__map__suite40_challenger__r3: PASS in 931s
+
+=== SUITE40 SUMMARY ===
+  control: 7/9 pass
+    qwen3-coder_30b__p1__suite40_control__r1 PASS      in   65s 
+    qwen3-coder_30b__p1__suite40_control__r2 PASS      in   64s 
+    qwen3-coder_30b__p1__suite40_control__r3 FAIL(1)   in   182s 
+    qwen3-coder_30b__p4__suite40_control__r1 FAIL(1)   in   127s 
+    qwen3-coder_30b__p4__suite40_control__r2 PASS      in   96s 
+    qwen3-coder_30b__p4__suite40_control__r3 PASS      in   83s 
+    qwen3-coder_30b__map__suite40_control__r1 PASS      in   123s 
+    qwen3-coder_30b__map__suite40_control__r2 PASS      in   86s 
+    qwen3-coder_30b__map__suite40_control__r3 PASS      in   74s 
+  challenger: 6/9 pass
+    qwen3.8_27b__p1__suite40_challenger__r1 PASS      in   373s 
+    qwen3.8_27b__p1__suite40_challenger__r2 PASS      in   188s 
+    qwen3.8_27b__p1__suite40_challenger__r3 PASS      in   245s 
+    qwen3.8_27b__p4__suite40_challenger__r1 PASS      in   315s 
+    qwen3.8_27b__p4__suite40_challenger__r2 FAIL(1)   in   1877s 
+    qwen3.8_27b__p4__suite40_challenger__r3 PASS      in   919s 
+    qwen3.8_27b__map__suite40_challenger__r1 TIMEOUT   in   2400s 
+    qwen3.8_27b__map__suite40_challenger__r2 FAIL(1)   in   984s 
+    qwen3.8_27b__map__suite40_challenger__r3 PASS      in   931s 
+  total 152 min

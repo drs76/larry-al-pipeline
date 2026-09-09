@@ -1,0 +1,174 @@
+# ~/.config/sway/config
+# Minimalist Sway setup — portable across desktop + ThinkPad (Debian, Intel gfx)
+
+### Variables
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $menu wofi --show drun
+set $lock swaylock -f -c 1e1e2e
+
+### Output (displays)
+# List names with:  swaymsg -t get_outputs
+# Per-machine overrides go in ~/.config/sway/config.d/*.conf (see below)
+output * bg /home/dav/Documents/blitspear.jpeg stretch #1e1e2e
+
+### Input
+input "type:keyboard" {
+    xkb_layout gb
+    repeat_delay 250
+    repeat_rate 40
+}
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+    middle_emulation enabled
+    accel_profile adaptive
+}
+# Mouse pointer: yellow (Bibata-Modern-Amber), size 48 (default 24 + 3 steps).
+# Needs the bibata-cursor-theme package installed on each machine.
+seat seat0 xcursor_theme Bibata-Modern-Amber 48
+
+### Idle + lock (laptop-friendly, harmless on desktop)
+exec swayidle -w \
+    timeout 300 '$lock' \
+    timeout 600 'swaymsg "output * power off"' \
+       resume 'swaymsg "output * power on"' \
+    before-sleep '$lock'
+
+### Autostart
+# Export Wayland env to systemd/dbus so portals + apps can find the session
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+# waybar launched by bar{} block below — do not exec it here too
+exec mako
+exec wl-paste --watch cliphist store
+
+### Appearance
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 6
+gaps outer 3
+smart_gaps on
+smart_borders on
+font pango:JetBrains Mono 10
+# class                 border  bg      text    indicator child_border
+client.focused          #a6e3a1 #a6e3a1 #1e1e2e #a6e3a1   #a6e3a1
+client.unfocused        #313244 #1e1e2e #a6adc8 #313244   #313244
+client.focused_inactive #313244 #1e1e2e #a6adc8 #313244   #313244
+
+### Key bindings — apps
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+q kill
+bindsym $mod+Shift+c reload
+# Power menu: lock / logout / suspend / reboot / shutdown (also the red waybar power button)
+bindsym $mod+Shift+e exec ~/.config/sway/powermenu.sh
+bindsym $mod+Escape exec $lock
+# Sticky-note cheatsheet toggle
+bindsym $mod+c exec ~/.config/sway/sticky-toggle.sh
+
+### Focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+### Move window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+### Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Tab workspace back_and_forth
+
+### Layout
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+bindsym $mod+p sticky toggle
+
+### Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+### Resize mode
+mode "resize" {
+    bindsym $left resize shrink width 30px
+    bindsym $down resize grow height 30px
+    bindsym $up resize shrink height 30px
+    bindsym $right resize grow width 30px
+    bindsym Left resize shrink width 30px
+    bindsym Down resize grow height 30px
+    bindsym Up resize shrink height 30px
+    bindsym Right resize grow width 30px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+### Media / hardware keys (laptop + desktop)
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+
+### Screenshots (grim + slurp)
+bindsym Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+
+### Floating rules
+for_window [app_id="cheatsheet"] floating enable, sticky enable, border pixel 2, resize set 640 720, move position 1200 40
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="dialog"] floating enable
+
+### Per-machine overrides (display layout, scaling, etc.)
+include ~/.config/sway/config.d/*.conf
+
+### Status bar
+bar {
+    swaybar_command waybar
+}

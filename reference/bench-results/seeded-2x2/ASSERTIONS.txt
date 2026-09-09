@@ -1,0 +1,4 @@
+hint-only       invariant=0 hint=1
+invariant-only  invariant=1 hint=0
+neither         invariant=0 hint=0
+both            invariant=1 hint=1

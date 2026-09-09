@@ -1,0 +1,296 @@
+Project: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage
+  Expected files from manifest: 9
+  profile: internal | analyzers=CodeCop+UICop+PerTenantExtensionCop | tests=off | review=advisory
+  AL context: BC 28 | runtime 17.0 | target Cloud | profile internal | 2 dep(s)
+  Egress policy: local-only
+Coder backend: pi (ollama/qwen3-coder:30b)
+Escalation: off (manual — set ESCALATE_AFTER=N to auto-hand stalled builds to Claude).
+
+--- Pre-warming qwen3-coder:30b (keep_alive 2h) ---
+  warm in 0s
+
+--- Cleanup ---
+DELETE: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.build-receipt.json
+DELETE: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/TSG_TSGDocumentLink2AZStorage_1.0.0.0.app
+Deleted 2 unspecced file(s).
+
+=== INITIAL BUILD ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  al-mcp symbols: Successfully downloaded 5 symbol package(s). [NuGet (Global Sources)] -> /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  RAG: 8800 objects from downloaded symbols
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:52:48.666'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, 'end' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(24,9): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,24): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,31): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,62): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(25,76): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,19): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,37): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(26,53): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,18): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(27,37): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(28,27): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,22): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,33): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,39): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,61): error AL0104: Syntax error, ';' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ':' expected
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0107: Syntax error, identifier expected. Provide a valid name (letters, digits, and underscores only).
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(29,86): error AL0104: Syntax error, ';' expected
+  Compilation ended at '21:52:54.216'.
+  error score: 46
+  ★ new best (error score: 46)
+  known-fix: 1 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 1) ---
+  fix-route: file-rewrite (TSGDocumentLinkAZMgt.Codeunit.al)
+  Running Pi (Larry (Pi)-file-rewrite, ollama/qwen3-coder:30b)...
+  Larry (Pi)-file-rewrite done in 18s (exit 0)
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 1) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:53:13.279'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,86): error AL0133: Argument 2: cannot convert from 'Text' to 'Integer'
+  Compilation ended at '21:53:21.109'.
+  error score: 1  (best so far: 46)
+  ★ new best (error score: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 2) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 57s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 2) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:54:18.994'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,39): error AL0133: Argument 1: cannot convert from 'Integer' to 'Text'
+  Compilation ended at '21:54:25.248'.
+  error score: 1  (best so far: 1)
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 3) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 26s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 3) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:54:52.209'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(60,46): error AL0132: 'Dialog' does not contain a definition for 'InputText'
+  Compilation ended at '21:54:58.366'.
+  error score: 1  (best so far: 1)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 4) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 9s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 4) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:55:20.276'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(63,39): error AL0118: The name 'InputBox' does not exist in the current context.
+  Compilation ended at '21:55:27.473'.
+  error score: 1  (best so far: 1)
+  RAG: grounded 0, flagged 1 non-existent (of 1)
+
+--- Larry (Pi): fixing issues (round 5) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 6s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 5) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build FAILED
+  Microsoft (R) AL Compiler version 18.0.37.11445
+  Copyright (C) Microsoft Corporation. All rights reserved
+  Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:55:33.815'.
+  /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(65,34): error AL0132: 'Dialog' does not contain a definition for 'IsOk'
+  Compilation ended at '21:55:41.112'.
+  error score: 1  (best so far: 1)
+  PROBE: settled 1 ungrounded object name(s) with the compiler
+  known-fix: 0 hint(s) appended
+
+--- Larry (Pi): fixing issues (round 6) ---
+  fix-route: snippet
+  Running Pi (Larry (Pi)-snippet-fix, ollama/qwen3-coder:30b)...
+  Larry (Pi)-snippet-fix done in 32s (exit 0)
+  snippet-fix: 1 edit(s) applied, 0 unmatched
+
+--- Cleanup ---
+Deleted 0 unspecced file(s).
+
+=== BUILD (FIX ROUND 6) ===
+
+--- Manifest check ---
+  Passed.
+
+--- AL compile ---
+  app.json written deterministically (app 28.0.0.0, runtime 17.0)
+  symbols: reusing /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages (already downloaded this run)
+  packagecachepath: /mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/.alpackages
+  Build PASSED
+  error score: 0  (best so far: 1)
+  ★ new best (error score: 0)
+
+============================================================
+FINAL REPORT (best round — error score 0)
+============================================================
+MANIFEST CHECK — PASSED
+
+BUILD: PASSED
+Microsoft (R) AL Compiler version 18.0.37.11445
+Copyright (C) Microsoft Corporation. All rights reserved
+
+Compilation started for project 'TSGDocumentLink2AZStorage' containing '8' files at '21:56:25.378'.
+
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(4,1): info AA0477: The using statements are not in a sorted order.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(4,1): info AA0477: The using statements are not in a sorted order.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(4,1): info AA0477: The using statements are not in a sorted order.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/permissionset/TSGDocumentLinkAZ.PermissionSet.al(1,21): info AA0247: Use namespaces to organize your code and isolate it from changes.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(48,20): info AW0005: Action with name 'SetSharedAccessKey' should have a value for the Image property.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/app.json(18,5): warning PTE0020: The 'application' property should be used for expressing a dependency on the 'Base Application'. See https://learn.microsoft.com/dynamics365/business-central/dev-itpro/developer/devenv-application-app-file for additional information.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(7,16): warning AA0215: The file TSGDocumentLinkAZMgt.Codeunit.al has an incorrect name. The valid name is TSGDocLinkAZMgt.Codeunit.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(6,16): warning AA0215: The file TSGDocumentLinkAZBlobMgt.Codeunit.al has an incorrect name. The valid name is TSGDocLinkBlobMgt.Codeunit.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/permissionset/TSGDocumentLinkAZ.PermissionSet.al(1,21): warning AA0215: The file TSGDocumentLinkAZ.PermissionSet.al has an incorrect name. The valid name is TSGDocLinkAZ.PermissionSet.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(6,16): warning AA0215: The file TSGDocumentLinkBlobMigration.Codeunit.al has an incorrect name. The valid name is TSGDocLinkMigration.Codeunit.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/tableextension/TSGDocumentLink.TableExt.al(4,22): warning AA0215: The file TSGDocumentLink.TableExt.al has an incorrect name. The valid name is TSGDocAttachmentExt.TableExt.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(53,33): warning AA0244: The name of the parameter 'Setup' is identical to a global variable.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(75,33): warning AA0244: The name of the parameter 'Setup' is identical to a global variable.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(17,35): warning AA0244: The name of the parameter 'Setup' is identical to a global variable.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(97,33): warning AA0244: The name of the parameter 'Setup' is identical to a global variable.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(14,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(13,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(13,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/table/TSGDocumentLinkAZSetup.Table.al(3,13): warning AA0215: The file TSGDocumentLinkAZSetup.Table.al has an incorrect name. The valid name is TSGDocLinkAZSetup.Table.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(14,9): warning AA0137: Variable 'TenantMedia' is unused in '"TSG Doc Link AZ Mgt"'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(11,9): warning AA0137: Variable 'SSAuthorization' is unused in '"TSG Doc Link Blob Mgt"'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(12,9): warning AA0137: Variable 'Authorize' is unused in '"TSG Doc Link Blob Mgt"'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(97,21): warning AA0228: The local method 'GetBlobName' is declared but never used.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupList.Page.al(4,12): warning AA0215: The file TSGDocumentLinkAZSetupList.Page.al has an incorrect name. The valid name is TSGDocLinkAZSetupList.Page.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(4,12): warning AA0215: The file TSGDocumentLinkAZSetupCard.Page.al has an incorrect name. The valid name is TSGDocLinkAZSetupCard.Page.al.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(48,20): warning AA0218: The Tooltip property for PageAction SetSharedAccessKey must be filled.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(19,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(19,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(37,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(71,9): warning AA0021: Variable declarations should be ordered by type. Variables should be sorted like this: Record, Report, Codeunit, XmlPort, Page, Query, Notification, BigText, DateFormula, RecordId, RecordRef, FieldRef, and FilterPageBuilder. The rest of the variables are not sorted.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(82,26): warning AA0139: Possible overflow assigning 'Text' to 'Text[250]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkBlobMigration.Codeunit.al(83,20): warning AA0139: Possible overflow assigning 'Text' to 'Text[10]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(104,26): warning AA0139: Possible overflow assigning 'Text' to 'Text[250]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZMgt.Codeunit.al(105,20): warning AA0139: Possible overflow assigning 'Text' to 'Text[10]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(60,26): warning AA0139: Possible overflow assigning 'Text' to 'Text[250]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/codeunit/TSGDocumentLinkAZBlobMgt.Codeunit.al(61,20): warning AA0139: Possible overflow assigning 'Text' to 'Text[10]'.
+/mnt/rojaws/localDev/projects/tsg-document-link-2-az-storage/src/page/TSGDocumentLinkAZSetupCard.Page.al(55,21): warning AA0137: Variable 'NewKey' is unused in 'OnAction'.
+
+Compilation ended at '21:56:31.779'.
+============================================================
+  build receipt: .build-receipt.json
+
+  config: verified
+
+RESULT: PASS

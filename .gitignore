@@ -1,0 +1,37 @@
+# archived LibreChat secrets — kept locally, never committed
+archive/librechat/.env
+# python
+__pycache__/
+*.pyc
+al-anon-map.txt
+_dash_*
+reference/bcquality-harvest-report.md
+reference/build-leaderboard.md
+pipeline/.build-metrics.jsonl
+# shadow-mode capability-boundary observations (capability_shadow.py). Accumulates one
+# record per build, including benchmark suites — local observation data, not source.
+pipeline/.capability-shadow.jsonl
+tooling/.kb-index/
+reference/al-runtime-probes/.alpackages/
+reference/al-runtime-probes/*.app
+
+# bench suite artefacts — bench-run-suite.sh writes runs/, logs/ and <TAG>-SUMMARY.log
+# next to the script (BENCH = the script's own directory). These are generated model
+# output, sometimes hundreds of MB of .alpackages per run, and never worth committing.
+pipeline/runs/
+pipeline/logs/
+pipeline/*-SUMMARY.log
+pipeline/*-driver.log
+# Per-cell results a driver writes beside itself, and the cumulative spend ledger
+# (bench_ledger.py). Working state, not the record: the cells that back a published
+# result are copied into reference/bench-results/ by the commit that reports it, so a
+# loose copy here is either a duplicate or an execution that was never analysed.
+pipeline/*-CELLS.jsonl
+pipeline/.bench-ledger.jsonl
+
+# learn_drift.py writes this work plan when a Learn page's ms.date has moved, and never
+# removes it once the plan is run — so it lingers as untracked noise until someone acts.
+# It is derived: regenerate it any time with `learn_drift.py check --plan`. The RECORD is
+# reference/.learn-baseline.json, which stays tracked; committing the plan as well would
+# put a transient to-do list in the history next to the state it was derived from.
+reference/ingest-plan-drift.md

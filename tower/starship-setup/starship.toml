@@ -1,0 +1,60 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+# WSL/NFS home-dir scans exceed the 30ms/500ms defaults -> "Scanning current directory timed out".
+# Let slow scans finish instead of warning + rendering an incomplete prompt.
+scan_timeout    = 1000
+command_timeout = 2000
+
+format = "$directory$os$git_branch$git_status$nodejs$rust$golang$php $character"
+
+[os]
+disabled = false
+format = "[$symbol](#E95420) "
+
+[os.symbols]
+Ubuntu = "󰕈"
+Arch   = "󰣇"
+Macos  = ""
+
+[directory]
+format            = "[$path](cyan) "
+truncation_length = 4
+truncate_to_repo  = true
+
+[git_branch]
+symbol = ""
+format = "[$symbol $branch](bold purple) "
+
+[git_status]
+format     = "($ahead_behind$staged$modified$untracked$deleted$conflicted)"
+ahead      = "[⇡$count ](bold cyan)"
+behind     = "[⇣$count ](bold cyan)"
+diverged   = "[⇡$ahead_count⇣$behind_count ](bold cyan)"
+staged     = "[+$count ](bold green)"
+modified   = "[●$count ](bold yellow)"
+untracked  = "[?$count ](bold white)"
+deleted    = "[✘$count ](bold red)"
+conflicted = "[⚡$count ](bold red)"
+
+[nodejs]
+symbol = ""
+format = "[$symbol $version](green) "
+
+[rust]
+symbol = ""
+format = "[$symbol $version](red) "
+
+[golang]
+symbol = ""
+format = "[$symbol $version](cyan) "
+
+[php]
+symbol = ""
+format = "[$symbol $version](purple) "
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol   = "[❯](red)"
+vimcmd_symbol  = "[❮](blue)"

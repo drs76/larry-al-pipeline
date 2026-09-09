@@ -1,0 +1,63 @@
+{
+  "backend": "pi",
+  "tag": "qwen_r8",
+  "al_apis": false,
+  "grounded_chars": 0,
+  "ledger": [
+    {
+      "file": "TSGDocumentLinkAZBlobMgt.Codeunit.al",
+      "first_pass": "RED",
+      "first_errors": 2,
+      "first_classes": {
+        "AL0173": 2
+      },
+      "repair_rounds": 8,
+      "final": "RED",
+      "final_errors": 1,
+      "calls": 9,
+      "abs_objects": [
+        "ABS Blob Client"
+      ],
+      "seconds": 878
+    },
+    {
+      "file": "TSGDocumentLinkAZMgt.Codeunit.al",
+      "first_pass": "RED",
+      "first_errors": 1,
+      "first_classes": {},
+      "repair_rounds": 8,
+      "final": "RED",
+      "final_errors": 9,
+      "calls": 9,
+      "abs_objects": [
+        "ABS Blob Client"
+      ],
+      "seconds": 692
+    },
+    {
+      "file": "TSGDocumentLinkBlobMigration.Codeunit.al",
+      "first_pass": "RED",
+      "first_errors": 9,
+      "first_classes": {
+        "AL0244": 1
+      },
+      "repair_rounds": 8,
+      "final": "RED",
+      "final_errors": 21,
+      "calls": 9,
+      "abs_objects": [
+        "ABS Blob Client",
+        "ABS Blob Optional Parameters"
+      ],
+      "seconds": 753
+    }
+  ],
+  "combined": {
+    "restored": 3,
+    "verdict": "RED",
+    "errors": 2,
+    "classes": {
+      "AL0185": 2
+    }
+  }
+}

@@ -1,0 +1,6 @@
+[Unit]
+Description=Stop Bonsai server when idle (free VRAM for coder)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/bonsai-idle

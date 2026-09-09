@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# kb-lint — hygiene pass over the Claude memory-wiki (dead/drifted wikilinks, orphans, index drift).
+#   kb-lint                     report only (default; touches nothing)
+#   kb-lint --fix-links         rewrite drifted [[links]] to their canonical `name` slug
+#   kb-lint --append-missing    append MEMORY.md stub rows for un-indexed notes (never rewrites rows)
+#   kb-lint --semantic          also run `probe` (pi + Larry) for stale/contradiction review, no egress
+#   kb-lint --dir DIR           lint a different note dir
+# Report-only by default. MEMORY.md is never blindly regenerated (curated titles would be lost).
+set -euo pipefail
+# Resolve symlinks first — see the same note in `kb`.
+SELF="$(readlink -f "$0" 2>/dev/null || echo "$0")"
+HERE="$(cd "$(dirname "$SELF")" && pwd)"
+exec python3 "$HERE/kb_lint.py" "$@"

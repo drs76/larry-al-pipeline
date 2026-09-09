@@ -1,0 +1,18 @@
+# .anon/names.tsv — curated sensitive literals (anon hook phase 2).
+#
+# Copy to <your-repo>/.anon/names.tsv (GITIGNORED). One rule per line:
+#   CATEGORY<TAB>real            (a literal TAB between the two)
+#
+# CASE-SENSITIVE and matched whole-word where the edge is a word char. Declare
+# each case variant you need separately. Longer reals are applied first, so list
+# both "Acme" and "Acme Trading Ltd" — the long one wins.
+#
+# The engine mints a stable placeholder (ANON_<CATEGORY>_NNN) per distinct real and
+# persists it in .anon/map.tsv, so the mapping is reversible and consistent across
+# files/runs. GUIDs and Windows/WSL user paths are auto-detected — no need to list.
+#
+# CATEGORY	real
+NAME	Contoso Ltd
+NAME	Acme
+HOST	prod-db-07
+TENANT	11111111-2222-3333-4444-555555555555

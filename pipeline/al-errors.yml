@@ -1,0 +1,428 @@
+# AL compiler diagnostics → targeted fix guidance.
+#
+# The compiler already says WHAT is wrong. What it does not say is why a 30B coder keeps
+# getting it wrong, and that is the difference between one fix round and sixteen. Every
+# entry here exists because a diagnostic was actually observed costing rounds, or because
+# a probe established what the toolchain really emits.
+#
+# `evidence:` is not decoration. A guidance entry with no provenance is a guess written in
+# an authoritative voice, and this pipeline has already been burned by exactly that (an
+# AL-SYNTAX rule claimed CodeCop enforced per-field DataClassification; no cop does).
+#
+# The compiler's own message is ALWAYS shown alongside this guidance and always wins.
+# These entries add context; they never restate or replace the diagnostic.
+#
+# category: drives error_profile.py's classification, so one file defines both what a
+# diagnostic MEANS and how it is counted.
+#   syntax        parser/structure break — one real defect, many downstream errors
+#   symbols       a name that does not resolve
+#   types         a type or operator misuse
+#   events        publisher/subscriber contract
+#   duplicate     the same thing declared twice
+#   rules         a cop/analyzer rule rather than a compile failure
+#   obsolete      referencing something on its way out
+#
+# bc-version accepts the same forms as the BCQuality KB: [all], [27], [16..], [26..28].
+#
+# AL-16 temporal fields, all optional and all handled by al_temporal:
+#   introduced_bc / removed_bc / deprecated_bc   when the thing itself started/stopped
+#   runtime_from / runtime_to                    AL runtime bounds
+#   confidence: verified | high | medium | low    how hard to lean on it
+#   source                                       where it came from
+# `verified` means a compiler probe or a live container established it, not that it
+# sounded right. Anything version-scoped is LABELLED at the point of use, so a
+# conditional rule is never read as a universal one.
+
+errors:
+
+  AL0282:
+    category: events
+    meaning: >-
+      An event subscriber declares a parameter the publisher does not have.
+    cause: >-
+      Subscribers bind to publisher parameters BY NAME, not by position or type. Any
+      rename breaks the binding even when the types line up perfectly.
+    model_failure: >-
+      Coders name the parameter after the table it holds (SalesHeader, DocumentAttachment)
+      because that reads better. Table system events publish `Rec`, so the subscriber no
+      longer binds — and the diagnostic says "not found", which reads like the EVENT is
+      wrong rather than the parameter name. qwen3-coder burned six consecutive fix rounds
+      on this without editing anything.
+    bad: |
+      [EventSubscriber(ObjectType::Table, Database::"Sales Header", 'OnAfterInsertEvent', '', true, true)]
+      local procedure OnInserted(var SalesHeader: Record "Sales Header"; RunTrigger: Boolean)
+    good: |
+      [EventSubscriber(ObjectType::Table, Database::"Sales Header", 'OnAfterInsertEvent', '', true, true)]
+      local procedure OnInserted(var Rec: Record "Sales Header"; RunTrigger: Boolean)
+    fix: >-
+      RENAME the parameter to the published name (keep its type) and update every use
+      inside the procedure. Never delete the subscriber. Table trigger events publish
+      `(var Rec: Record <table>; RunTrigger: Boolean)`; OnBefore/AfterValidate publish
+      `(var Rec, var xRec: Record <table>; CurrFieldNo: Integer)`.
+    evidence: "observed doclink rpost1, 2026-07-30; guard + tests in test_al0282_guard.py"
+    bc-version: [all]
+
+  AL0133:
+    category: types
+    meaning: A value of one type is passed where another is required.
+    cause: >-
+      Most often InStream vs OutStream: AL streams are DIRECTIONAL and are not
+      interchangeable.
+    model_failure: >-
+      Given "cannot convert from InStream to OutStream" the coder swaps the two, gets the
+      mirror-image error, and swaps back — sixteen rounds of oscillation on doclink r2.
+    bad: |
+      ABSBlobClient.GetBlobAsStream(Name, OutStr);   // read API handed an OutStream
+    good: |
+      TempBlob.CreateOutStream(OutStr);   // write into OutStr
+      TempBlob.CreateInStream(InStr);     // then read from InStr
+      ABSBlobClient.GetBlobAsStream(Name, InStr);
+    fix: >-
+      Read APIs take `var InStream`, write APIs take an OutStream. To move data between
+      them put a `Codeunit "Temp Blob"` in the middle, and copy with
+      `CopyStream(DestOutStream, SrcInStream)`.
+    evidence: "observed doclink r2 (16 rounds); hint live in run-build.known_fix_hints"
+    bc-version: [all]
+
+  AL0175:
+    category: types
+    meaning: An operator cannot be applied to these operand types.
+    cause: >-
+      Testing a Media or Guid field for emptiness with a numeric comparison. Neither type
+      supports one.
+    model_failure: >-
+      The coder reaches for `= 0` or invents `Media.IsEmpty`, neither of which exists.
+    bad: |
+      if Rec."Picture" = 0 then exit;
+      if Rec."Id" = 0 then exit;
+    good: |
+      if not Rec."Picture".HasValue then exit;
+      if IsNullGuid(Rec."Id") then exit;
+    fix: >-
+      Media has exactly one emptiness check, `.HasValue`. A Guid uses the built-in
+      `IsNullGuid(...)`.
+    evidence: "hint live in run-build.known_fix_hints"
+    bc-version: [all]
+
+  AL0151:
+    category: types
+    meaning: >-
+      Expression must be an Option type — `::` was used on something that has no option
+      members.
+    cause: >-
+      Option-member syntax applied to a type that does not have option members. The
+      diagnostic is about the RECEIVER on the left of `::`, not about the member name on
+      the right.
+    model_failure: >-
+      The coder wants to clear a Media field or test a Guid, finds no literal for either,
+      and invents one with `::`. The member name varies freely — `""`, `Empty`, `None`,
+      `NoMedia`, `new()` — because none of them exist, so chasing the member name never
+      converges. Worse, the coder often labels its own workaround as an "enum" problem;
+      that explanation is wrong and following it sends the repair at the wrong construct.
+    bad: |
+      Rec."Document Reference ID" := Media::"";
+      Rec."Document Reference ID" := Media::Empty;
+      if Rec."Document Reference ID".MediaId() = Guid::Zero then exit;
+    good: |
+      Clear(Rec."Document Reference ID");
+      if IsNullGuid(Rec."Document Reference ID".MediaId()) then exit;
+    fix: >-
+      Look at the receiver before `::`, not the member after it. There is no assignable
+      empty-Media literal and no empty-Guid literal. Clear a Media field with
+      `Clear(...)`; test a Guid with `IsNullGuid(...)`. See AL0175 for the same confusion
+      arriving as a numeric comparison, and AL0107 for it arriving as `GUID::{}`.
+    evidence: "compiler probe 2026-09-01, doclink .alpackages BC28/rt17 — `Media::\"\"`,
+      `Media::Empty` and `Guid::Zero` each rejected with AL0151; `Clear(field)` and
+      `IsNullGuid(...)` verified. Corpus characterisation in
+      reference/al0151-investigation.md"
+    confidence: verified
+    source: al_probe snippet probes + historical run source recovery
+    bc-version: [all]
+
+  AL0107:
+    category: syntax
+    meaning: "Syntax error, identifier expected — the parser wanted a NAME here."
+    cause: >-
+      Almost always a symptom rather than the defect. Something earlier on the line is not
+      valid AL, so the parser loses its place and reports where it gave up, not where the
+      mistake is. Invented literal syntax borrowed from another language is the usual
+      cause.
+    model_failure: >-
+      The coder edits at the reported line and column — which is the middle of a construct
+      that should not exist at all — and produces a different malformed line. AL0107 and
+      AL0224 normally fire TOGETHER at the same position; two codes for one defect reads
+      like two problems.
+    bad: |
+      if DocumentReferenceID <> GUID::{} then begin   // GUID::{} is not AL
+    good: |
+      if not IsNullGuid(DocumentReferenceID) then begin
+    fix: >-
+      Do not patch at the reported column. Find the invented construct on that line and
+      replace it with real AL. There is no empty-GUID literal — test with
+      `IsNullGuid(...)`. See AL0175 for the related "compare a Guid to a number" case.
+    evidence: "suite7 doclink control r1, 2026-08-18 — `GUID::{}` at
+      TSGDocumentLinkAZBlobMgt.Codeunit.al(41,41) raised AL0107 and AL0224 at the same
+      position, inside a 6-code cascade"
+    confidence: verified
+    source: suite7 build logs
+    bc-version: [all]
+
+  AL0224:
+    category: syntax
+    meaning: "Expression expected — the parser wanted a VALUE here and found none it could read."
+    cause: >-
+      The companion to AL0107 and usually the same defect seen from the other side: an
+      invented or half-written construct leaves the parser with no readable expression.
+    model_failure: >-
+      Reported at the same line and column as AL0107, so the two look like separate faults
+      and invite two separate edits. They are one.
+    bad: |
+      if DocumentReferenceID <> GUID::{} then begin
+    good: |
+      if not IsNullGuid(DocumentReferenceID) then begin
+    fix: >-
+      Treat AL0107 + AL0224 at one position as a single malformed construct. Rewrite the
+      construct; do not insert an expression at the column the compiler names.
+    evidence: "suite7 doclink control r1, 2026-08-18 — fired at
+      TSGDocumentLinkAZBlobMgt.Codeunit.al(40,41) and (41,41) alongside AL0107"
+    confidence: verified
+    source: suite7 build logs
+    bc-version: [all]
+
+  AL0111:
+    category: syntax
+    meaning: "Semicolon expected — the parser lost the structure here."
+    cause: >-
+      Usually a symptom, not the defect. The real break is above: a `try`/`except` block
+      (Python/C# syntax that AL does not have), a stray brace, or a procedure declared
+      somewhere it cannot be.
+    model_failure: >-
+      The coder inserts a semicolon where the compiler pointed, which changes nothing
+      because the malformed construct is still there. A deterministic semicolon-inserter
+      was built for this and REMOVED — it made garbage.
+    bad: |
+      try
+          DoWork();
+      except
+          Cleanup();
+    good: |
+      if not TryDoWork() then
+          Cleanup();
+      [TryFunction]
+      local procedure TryDoWork()
+    fix: >-
+      Do not add a semicolon. Find the malformed construct above it. AL has no
+      try/except: use a `[TryFunction]` procedure (no return type, implicitly Boolean)
+      called as `if not MyTryProc(...) then <handle>`, or check the operation's own
+      result such as `IsSuccessful()`.
+    evidence: "suite5 doclink r3 — one try block produced 12 errors and froze 16 rounds"
+    bc-version: [all]
+
+  AL0185:
+    category: symbols
+    meaning: The named object does not exist in the symbols being compiled against.
+    cause: >-
+      An invented object name, a missing dependency in app.json, or symbols that were
+      never downloaded.
+    model_failure: >-
+      A plausible-sounding object name is confidently invented. It cannot be fixed by
+      rewriting the calling code.
+    fix: >-
+      Verify the object exists before using it — `alw api '<Name>'` resolves against the
+      project's own downloaded symbols. If it genuinely does not exist, the design is
+      wrong, not the syntax.
+    evidence: "al_probe reports AL0185 for a missing object; run-build probes ungroundable names"
+    bc-version: [all]
+
+  AL0132:
+    category: symbols
+    meaning: "The object exists, but has no member by that name."
+    cause: An invented procedure or field on a real object.
+    model_failure: >-
+      Grounding object TYPES cut this class 3-5x, and the coder then invented methods on
+      the now-correctly-typed object — the same failure one level down.
+    fix: >-
+      Look the member up rather than guessing: `alw member '<Name>'` returns every object
+      that publishes it, with the real signature and the symbol version that proves it.
+      Note that the OBJECT may also be wrong; a compiler probe distinguishes the two.
+    evidence: "kb_ground_members + probe_unresolved_objects in run-build.py"
+    bc-version: [all]
+
+  AL0126:
+    category: types
+    meaning: No overload of the method takes that number of arguments.
+    cause: An argument count that does not match any published signature.
+    fix: >-
+      The diagnostic lists the real candidates — use them. `alw member '<Name>'` gives the
+      full signature with parameter names.
+    evidence: "reproduced via al_probe against BC27 symbols, 2026-08-17"
+    bc-version: [all]
+
+  AL0440:
+    category: duplicate
+    meaning: The object already defines a method with that name and parameter types.
+    cause: >-
+      Most often a collision with a BUILT-IN member rather than with your own code. Every
+      codeunit already has `Run()`.
+    model_failure: >-
+      `Run` is the obvious name for a codeunit's entry point, so it gets written, and the
+      resulting error names your procedure rather than the built-in it clashes with.
+    bad: |
+      codeunit 50100 "My Thing" { procedure Run() begin end; }
+    good: |
+      codeunit 50100 "My Thing" { procedure Execute() begin end; }
+    fix: Rename your procedure. Do not try to remove the built-in.
+    evidence: "hit while building al_probe's snippet template, 2026-08-17 — both a valid
+      and an invalid hypothesis came back rejected until the name was changed"
+    confidence: verified
+    source: al_probe snippet template, 2026-08-17
+    bc-version: [all]
+
+  AL0104:
+    category: syntax
+    meaning: A declaration appears where the grammar does not allow it.
+    cause: >-
+      A procedure inside a `usercontrol`, an `addlast` at object level, or an enum value
+      without an id — all structural placement errors.
+    fix: >-
+      Move the declaration to a legal scope. A control add-in's procedures belong on the
+      containing page, not inside `usercontrol`.
+    evidence: "probe_al_rules.sh r11/r14/r20, verified BC27 / al 18.0.37, 2026-08-16"
+    confidence: verified
+    source: probe_al_rules.sh r11/r14/r20
+    bc-version: [all]
+
+  AL0162:
+    category: rules
+    meaning: >-
+      A trigger or member is used where this object does not allow it.
+    cause: >-
+      Most often OnAfterModify/OnBeforeModify written on a page. Those are TABLE triggers;
+      a page has OnModifyRecord.
+    model_failure: >-
+      The table trigger names are the ones that come to mind, and the diagnostic names the
+      trigger rather than saying "wrong object type for it".
+    fix: >-
+      On a page use OnModifyRecord/OnInsertRecord/OnDeleteRecord. On a table use
+      OnModify/OnInsert/OnDelete. To react to another extension's writes, subscribe to the
+      table's OnAfterModifyEvent instead of declaring a trigger.
+    evidence: "probe_al_rules.sh r13-onaftermodify, verified BC27; suite7 2026-08-18 —
+      the most frequent first-pass code for qwen3-coder:30b (5 hits across p4 and doclink)"
+    confidence: verified
+    source: probe_al_rules.sh + suite7 metrics
+    bc-version: [all]
+
+  AL0169:
+    category: types
+    meaning: The value is not valid for this property or enum.
+    cause: An invented DataClassification value is the common case.
+    fix: >-
+      DataClassification accepts exactly seven members — CustomerContent,
+      EndUserIdentifiableInformation, AccountData, EndUserPseudonymousIdentifiers,
+      OrganizationIdentifiableInformation, SystemMetadata, ToBeClassified. Use
+      CustomerContent unless there is a reason not to.
+    evidence: "probe_al_rules.sh r7-bad-value, verified BC27, 2026-08-16"
+    confidence: verified
+    source: probe_al_rules.sh r7-bad-value
+    bc-version: [all]
+
+  AL0156:
+    category: types
+    meaning: SecretText cannot be used as a table field type.
+    cause: Treating SecretText as a storage type rather than an in-memory one.
+    fix: >-
+      Store secrets in IsolatedStorage with an explicit DataScope; SecretText is for
+      passing values around in memory, not for persisting them.
+    evidence: "probe_al_rules.sh r9-secrettext-field — a hard error, not a SaaS preference"
+    confidence: verified
+    source: probe_al_rules.sh r9-secrettext-field
+    bc-version: [all]
+
+  PTE0008:
+    category: rules
+    meaning: A page field or action has no ApplicationArea.
+    cause: PerTenantExtensionCop requires it; without one the control is invisible.
+    model_failure: >-
+      Guidance frequently attributes this to UICop AA0218. It does not — AA0218 is the
+      TOOLTIP rule, and citing the wrong code sends the fix in the wrong direction.
+    fix: "Set `ApplicationArea = All;` on the field or action."
+    evidence: "probe_al_rules.sh r10-field-no-apparea, verified BC27, 2026-08-16 — this
+      corrected a wrong claim in AL-SYNTAX rule 10"
+    confidence: verified
+    source: probe_al_rules.sh r10-field-no-apparea
+    bc-version: [all]
+
+  AA0218:
+    category: rules
+    meaning: A ToolTip is missing on a page field or action.
+    cause: UICop. It fires for FIELDS as well as actions, and shows as a yellow underline.
+    fix: >-
+      Add `ToolTip = 'Specifies ...';`. A ToolTip on the TABLE field is inherited by pages,
+      so it can be set once there instead — but do not mix inline and inherited tooltips
+      on one page. The compiler cannot catch that mixture, so keep a page to one style.
+    evidence: "probe_al_rules.sh r10, verified BC27, 2026-08-16; table-level inheritance
+      confirmed on a BC27 container"
+    bc-version: [24..]
+    introduced_bc: 24        # table-field tooltip inheritance arrived in 2024w1
+    confidence: verified
+    source: probe_al_rules.sh + BC27 container
+
+  PTE0004:
+    category: rules
+    meaning: An object is not covered by any permission set.
+    cause: >-
+      A table was added without adding it to the extension's permission set. Fires on any
+      probe or prototype that declares a table.
+    fix: "Add the object to the extension's permissionset with the permissions it needs."
+    evidence: "probe_al_rules.sh — accompanies every table-declaring probe"
+    bc-version: [all]
+
+  AA0215:
+    category: rules
+    meaning: The file name does not match the object it declares.
+    cause: CodeCop naming convention — `<Name>.<Type>.al`.
+    fix: >-
+      Rename the file, or move the object to its own correctly named file. An enum living
+      at the bottom of a table file triggers this.
+    evidence: "probe_al_rules.sh r5-badfilename, verified BC27, 2026-08-16"
+    confidence: verified
+    source: probe_al_rules.sh r5-badfilename
+    bc-version: [all]
+
+  AA0194:
+    category: rules
+    meaning: An action has neither an OnAction trigger nor a RunObject property.
+    cause: The action is declared but does nothing.
+    fix: "Give it an `OnAction` trigger or a `RunObject`."
+    evidence: "probe_al_rules.sh r10-action-no-tooltip, verified BC27, 2026-08-16"
+    confidence: verified
+    source: probe_al_rules.sh r10-action-no-tooltip
+    bc-version: [all]
+
+  AA0247:
+    category: rules
+    meaning: The object is not organised into a namespace.
+    cause: >-
+      CodeCop, informational. Namespaces isolate an extension's names from base-app
+      changes; without one, a future base-app object with the same name collides.
+    fix: >-
+      Add a `namespace <Publisher>.<Area>;` line at the top of the file, above the object
+      declaration and any `using` directives.
+    evidence: "info-level on every bench build recorded in .build-receipt.json,
+      2026-08-17 — high volume, low urgency; documented so it is recognised and not
+      chased as an error"
+    bc-version: [22..]
+
+  AL0432:
+    category: obsolete
+    meaning: A referenced member is marked obsolete.
+    cause: >-
+      The base app moved on. It still compiles today and will stop compiling on the
+      version that removes it.
+    fix: >-
+      The diagnostic names the replacement. Migrate now rather than at the upgrade that
+      forces it — `alw upgrade` reports obsolete transitions between two builds.
+    evidence: "escalated to an error by the `upgrade` deployment profile (al-profiles.yml)"
+    bc-version: [all]
+    confidence: high
+    source: AL compiler diagnostic

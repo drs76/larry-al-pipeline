@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# al-rag — retrieval-augmented AL codegen with the al-coder-qwen3 model.
+#
+# The ollama coder can't reliably emit real tool-calls via pi (chatml/no-jinja → it
+# text-dumps a <function=…> instead of invoking), so we do RAG the reliable way:
+# PRE-FETCH the relevant BC source from the local KB and INJECT it into the prompt,
+# then run the model one-shot. Grounds the model in real signatures/patterns instead
+# of guessing. Everything local: KB search hits Larry's `kb serve`, model is on Larry.
+#
+#   al-rag "write a codeunit that sends an email with an attachment"
+#   al-rag -n 8 -c bcapps-system "…"      # more context / limit to one corpus
+#
+# Env: KB_REMOTE (default http://larry.home.arpa:8848), token from KB_REMOTE_TOKEN or
+#      ~/.pi/.kb-token; PI_AL_MODEL (default al-coder-qwen3).
+set -euo pipefail
+
+KB_REMOTE="${KB_REMOTE:-http://larry.home.arpa:8848}"
+MODEL="${PI_AL_MODEL:-al-coder-qwen3}"
+N=10   # top-N hits injected. 10 (not 6): events cluster into near-duplicates, so the exact
+       # one often sits at rank 7-9 among valid siblings — n=10 keeps it in context. Measured:
+       # rag_eval hit@10 83% vs hit@5 75% on BC27.5 (2026-08-06). See pipeline/rag_eval.py.
+CORPUS=""
+while getopts "n:c:" opt; do
+  case "$opt" in
+    n) N="$OPTARG" ;;
+    c) CORPUS="$OPTARG" ;;
+    *) echo "usage: al-rag [-n N] [-c corpus] \"prompt\"" >&2; exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+PROMPT="${*:-}"
+[ -n "$PROMPT" ] || { echo "usage: al-rag [-n N] [-c corpus] \"prompt\"" >&2; exit 2; }
+
+TOKEN="${KB_REMOTE_TOKEN:-$(cat "$HOME/.pi/.kb-token" 2>/dev/null || true)}"
+
+# Retrieve BC source context for the request (best-effort — degrade to no-RAG on failure).
+# Quoted heredoc ('PY') => no bash interpolation, so the Python needs no quote-escaping.
+CONTEXT="$(KB_REMOTE="$KB_REMOTE" KB_TOKEN="$TOKEN" AL_QUERY="$PROMPT" AL_CORPUS="$CORPUS" AL_N="$N" \
+  python3 - <<'PY' 2>/dev/null || true
+import json, os, urllib.request
+url = os.environ["KB_REMOTE"].rstrip("/") + "/search"
+body = json.dumps({"query": os.environ["AL_QUERY"],
+                   "corpus": os.environ.get("AL_CORPUS") or None,
+                   "n": int(os.environ.get("AL_N", "10"))}).encode()
+headers = {"Content-Type": "application/json"}
+tok = os.environ.get("KB_TOKEN")
+if tok:
+    headers["Authorization"] = "Bearer " + tok
+try:
+    req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+    with urllib.request.urlopen(req, timeout=20) as r:
+        hits = json.load(r)
+except Exception:
+    raise SystemExit(0)
+for h in hits:
+    head = h.get("heading") or h.get("path", "")
+    print("--- %s: %s" % (h.get("corpus", ""), head))
+    print("    (source: %s)" % h.get("path", ""))
+    print((h.get("snippet", "") or "").strip())
+    print()
+PY
+)"
+
+if [ -n "$CONTEXT" ]; then
+  AUGMENTED="You are writing Business Central AL. Below is REAL AL source retrieved from the
+local knowledge base (Microsoft BCApps System Application / Business Foundation, the W1
+feature apps, BCTech samples, and the AL reference). Treat these signatures, object names
+and patterns as authoritative — prefer them over anything you'd guess. Do NOT invent BC
+APIs; if the context lacks something, say so.
+
+===== RETRIEVED BC SOURCE =====
+${CONTEXT}
+===== END CONTEXT =====
+
+TASK:
+${PROMPT}"
+else
+  echo "al-rag: KB unreachable — running without retrieval context." >&2
+  AUGMENTED="$PROMPT"
+fi
+
+# Windows: `pi` is an npm .CMD shim run through cmd.exe, which truncates a multi-line
+# argument at the first newline — the retrieval context would be silently dropped and
+# only the first line would reach the model. pi's @file form delivers it intact.
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    ptmp="$(mktemp -t al-rag-prompt-XXXXXX)"
+    printf '%s' "$AUGMENTED" > "$ptmp"
+    pi --provider ollama --model "$MODEL" --no-context-files -p "@$(cygpath -m "$ptmp")"
+    rc=$?; rm -f "$ptmp"; exit $rc ;;
+  *)
+    exec pi --provider ollama --model "$MODEL" --no-context-files -p "$AUGMENTED" ;;
+esac

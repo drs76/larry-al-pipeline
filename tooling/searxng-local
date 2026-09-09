@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+# searxng-local — manage the off-LAN SearXNG fallback container (127.0.0.1:8888).
+#   searxng-local install    write config from the repo, create-or-recreate the container, verify
+#   searxng-local status     container state + a live query showing per-engine result counts
+#   searxng-local logs       tail the container log
+# On the LAN, pi's web_search uses https://searxng.home.arpa (LXC 111 on nemesis) instead;
+# the switch lives in ~/.config/zsh/.zshenv and keys on whether that name resolves.
+# Config source of truth: tooling/searxng-local-settings.yml in this repo. Run `install`
+# after a `git pull` to pick up engine changes — the container reads the file at start only.
+set -euo pipefail
+
+SELF="$(readlink -f "$0" 2>/dev/null || echo "$0")"
+HERE="$(cd "$(dirname "$SELF")" && pwd)"
+SRC="$HERE/searxng-local-settings.yml"
+
+CONF_DIR="$HOME/.config/searxng-local"
+SECRET="$CONF_DIR/.secret"
+NAME="searxng-local"
+PORT=8888
+URL="http://localhost:$PORT"
+
+die() { echo "searxng-local: $*" >&2; exit 1; }
+
+command -v docker >/dev/null 2>&1 || die "docker not found — this box has no fallback container (LAN clients don't need one)"
+
+# Two engines here are enabled against the upstream default, so a query that returns
+# results from neither is a signal the config never landed.
+probe() {
+  local json
+  json="$(curl -sf --get --data-urlencode "q=$1" --data "format=json" "$URL/search" 2>/dev/null)" || return 1
+  printf '%s' "$json" | python3 -c '
+import collections, json, sys
+d = json.load(sys.stdin)
+c = collections.Counter()
+for r in d.get("results", []):
+    for e in r.get("engines", []):
+        c[e] += 1
+print("  results:", len(d.get("results", [])), "by engine:", dict(c) or "{}")
+u = [x[0] for x in d.get("unresponsive_engines", [])]
+print("  unresponsive:", ", ".join(u) if u else "none")
+sys.exit(0 if d.get("results") else 3)
+'
+}
+
+case "${1:-install}" in
+install)
+  [ -f "$SRC" ] || die "missing $SRC"
+  mkdir -p "$CONF_DIR"
+
+  # Generated once per machine. A committed secret_key would be shared across every
+  # client, and searxng signs its result-page tokens with it.
+  if [ ! -s "$SECRET" ]; then
+    python3 -c 'import secrets; print(secrets.token_hex(32))' > "$SECRET"
+    chmod 600 "$SECRET"
+    echo "generated $SECRET"
+  fi
+
+  python3 - "$SRC" "$(cat "$SECRET")" "$CONF_DIR/settings.yml" <<'PY'
+import sys
+src, secret, dst = sys.argv[1], sys.argv[2], sys.argv[3]
+text = open(src, encoding="utf-8").read()
+if "__SECRET_KEY__" not in text:
+    sys.exit("template has no __SECRET_KEY__ placeholder")
+open(dst, "w", encoding="utf-8").write(text.replace("__SECRET_KEY__", secret))
+PY
+  echo "wrote $CONF_DIR/settings.yml"
+
+  # The container reads settings.yml at startup only, so a config change needs a
+  # restart; recreate rather than restart so a changed image/port also takes effect.
+  if [ -n "$(docker ps -aq -f "name=^${NAME}$")" ]; then
+    docker rm -f "$NAME" >/dev/null
+  fi
+  docker run -d --name "$NAME" --restart unless-stopped \
+    -p "127.0.0.1:$PORT:8080" \
+    -v "$CONF_DIR:/etc/searxng" \
+    searxng/searxng:latest >/dev/null
+  echo "container $NAME started on $URL"
+
+  printf 'waiting for it to answer'
+  for _ in $(seq 1 30); do
+    if curl -sf -o /dev/null "$URL/"; then echo; break; fi
+    printf '.'; sleep 2
+  done
+  curl -sf -o /dev/null "$URL/" || die "still not answering — check: searxng-local logs"
+
+  echo "verifying engines:"
+  probe "wireguard mtu tuning" || die "no results — engines may be blocked from this network; check: searxng-local logs"
+  ;;
+
+status)
+  docker ps -a --filter "name=^${NAME}$" --format '{{.Names}}  {{.Status}}  {{.Ports}}'
+  echo "SEARXNG_URL currently: ${SEARXNG_URL:-<unset>}"
+  probe "wireguard mtu tuning" || echo "  (no results — see: searxng-local logs)"
+  ;;
+
+logs)
+  docker logs --tail 100 -f "$NAME"
+  ;;
+
+*)
+  die "unknown command '${1}' — use: install | status | logs"
+  ;;
+esac

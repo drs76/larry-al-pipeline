@@ -1,0 +1,10 @@
+[Unit]
+Description=Nightly KB hybrid-search index refresh (Larry-hosted store)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/kb/serve.env
+TimeoutStartSec=1800
+ExecStart=/mnt/rojaws/localDev/setup/tooling/kb index

@@ -1,0 +1,475 @@
+#!/usr/bin/env bash
+# alw — AL Workflow bridge (named 'alw' to avoid clashing with the dotnet 'al' CLI).
+#   alw route "<ask>"          classify+answer via pi /al-route (SIMPLE inline,
+#                              COMPLEX writes a handover + prints next steps)
+#   alw new <name>             scaffold a fresh prototype under the prototypes dir
+#   alw build <name|path> [N]  run run-build.py; N = ESCALATE_AFTER (omit = manual)
+#   alw edit <name|path> [N] [--only 1,15,F2] [--dry-run] [--no-build]
+#                              edit-in-place round via run-edit.py (git repo required);
+#                              N = ESCALATE_AFTER (omit = pi only, no Claude spend)
+#   alw promote <name>         move a built prototype into /mnt/rojaws/Code/AL for refinement
+#   alw help
+set -euo pipefail
+
+# Portable base: prefer a local ~/larry-setup clone (roaming clients — e.g. the
+# ThinkPad, where /mnt/rojaws is an NFS mount that vanishes off-LAN), else the dev
+# box's /mnt source of truth. Override with SETUP_DIR to force either.
+SETUP_DIR="${SETUP_DIR:-$([ -d "$HOME/larry-setup" ] && echo "$HOME/larry-setup" || echo /mnt/rojaws/localDev/setup)}"
+
+PI_BIN="${PI_BIN:-$(command -v pi || echo "$HOME/.npm-global/bin/pi")}"
+PI_EXT="${PI_EXT:-$HOME/.pi/ollama-provider.ts}"
+PI_MODEL="${PI_CODER_MODEL:-ollama/qwen3-coder:30b}"   # ornith:35b is broken (ROCm cold-load hang)
+RUN_BUILD="${RUN_BUILD:-$SETUP_DIR/pipeline/run-build.py}"
+RUN_EDIT="${RUN_EDIT:-$SETUP_DIR/pipeline/run-edit.py}"
+HANDOVER_LINT="${HANDOVER_LINT:-$SETUP_DIR/pipeline/handover_lint.py}"
+PROJECTS_DIR="${PROJECTS_DIR:-/mnt/rojaws/localDev/projects}"      # roaming clients override in env
+PROTOTYPES_DIR="${PROTOTYPES_DIR:-/mnt/rojaws/localDev/projects/prototypes}"
+CODE_AL="${CODE_AL:-/mnt/rojaws/Code/AL}"
+
+# Kanban board wiring (best-effort): create/adopt a board on `new`, mirror on `promote`.
+# Never fails the build/promote; BOARD=0 disables. See setup/pipeline/board.py.
+BOARD_PY="${BOARD_PY:-$SETUP_DIR/pipeline/board.py}"
+board_wire() { [ "${BOARD:-1}" = 0 ] && return 0; python3 "$BOARD_PY" "$@" 2>&1 | sed 's/^/  /' || true; return 0; }
+# TEMPLATE_AL avoids the shared-$TEMPLATE collision with gow/csw; legacy $TEMPLATE still honored.
+TEMPLATE="${TEMPLATE_AL:-${TEMPLATE:-$SETUP_DIR/templates/larry-handover.template.md}}"
+HANDOVER_DIR="${HANDOVER_DIR:-$HOME/al-handovers}"
+export NODE_OPTIONS="${NODE_OPTIONS:---use-system-ca}"   # trust HomeLab CA for pi over HTTPS
+
+usage() { sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; }
+
+# resolve a bare name to a project dir: cwd/path, prototypes, projects, Code/AL
+resolve_project() {
+  local p="$1"
+  if [ -d "$p" ]; then echo "$p"; return 0; fi
+  for base in "$PROTOTYPES_DIR" "$PROJECTS_DIR" "$CODE_AL"; do
+    [ -d "$base/$p" ] && { echo "$base/$p"; return 0; }
+  done
+  return 1
+}
+
+cmd_route() {
+  local ask="$*"
+  [ -z "$ask" ] && { echo "usage: alw route \"<ask>\"" >&2; exit 1; }
+  [ -x "$PI_BIN" ] || { echo "ERROR: pi not found at $PI_BIN" >&2; exit 1; }
+  local out
+  out="$("$PI_BIN" -e "$PI_EXT" --model "$PI_MODEL" -p --no-session "/al-route $ask" 2>&1)"
+  printf '%s\n' "$out"
+  if grep -qiE 'VERDICT: *COMPLEX|al-handovers' <<<"$out"; then
+    local latest; latest="$(ls -t "$HANDOVER_DIR"/*.md 2>/dev/null | head -1 || true)"
+    echo
+    echo "──────────────────────────────────────────────────────────"
+    echo "COMPLEX — next steps (paid steps stay manual):"
+    [ -n "$latest" ] && echo "  handover: $latest"
+    echo "  1) scaffold:  alw new <name>      then fill its larry-handover.prompt.md"
+    echo "                (or run /spec in Claude to expand the handover above)"
+    echo "  2) build:     alw build <name> [N]"
+    echo "──────────────────────────────────────────────────────────"
+  fi
+}
+
+cmd_new() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: alw new <name>" >&2; exit 1; }
+  local dest="$PROTOTYPES_DIR/$name"
+  [ -e "$dest" ] && { echo "ERROR: already exists: $dest" >&2; exit 1; }
+  [ -f "$TEMPLATE" ] || { echo "ERROR: handover template missing: $TEMPLATE" >&2; exit 1; }
+
+  mkdir -p "$dest/src" "$dest/docs"
+
+  # Substitute the path placeholders in HOST-NATIVE form. The template used to
+  # hardcode /mnt/rojaws, which is wrong everywhere except the dev box — on Windows
+  # the model then wrote Linux paths and the build never found the files. cygpath -m
+  # yields the drive-letter form (C:/Users/...) the manifest parser and Windows
+  # Python both need; on Linux there is no cygpath, so paths pass through unchanged.
+  native() { cygpath -m "$1" 2>/dev/null || echo "$1"; }
+  local n_root n_setup n_codeal
+  n_root="$(native "$dest")"; n_setup="$(native "$SETUP_DIR")"
+  # Only point at the pastes tree if it actually exists here. Unguarded, the Linux
+  # default (/mnt/rojaws/Code/AL) gets cygpath'd on Windows into the nonsense
+  # C:/Program Files/Git/mnt/rojaws/Code/AL, which is worse than saying nothing.
+  if [ -d "$CODE_AL" ]; then
+    n_codeal="$(native "$CODE_AL")"
+  else
+    n_codeal="(NO local AL examples on this host — delete the AL examples section)"
+  fi
+  sed -e "s/\[PROJECT NAME\]/$name/g" \
+      -e "s|\[PROJECT ROOT\]|$n_root|g" \
+      -e "s|\[SETUP DIR\]|$n_setup|g" \
+      -e "s|\[CODE AL\]|$n_codeal|g" \
+      "$TEMPLATE" > "$dest/larry-handover.prompt.md"
+
+  # generic cleanup.sh: deletes files not in this project's handover manifest
+  cat > "$dest/cleanup.sh" <<'CLEAN'
+#!/usr/bin/env bash
+# Deletes any src/ file or app.json NOT listed in the handover's machine-readable manifest.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+HANDOVER="$ROOT/larry-handover.prompt.md"
+# Windows: manifests here use drive-letter paths (C:/Users/...) while `find` emits
+# Git-Bash form (/c/Users/...). Matching /^\// only, or comparing the two forms raw,
+# yields an EMPTY match set — which deletes every source file. Accept both forms and
+# normalise through cygpath. Default is DRY-RUN; pass --apply to delete.
+APPLY=0
+[ "${1:-}" = "--apply" ] && APPLY=1
+norm() { cygpath -u "$1" 2>/dev/null || echo "$1"; }
+mapfile -t RAW < <(awk 'tolower($0) ~ /machine-readable manifest/{f=1} f && /^([A-Za-z]:|\/)/{print}' "$HANDOVER")
+[ ${#RAW[@]} -eq 0 ] && { echo "ERROR: no manifest paths parsed — refusing to delete anything." >&2; exit 1; }
+EXPECTED=()
+for e in "${RAW[@]}"; do EXPECTED+=("$(norm "$e")"); done
+deleted=0
+while IFS= read -r -d '' f; do
+    fn="$(norm "$f")"
+    keep=0
+    for e in "${EXPECTED[@]}"; do [[ "$fn" == "$e" ]] && keep=1 && break; done
+    if [[ $keep -eq 0 ]]; then
+        if [[ $APPLY -eq 1 ]]; then echo "DELETE: $f"; rm "$f"; else echo "WOULD DELETE: $f"; fi
+        ((deleted++)) || true
+    fi
+done < <(find "$ROOT" -not -path '*/.alpackages/*' -not -path '*/.vscode/*' \
+    -not -path '*/docs/*' -not -path '*/.git/*' -not -name '*.md' -not -name 'cleanup.sh' \
+    -not -name '.gitignore' -type f -print0)
+if [[ $APPLY -eq 1 ]]; then echo "Deleted $deleted unspecced file(s)."
+else echo "DRY RUN — $deleted unspecced file(s) would be deleted. Re-run with --apply to delete."; fi
+CLEAN
+  chmod +x "$dest/cleanup.sh"
+
+  for d in SPEC TASKS AL-PROJECT-STRUCTURE; do
+    echo "# $name — $d" > "$dest/docs/$d.md"
+    echo "" >> "$dest/docs/$d.md"
+    echo "_Placeholder — expand via Claude /spec before building._" >> "$dest/docs/$d.md"
+  done
+
+  echo "Scaffolded prototype: $dest"
+  echo "  next: fill $dest/larry-handover.prompt.md (or /spec in Claude), then: alw build $name [N]"
+}
+
+cmd_build() {
+  local proj="${1:-}"; shift || true
+  [ -z "$proj" ] && { echo "usage: alw build <name|path> [escalate_after] [--review]" >&2; exit 1; }
+  local root; root="$(resolve_project "$proj")" || { echo "ERROR: project not found: $proj" >&2; exit 1; }
+
+  local esc=""; local -a extra=()
+  for a in "$@"; do
+    if [[ "$a" =~ ^[0-9]+$ ]]; then esc="$a"
+    elif [ "$a" = "--review" ]; then extra+=(--review)
+    else echo "ERROR: unknown build arg '$a' (expected a number and/or --review)" >&2; exit 1; fi
+  done
+
+  # Lint the handover BEFORE spending a build — every fixture defect it catches
+  # (bad manifest, mangled app.json, missing permission set, undeclared snippet
+  # vars, phantom BC names) otherwise presents as hours of model failure.
+  if [ "${LINT:-1}" != "0" ] && [ -f "$HANDOVER_LINT" ]; then
+    if ! python3 "$HANDOVER_LINT" "$root"; then
+      echo "ERROR: handover lint failed — fix the errors above (or bypass once with LINT=0)." >&2
+      exit 1
+    fi
+  fi
+
+  local -a env_pfx=(CODER_BACKEND=pi)
+  if [ -n "$esc" ]; then
+    env_pfx+=("ESCALATE_AFTER=$esc")
+    echo "Build: $root  (escalation ARMED after $esc pi rounds → Claude closes)"
+  else
+    echo "Build: $root  (manual — pi only, no Claude spend)"
+  fi
+  [ ${#extra[@]} -gt 0 ] && echo "  validator-peer review: ON (coms)"
+  exec env "${env_pfx[@]}" python3 "$RUN_BUILD" --project "$root" ${extra[@]+"${extra[@]}"}
+}
+
+cmd_edit() {
+  local proj="${1:-}"; shift || true
+  [ -z "$proj" ] && { echo "usage: alw edit <name|path> [escalate_after] [--only ids] [--dry-run] [--no-build]" >&2; exit 1; }
+  local root; root="$(resolve_project "$proj")" || { echo "ERROR: project not found: $proj" >&2; exit 1; }
+  [ -f "$root/larry-handover.prompt.md" ] || { echo "ERROR: no larry-handover.prompt.md in $root" >&2; exit 1; }
+
+  local esc=""; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --only) extra+=(--only "$2"); shift 2 ;;
+      --dry-run|--no-build|--build-only) extra+=("$1"); shift ;;
+      *) if [[ "$1" =~ ^[0-9]+$ ]]; then esc="$1"; shift
+         else echo "ERROR: unknown edit arg '$1'" >&2; exit 1; fi ;;
+    esac
+  done
+
+  local -a env_pfx=(CODER_BACKEND=pi)
+  if [ -n "$esc" ]; then
+    env_pfx+=("ESCALATE_AFTER=$esc")
+    echo "Edit: $root  (escalation ARMED — failed tasks + stalled fixes → Claude)"
+  else
+    echo "Edit: $root  (manual — pi only, no Claude spend)"
+  fi
+  exec env "${env_pfx[@]}" python3 "$RUN_EDIT" --project "$root" ${extra[@]+"${extra[@]}"}
+}
+
+cmd_symbols() {
+  # Symbol intelligence over the project's OWN downloaded symbols — the same ones
+  # `al compile` resolves against, so an answer here cannot drift from the runtime the
+  # project targets. Answers "does this exist and what is its real signature" without
+  # the caller needing to know which object publishes it.
+  #   alw event OnAfterPostSalesDoc [proj]
+  #   alw api   PostSalesDoc        [proj]
+  #   alw field '"Sales Header".Status' [proj]
+  local mode="$1"; shift
+  local name="${1:-}"; local proj="${2:-}"
+  [ -z "$name" ] && { echo "usage: alw $mode <name> [project]" >&2; exit 1; }
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  local pkgs="$root/.alpackages"
+  [ -d "$pkgs" ] || { echo "ERROR: no .alpackages in $root — build once so symbols are downloaded" >&2; exit 1; }
+  exec python3 "$SETUP_DIR/pipeline/al_symbols.py" "$mode" "$name" --dir "$pkgs" ${AL_JSON:+--json}
+}
+
+
+cmd_probe() {
+  # Settle an AL question by compiling it in a throwaway project — never the real one.
+  #   alw probe file.al [proj]              compile a whole object
+  #   alw probe -s 'Cust.Init();' -v 'Cust: Record Customer;' [proj]
+  # Exit 0 = compiles (hypothesis legal), 1 = anything else.
+  local -a args=()
+  local snippet="" vars="" proj=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      -s|--snippet) snippet="$2"; shift 2 ;;
+      -v|--vars)    vars="$2"; shift 2 ;;
+      --cops)       args+=(--analyzers); shift ;;
+      --json)       args+=(--json); shift ;;
+      *)            if [ -z "$proj" ] && [ -f "$1" ] && [ -z "$snippet" ]; then args+=("$1")
+                    else proj="$1"; fi; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  [ -d "$root/.alpackages" ] || { echo "ERROR: no .alpackages in $root — build once so symbols are downloaded" >&2; exit 1; }
+  if [ -n "$snippet" ]; then
+    printf '%s' "$snippet" | python3 "$SETUP_DIR/pipeline/al_probe.py" --snippet \
+      --vars "$vars" --project "$root" "${args[@]}"
+  else
+    python3 "$SETUP_DIR/pipeline/al_probe.py" --project "$root" "${args[@]}"
+  fi
+}
+
+
+cmd_profile() {
+  # Deployment profiles: what "good enough to ship" means for a destination.
+  #   alw profile                     list profiles
+  #   alw profile appsource [proj]    evaluate this source under that profile
+  # Evaluation needs no rebuild, so the SAME source can be checked against several.
+  local name="${1:-}"; local proj="${2:-}"
+  [ -z "$name" ] && { exec python3 "$SETUP_DIR/pipeline/al_profiles.py"; }
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_profiles.py" "$name" "$root" ${AL_JSON:+--json}
+}
+
+
+cmd_upgrade() {
+  # What breaks if this version replaces the installed one?
+  #   alw upgrade <old.app> <new.app>
+  # Compares .app to .app — build both first; a source tree cannot answer this.
+  local old="${1:-}"; local new="${2:-}"; shift 2 2>/dev/null || true
+  [ -z "$old" ] || [ -z "$new" ] && { echo "usage: alw upgrade <old.app> <new.app>" >&2; exit 1; }
+  exec python3 "$SETUP_DIR/pipeline/al_upgrade.py" "$old" "$new" "$@"
+}
+
+
+cmd_perf() {
+  # Deterministic AL performance / safety smells — the same rules the build referee
+  # injects into review and `bcw analyse` puts in its facts pack.
+  #   alw perf [proj] [--rule <name>] [--json]
+  local proj="" ; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --rule) extra+=(--rule "$2"); shift 2 ;;
+      --json) extra+=(--json); shift ;;
+      *)      proj="$1"; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_semantics.py" "$root" "${extra[@]}"
+}
+
+
+cmd_graph() {
+  # The extension as a graph — objects, events, fields and how they reach each other.
+  #   alw graph [proj]                        summary
+  #   alw graph --affected "PTE Route" [proj]  what breaks if that changes
+  #   alw graph --tests "PTE Route" [proj]     which test codeunits cover it
+  #   alw graph --mermaid [proj] | alw graph --json [proj]
+  local proj=""; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --affected|--depends|--tests) extra+=("$1" "$2"); shift 2 ;;
+      --mermaid|--json)             extra+=("$1"); shift ;;
+      *)                            proj="$1"; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_graph.py" "$root" "${extra[@]}"
+}
+
+
+cmd_why() {
+  # What a recurring AL diagnostic really means, and why it loops.
+  #   alw why AL0282          explain one code
+  #   alw why                 list what the KB knows
+  exec python3 "$SETUP_DIR/pipeline/al_errors.py" "$@"
+}
+
+
+cmd_testgen() {
+  # AL-10. Two different things behind one verb:
+  #   alw testgen --for "PTE Route" [proj]   which tests cover it (deterministic)
+  #   alw testgen --propose <file.al> [--write <Name>] [proj]   model proposes tests
+  # A proposal is rejected outright if it declares anything but a Subtype=Test codeunit
+  # in the reserved test id range.
+  local proj=""; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --for)     extra+=(--select "$2"); shift 2 ;;
+      --propose) extra+=(--propose "$2"); shift 2 ;;
+      --write)   extra+=(--write "$2"); shift 2 ;;
+      --filter|--json) extra+=("$1"); shift ;;
+      *)         proj="$1"; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_testgen.py" "$root" "${extra[@]}"
+}
+
+
+cmd_brain() {
+  # AL-14. One compact deterministic profile of the project — BC facts, objects,
+  # integrations, events, coverage, risk. Small enough to paste into a prompt.
+  #   alw brain [proj]              full YAML profile
+  #   alw brain --prompt [proj]     the ~500-char form for prompt context
+  #   alw brain --write [proj]      store it as .al-brain.yml
+  #   alw brain --check [proj]      is the stored profile stale?
+  local proj=""; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --prompt|--write|--check|--json) extra+=("$1"); shift ;;
+      *) proj="$1"; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_brain.py" "$root" "${extra[@]}"
+}
+
+
+cmd_capability() {
+  # AL-15. Which model is measurably good at WHICH kind of AL failure.
+  #   alw capability                      full report
+  #   alw capability --recommend events   route one task kind (exit 1 = no recommendation)
+  exec python3 "$SETUP_DIR/pipeline/al_capability.py" "$@"
+}
+
+
+cmd_process() {
+  # AL-17. The extension seen as business flow rather than as objects.
+  #   alw process [proj]                          the stage map
+  #   alw process --event OnAfterPostSalesDoc      what does changing it affect?
+  #   alw process --triggers posting               where is that stage reached from?
+  #   alw process --integrations posting           what leaves the building from there?
+  local proj=""; local -a extra=()
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --event|--triggers|--integrations) extra+=("$1" "$2"); shift 2 ;;
+      --mermaid|--json)                  extra+=("$1"); shift ;;
+      *)                                 proj="$1"; shift ;;
+    esac
+  done
+  local root
+  if [ -n "$proj" ]; then
+    root="$([ -d "$proj" ] && echo "$proj" || echo "$PROTOTYPES_DIR/$proj")"
+  else
+    root="$PWD"
+  fi
+  exec python3 "$SETUP_DIR/pipeline/al_process.py" "$root" "${extra[@]}"
+}
+
+
+cmd_promote() {
+  local name="${1:-}"
+  [ -z "$name" ] && { echo "usage: alw promote <name>" >&2; exit 1; }
+  local src="$PROTOTYPES_DIR/$name"
+  [ -d "$src" ] || { echo "ERROR: prototype not found: $src" >&2; exit 1; }
+  local dest="$CODE_AL/$name"
+  [ -e "$dest" ] && { echo "ERROR: target already exists: $dest" >&2; exit 1; }
+  # Refuse to promote a tree with no proof it passed the referee. Before this,
+  # promote checked only that the source existed and the destination did not, so a
+  # never-built, analyzer-less, or since-edited tree promoted exactly like a good one.
+  # Fail closed: no receipt / stale hash / bare-compile-only all block.
+  if ! SETUP_DIR="$SETUP_DIR" python3 - "$src" <<'PYGATE'
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath("tooling/alw")), "..", "pipeline"))
+sys.path.insert(0, os.path.join(os.environ["SETUP_DIR"], "pipeline"))
+import build_receipt
+ok, why, _ = build_receipt.verify(sys.argv[1], require_review=os.environ.get("REVIEW_REQUIRED") == "1")
+if not ok:
+    print(f"ERROR: refusing to promote — {why}", file=sys.stderr)
+    raise SystemExit(1)
+print("  receipt OK — tree matches a verified build")
+PYGATE
+  then
+    echo "       (override with PROMOTE_FORCE=1 if you accept the risk)" >&2
+    [ "${PROMOTE_FORCE:-0}" = "1" ] || exit 1
+  fi
+  mv "$src" "$dest"
+  echo "Promoted: $src → $dest"
+}
+
+case "${1:-help}" in
+  route|flow|ask) shift; cmd_route "$@" ;;
+  new)            shift; cmd_new "$@"; board_wire project "$PROTOTYPES_DIR/${1:-}"; board_wire install-hook "$PROTOTYPES_DIR/${1:-}" ;;
+  build)          shift; cmd_build "$@" ;;
+  edit)           shift; cmd_edit "$@" ;;
+  api|member)     shift; cmd_symbols member "$@" ;;
+  event)          shift; cmd_symbols event  "$@" ;;
+  field)          shift; cmd_symbols field  "$@" ;;
+  probe)          shift; cmd_probe "$@" ;;
+  profile)        shift; cmd_profile "$@" ;;
+  upgrade)        shift; cmd_upgrade "$@" ;;
+  perf|semantics) shift; cmd_perf "$@" ;;
+  graph)          shift; cmd_graph "$@" ;;
+  why|error)      shift; cmd_why "$@" ;;
+  testgen|tests)  shift; cmd_testgen "$@" ;;
+  brain|profile-of) shift; cmd_brain "$@" ;;
+  capability|caps) shift; cmd_capability "$@" ;;
+  process|flow-of) shift; cmd_process "$@" ;;
+  promote)        shift; cmd_promote "$@"; board_wire promote "$CODE_AL/${1:-}" ;;
+  help|-h|--help) usage ;;
+  *)              echo "unknown command: $1" >&2; usage; exit 1 ;;
+esac

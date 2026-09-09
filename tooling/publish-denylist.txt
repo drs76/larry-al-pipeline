@@ -1,0 +1,40 @@
+# Publish gate — patterns that MUST NOT reach the public repo.
+#
+# One extended-regex (PCRE) per line. Blank lines and # comments ignored. A match
+# anywhere in the exported tree ABORTS the publish. This file is the durable record of
+# the pre-publication scrub; without it the rules live only in someone's memory and the
+# next sync silently re-exports what an earlier one removed.
+#
+# Adding an exception: prefer fixing the file. If a hit is genuinely intended (raw
+# captured evidence, for example), narrow the pattern and say why on the line above,
+# so the reason survives the person who knew it.
+
+# A SESSION_SECRET and POSTGRES_PASSWORD were found in
+# archive/librechat/docker-compose.yml on 2026-09-10, AFTER the repo had been public
+# for some hours. The directory was deleted rather than redacted (LibreChat was
+# retired; nothing listened behind it). Both values are burned.
+#
+# This matches the SHAPE, not the values. Listing the literals here would put the
+# secrets into the very file that exists to keep them out — and this file is itself
+# published, so the denylist would have leaked what it guards.
+(SESSION_SECRET|POSTGRES_PASSWORD)\s*[:=]\s*[0-9a-f]{16,}
+
+# Personal email scrubbed 2026-09-09 (was hardcoded in the librechat setup scripts).
+# Domain only, deliberately: the local part is not written here, because this file is
+# itself published and would otherwise reconstruct the address it exists to block.
+tutanota
+
+# Home-directory paths. Known intended survivors, NOT matched by this pattern:
+# Path exemptions are declared in publish-public.sh's SKIP map, not as a lookahead
+# here: grep-style content patterns never see the filename, so `(?!.*sway-setup)`
+# silently failed to exempt anything. Exempt paths and why:
+#   - tower/sway-setup/** — sway(5) expands shell syntax for `include` only, not for
+#     `output ... bg`, so genericising breaks a working desktop config
+#   - reference/bench-results/** — raw captured output; editing falsifies the artefact
+# @id home-paths
+/home/dav
+
+# Credential shapes specific to this project. Requires an actual secret-shaped VALUE:
+# the earlier `=[^$\n]` form matched the `<generate: openssl rand ...>` placeholder in
+# serve.env.example and two lines that merely reference the variable name.
+(KB_SERVE_TOKEN|ANTHROPIC_API_KEY)\s*[:=]\s*[A-Za-z0-9+/=_-]{16,}

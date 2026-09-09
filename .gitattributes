@@ -1,0 +1,12 @@
+# Extensionless shebang scripts — global ~/.gitattributes only forces LF on
+# *.sh/*.bash/*.zsh, so these bare-name scripts would inherit eol=crlf and break
+# their shebang on Linux/WSL. Force LF.
+dashboard/deploy-dash  text eol=lf
+tooling/alw            text eol=lf
+tooling/anon           text eol=lf
+tooling/bcw            text eol=lf
+tooling/csw            text eol=lf
+tooling/gow            text eol=lf
+tooling/kb             text eol=lf
+tooling/kb-lint        text eol=lf
+tooling/probe          text eol=lf

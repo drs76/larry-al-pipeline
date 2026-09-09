@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# ingw — video → AL knowledge workflow (scan/triage → fetch → distil → merge).
+#   ingw scan <channel_url> [N]  triage a channel; writes reference/ingest-plan.md
+#                                N = only consider the N newest un-ingested videos
+#   ingw run <plan.md> [--force] fetch + distil + merge everything marked KEEP
+#   ingw list                    what's already in the transcript archive
+#   ingw help
+# Two phases on purpose: `scan` ends at a plan you edit/approve, so a long
+# fetch+distil pass is never spent on the wrong videos. Captions only — never
+# downloads video. Distillation is Claude (judgement work); everything
+# deterministic (listing, fetch, VTT cleaning, archiving) runs model-free.
+# Triage caveat: a long-running channel accumulates pre-AL/NAV-era talks (C/AL,
+# RoleTailored Client, .NET interop). They are technically dense so triage keeps
+# them, but merging that into a CURRENT AL reference poisons the file that feeds
+# the coder's context. Filter by era before running a whole-channel plan.
+set -euo pipefail
+
+SETUP_DIR="${SETUP_DIR:-$([ -d "$HOME/larry-setup" ] && echo "$HOME/larry-setup" || echo /mnt/rojaws/localDev/setup)}"
+PIPELINE="${PIPELINE:-$SETUP_DIR/pipeline}"
+RUN_INGEST="${RUN_INGEST:-$PIPELINE/run-ingest.py}"
+COLLECT="${COLLECT:-$PIPELINE/source_collect.py}"
+
+usage() { sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'; }
+
+case "${1:-help}" in
+  scan)
+    shift
+    [ $# -ge 1 ] || { echo "usage: ingw scan <channel_url> [N]" >&2; exit 1; }
+    url="$1"; shift
+    args=(scan --channel "$url")
+    [ $# -ge 1 ] && [ -n "${1:-}" ] && args+=(--limit "$1")
+    exec python3 "$RUN_INGEST" "${args[@]}"
+    ;;
+  run)
+    shift
+    [ $# -ge 1 ] || { echo "usage: ingw run <plan.md> [--force]" >&2; exit 1; }
+    plan="$1"; shift
+    [ -f "$plan" ] || { echo "ERROR: plan not found: $plan" >&2; exit 1; }
+    exec python3 "$RUN_INGEST" run --plan "$plan" "$@"
+    ;;
+  list)          exec python3 "$COLLECT" list ;;
+  help|-h|--help) usage ;;
+  *) echo "unknown command: $1" >&2; usage; exit 1 ;;
+esac

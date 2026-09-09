@@ -1,0 +1,57 @@
+ROUTING ECONOMICS — routecon4
+registration: reference/exp-routing-economics-preregistration.md
+allocation: 4 fixtures x 1 arms x 10 = 40 runs
+fixtures: p1 p4 map doclink   arms: C   model: ollama/qwen3-coder:30b (fixed across arms)
+arm A: escalation OFF   arm B: ESCALATE_AFTER=4   arm C: ESCALATE_ON_RULE=1 v1:553cfa8b91e6a4e8
+sanitized 60 env vars per run; every arm sets its policy EXPLICITLY
+CLAUDE_USAGE_STRICT=1; no spend cap — the 120-run allocation is the only exposure bound
+per-fixture analysis only; no pooled workload metric (weighting deferred)
+
+qwen3-coder_30b__p1__routecon4_armC__r1: PASS calls=0 cost=$0 in 74s
+cumulative [routecon4]: 1 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r2: PASS calls=0 cost=$0 in 65s
+cumulative [routecon4]: 2 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r3: PASS calls=0 cost=$0 in 67s
+cumulative [routecon4]: 3 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r4: PASS calls=0 cost=$0 in 69s
+cumulative [routecon4]: 4 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r5: PASS calls=0 cost=$0 in 77s
+cumulative [routecon4]: 5 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r6: PASS calls=0 cost=$0 in 71s
+cumulative [routecon4]: 6 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r7: PASS calls=0 cost=$0 in 73s
+cumulative [routecon4]: 7 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r8: PASS calls=0 cost=$0 in 80s
+cumulative [routecon4]: 8 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r9: PASS calls=0 cost=$0 in 67s
+cumulative [routecon4]: 9 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p1__routecon4_armC__r10: PASS calls=0 cost=$0 in 73s
+cumulative [routecon4]: 10 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r1: PASS calls=0 cost=$0 in 80s
+cumulative [routecon4]: 11 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r2: PASS calls=0 cost=$0 in 91s
+cumulative [routecon4]: 12 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r3: PASS calls=0 cost=$0 in 84s
+cumulative [routecon4]: 13 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r4: PASS calls=0 cost=$0 in 101s
+cumulative [routecon4]: 14 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r5: PASS calls=0 cost=$0 in 74s
+cumulative [routecon4]: 15 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r6: PASS calls=0 cost=$0 in 80s
+cumulative [routecon4]: 16 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r7: PASS calls=0 cost=$0 in 86s
+cumulative [routecon4]: 17 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r8: PASS calls=0 cost=$0 in 85s
+cumulative [routecon4]: 18 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r9: PASS calls=0 cost=$0 in 83s
+cumulative [routecon4]: 19 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__p4__routecon4_armC__r10: PASS calls=0 cost=$0 in 84s
+cumulative [routecon4]: 20 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon4_armC__r1: PASS calls=0 cost=$0 in 93s
+cumulative [routecon4]: 21 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon4_armC__r2: PASS calls=0 cost=$0 in 84s
+cumulative [routecon4]: 22 run(s), 0 call(s), $0.0000, 0in/0out
+qwen3-coder_30b__map__routecon4_armC__r3: PASS calls=0 cost=$0 in 89s
+cumulative [routecon4]: 23 run(s), 0 call(s), $0.0000, 0in/0out
+VOID: qwen3-coder_30b__map__routecon4_armC__r4 integrity failure - produced NO new metrics row - a run with no measurement is not a zero result
+suite stopped — a measurement-integrity guard fired, not a budget one
