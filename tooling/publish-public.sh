@@ -97,6 +97,13 @@ KNOWN_FAKE = {
     "pipeline/test_secret_gate.py":     "fixtures that prove the detector fires",
     "pipeline/test_board.py":           "fake AWS key in a redaction fixture",
     "pipeline/test_al_intelligence.py": "fake OpenAI key in a redaction fixture",
+    # Plants AWS's own published documentation example access key as the fixture that
+    # proves build_mirror aborts on a HIGH secret. The gate cannot know it is an example
+    # and correctly blocked a publish on it; the exception is deliberate and path-exact
+    # rather than a loosened pattern. The literal is deliberately NOT written here — a
+    # justification that quotes the string re-triggers the gate on THIS file, which is
+    # exactly what happened on the first attempt.
+    "pipeline/probe_anon_mirror.sh":    "AWS documentation example key, secret-abort fixture",
 }
 
 bad = 0
@@ -137,9 +144,51 @@ echo "gate: clean"
 [ "$DRY" = 1 ] && { echo "--dry-run: stopping before any write"; exit 0; }
 
 # ---- replace the public tracked tree (this is what propagates deletions) ---
-git -C "$PUBLIC" ls-files -z | xargs -0 -r rm -f --
-find "$PUBLIC" -mindepth 1 -depth -type d -not -path "$PUBLIC/.git*" -empty -delete 2>/dev/null
-cp -a "$STAGE/." "$PUBLIC/" || die "copy into public failed"
+# In Python, and with the base path passed explicitly, because the shell form was
+# DANGEROUS:
+#
+#     git -C "$PUBLIC" ls-files -z | xargs -0 -r rm -f --
+#
+# `git -C` scopes GIT, not `rm`. ls-files prints repo-relative paths and rm resolved
+# them against the CURRENT DIRECTORY. Run from the private repo — the normal way to
+# invoke this script — it deleted 795 tracked files out of the PRIVATE working tree.
+# Recovered from HEAD, nothing lost, but only because that tree happened to be clean.
+#
+# A guard also refuses to touch anything whose git remote is not the public repo, so
+# pointing this at the wrong directory aborts instead of deleting it.
+python3 - "$STAGE" "$PUBLIC" <<'PY' || die "tree replacement failed"
+import os, subprocess, sys, shutil
+stage, public = sys.argv[1], sys.argv[2]
+
+def git(*a):
+    r = subprocess.run(["git", "-C", public, *a], capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else None
+
+# Refuse unless this really is the public snapshot repo. Identity, not a path string.
+remote = git("remote", "get-url", "origin") or ""
+if "larry-al-pipeline" not in remote:
+    sys.exit(f"REFUSING: {public} origin is {remote!r}, not the public repo")
+top = git("rev-parse", "--show-toplevel")
+if not top or os.path.realpath(top) != os.path.realpath(public):
+    sys.exit(f"REFUSING: {public} is not a git top-level")
+
+listing = subprocess.run(["git", "-C", public, "ls-files", "-z"],
+                         capture_output=True, text=True)
+tracked = [p for p in listing.stdout.split("\0") if p]
+removed = 0
+for rel in tracked:
+    # Join against `public` EXPLICITLY. This is the line the shell version got wrong.
+    p = os.path.join(public, rel)
+    if os.path.realpath(p).startswith(os.path.realpath(public) + os.sep) and os.path.isfile(p):
+        os.remove(p); removed += 1
+for root, dirs, files in os.walk(public, topdown=False):
+    if ".git" in root.split(os.sep):
+        continue
+    if not os.listdir(root) and os.path.realpath(root) != os.path.realpath(public):
+        os.rmdir(root)
+print(f"  cleared {removed} tracked file(s) from the public tree")
+shutil.copytree(stage, public, dirs_exist_ok=True)
+PY
 
 git -C "$PUBLIC" add -A
 if git -C "$PUBLIC" diff --cached --quiet; then

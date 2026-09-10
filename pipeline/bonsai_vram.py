@@ -76,13 +76,22 @@ DASH   = os.environ.get("LARRY_DASH_URL", "https://larry.home.arpa/dash") + "/ap
 def _curl(args, timeout=20):
     """Shell curl so the system CA store is used (it already trusts the HomeLab CA),
     dodging Python's separate certifi bundle. Returns (ok, output)."""
+    ok, out, _rc = _curl_rc(args, timeout)
+    return ok, out
+
+
+def _curl_rc(args, timeout=20):
+    """As _curl, plus curl's exit code — which is how `down` is told from `unreachable`.
+    rc is None when curl could not be run at all."""
     try:
         r = subprocess.run(["curl", *args], capture_output=True, text=True, timeout=timeout)
-        return r.returncode == 0, (r.stdout or "") + (r.stderr or "")
+        return r.returncode == 0, (r.stdout or "") + (r.stderr or ""), r.returncode
     except FileNotFoundError:
-        return False, "curl not found"
+        return False, "curl not found", None
+    except subprocess.TimeoutExpired:
+        return False, "curl timed out", 28
     except Exception as e:
-        return False, str(e)
+        return False, str(e), None
 
 
 def _creds():
@@ -95,10 +104,41 @@ def _creds():
         return None
 
 
+# curl exit codes, observed against this network rather than assumed:
+#   0   the health endpoint answered            -> bonsai is UP, holding VRAM
+#   22  HTTP error from a reachable endpoint    -> reached it, bonsai is DOWN
+#   7   connection refused                      -> nothing listening; DOWN
+#   6   host does not resolve                   -> no bonsai on this network; ABSENT
+#   28  timeout, 35/60 TLS, None curl missing   -> could not ask; UNKNOWN
+_DOWN     = {7, 22}
+_ABSENT   = {6}
+
+def state(timeout=4):
+    """'up' | 'down' | 'absent' | 'unknown'.
+
+    The distinction that matters is UNKNOWN. is_up() used to fold every curl failure
+    into False, so "bonsai is not holding the GPU" and "I could not ask" were the same
+    answer — and only the first is safe to proceed on. If Larry is unreachable while
+    bonsai IS holding the card, a build that reads False loads 18GB on top of 9.5GB,
+    spills the coder to CPU and times out at 1200s looking like a model fault.
+    """
+    ok, _out, rc = _curl_rc(["-fsS", "--max-time", str(timeout), HEALTH], timeout=timeout + 3)
+    if ok:
+        return "up"
+    if rc in _DOWN:
+        return "down"
+    if rc in _ABSENT:
+        return "absent"
+    return "unknown"
+
+
 def is_up(timeout=4):
-    """True if the Bonsai server is answering — i.e. it is holding VRAM right now."""
-    ok, _ = _curl(["-fsS", "--max-time", str(timeout), HEALTH], timeout=timeout + 3)
-    return ok
+    """True if the Bonsai server is answering — i.e. it is holding VRAM right now.
+
+    Kept for callers that only need the boolean. Anything deciding whether it is SAFE
+    to proceed should use state() instead: this collapses 'unknown' to False.
+    """
+    return state(timeout) == "up"
 
 
 def _stop_via_cli():
@@ -155,8 +195,17 @@ def free_bonsai_vram(verbose=True):
         say("  bonsai: eviction disabled (BONSAI_EVICT=0) — coder may share VRAM")
         return True
 
-    if not is_up():
-        return True                       # not running (or no bonsai here at all) — quiet
+    st = state()
+    if st in ("down", "absent"):
+        return True                       # genuinely not holding the card — quiet
+    if st == "unknown":
+        # Could not ask. Proceeding silently is what made this indistinguishable from a
+        # model fault: if bonsai IS up, the coder spills to CPU and times out at 1200s.
+        say("  WARNING: cannot determine whether bonsai holds the GPU "
+            f"({HEALTH} unreachable — DNS, TLS or timeout). If it IS running, the coder "
+            f"will contend for VRAM and the write phase can time out. Check Larry, or "
+            f"set BONSAI_EVICT=0 to accept the risk knowingly.")
+        return False
 
     say("  bonsai: chat server is holding the GPU — stopping it so the coder gets the card")
 

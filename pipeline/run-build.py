@@ -40,6 +40,7 @@ import al_semantics   # deterministic legal-but-risky AL patterns (warnings only
 import event_verify   # pre-compile subscriber verification against real symbols
 import al_context     # BC/runtime/target facts, resolved deterministically
 import build_receipt  # promote-time proof that this tree passed the referee
+import result_bundle  # durable per-round record; OFF unless RESULT_BUNDLE_DIR is set
 import fixture_provenance  # ties a result to the fixture revision that produced it
 import pathguard      # containment for model/handover-supplied paths
 import egress_policy   # deny-by-default Anthropic egress gate (anon hook §0)
@@ -3351,6 +3352,11 @@ def main():
     # be overloaded as both, and a run that died before the loop would be indistinguishable
     # from a clean first-pass build.
     observe_config(max_round_reached=0)
+    # Durable per-round record. None unless RESULT_BUNDLE_DIR is set, so a run without
+    # it is byte-identical to one before this existed. Refuses a destination inside the
+    # project root, which clear_project/cleanup.sh would delete.
+    _bundle = result_bundle.open_bundle(PROJECT_ROOT,
+                                        run_name=os.path.basename(PROJECT_ROOT.rstrip("/")))
     for fix_round in range(MAX_FIX_ROUNDS + 1):
         label = "initial build" if fix_round == 0 else f"build (fix round {fix_round})"
         print(f"\n=== {label.upper()} ===")
@@ -3409,6 +3415,10 @@ def main():
                     print(f"  Rule fired at round {_cap_obs.fire_round} but escalation is "
                           f"unavailable ({_esc_why or 'claude bin missing'}) — staying local.")
         print(f"  error score: {errs}" + (f"  (best so far: {best['errs']})" if best["errs"] is not None else ""))
+        if _bundle is not None:
+            _bundle.round(fix_round, errs, snapshot_src(), build_text=build_text,
+                          manifest_text=manifest_text, manifest_fail=manifest_fail,
+                          build_ok=build_ok)
 
         build_errors = truncate_build(build_text) if not build_ok else ""
         manifest_errors = manifest_text if manifest_fail else ""
@@ -4049,6 +4059,18 @@ def main():
             print(f"  build receipt: {os.path.basename(rp)}")
         except Exception as _e:
             print(f"  (receipt not written: {_e})")
+
+    # Close the durable record. Written whether the build passed or failed — a failed
+    # trajectory is the one worth keeping, and the per-round dirs already stand alone
+    # if this last write cannot happen.
+    if _bundle is not None:
+        _bi = _bundle.close(verdict="PASS" if passed else "FAIL",
+                            best_error_score=best["errs"],
+                            max_fix_rounds=MAX_FIX_ROUNDS)
+        if _bi:
+            print(f"  result-bundle index: {_bi}")
+        for _be in _bundle.errors:
+            print(f"  (result-bundle: {_be})")
 
     # Say whether the run did what it declared, BEFORE the result — a void run must be
     # legible in the log, not only in the metrics file someone reads later.
